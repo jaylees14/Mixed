@@ -55,7 +55,7 @@ class PlayerViewController: MixedViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        setupView(partyTitleView)
+        style(view: partyTitleView)
     }
     
     

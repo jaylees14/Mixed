@@ -24,7 +24,7 @@ class QueueViewController: MixedViewController, UITableViewDelegate, UITableView
         setupPartyTitle()
         observeNewSongs()
         observePlayComplete()
-        setupView(titleBackground)
+        style(view: titleBackground)
         
         plusButton.layer.cornerRadius = 35
         plusButton.backgroundColor = UIColor.mixedRed

@@ -11,11 +11,11 @@ import MKTween
 import FacebookCore
 
 class HomeOnboardingViewController: UIViewController {
-
     @IBOutlet weak var waveView: UIView!
     @IBOutlet weak var takeTheTourButton: UIButton!
     @IBOutlet weak var titleView: UILabel!
     @IBOutlet weak var subtitle: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mixedBlue
@@ -34,7 +34,7 @@ class HomeOnboardingViewController: UIViewController {
     @objc func startAnimation(){
         let waves = SoundWave(x: 0, y: 0, width: waveView.frame.width)
         waveView.addSubview(waves)
-        waves.animateWave(duration: 2)
+        waves.animate(duration: 2)
         animateText()
         animateButton()
     }

@@ -20,8 +20,7 @@ class MixedViewController: UIViewController {
         return UIStatusBarStyle.lightContent
     }
     
-
-    func setupButton(_ button: UIButton, fontSize: CGFloat){
+    func style(button: UIButton, fontSize: CGFloat){
         button.layer.cornerRadius = 5
         button.backgroundColor = UIColor.white
         button.setTitleColor(.mixedBlue, for: .normal)
@@ -31,9 +30,9 @@ class MixedViewController: UIViewController {
         button.layer.shadowOpacity = 0.2
     }
     
-    func setupView(_ view: UIView){
+    func style(view: UIView){
         view.backgroundColor = .mixedBlue
-        view.layer.shadowColor = UIColor.hexToRGB(hex: "626262")!.cgColor
+        view.layer.shadowColor = UIColor.hexToRGB(hex: "626262")?.cgColor
         view.layer.shadowOpacity = 0.3
         view.layer.shadowPath = CGPath(rect: CGRect(x: view.bounds.origin.x + 10, y: view.bounds.origin.y + 10, width: view.bounds.width - 20, height: view.bounds.height), transform: nil)
     }

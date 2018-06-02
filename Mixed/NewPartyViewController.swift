@@ -17,17 +17,18 @@ class NewPartyViewController: MixedViewController {
     var provider: MusicProvider!
     
     var ref = Database.database().reference()
-    var partyID = ""
+    let partyID = randomString(length: 6)
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupButton(appleMusicButton, fontSize: 36)
-        setupButton(spotifyButton, fontSize: 36)
-        setupView(titleBackground)
+        style(button: appleMusicButton, fontSize: 36)
+        style(button: spotifyButton, fontSize: 36)
+        style(view: titleBackground)
     }
     
        
     @IBAction func appleMusicTapped(_ sender: Any) {
-        partyID = randomStringWithLength(len: 6)
         let standardRef = ref.child("parties").child(partyID)
         standardRef.child("partyType").setValue("AppleMusic")
         standardRef.child("creationDate").setValue(getCurrentDate())
@@ -37,7 +38,6 @@ class NewPartyViewController: MixedViewController {
     }
     
     @IBAction func spotifyTapped(_ sender: Any) {
-        partyID = randomStringWithLength(len: 6)
         let standardRef = ref.child("parties").child(partyID)
         standardRef.child("partyType").setValue("Spotify")
         standardRef.child("creationDate").setValue(getCurrentDate())

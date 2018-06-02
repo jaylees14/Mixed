@@ -21,13 +21,13 @@ class LoginOnboardingViewController: MixedViewController {
         facebookButton.layer.borderColor = UIColor.mixedRed.cgColor
         facebookButton.layer.borderWidth = 3
         
-        setupView(self.view)
+        style(view: self.view)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         let waves = SoundWave(x: 0, y: 0, width: waveView.frame.width)
         waveView.addSubview(waves)
-        waves.animateWave(duration: 2)
+        waves.animate(duration: 2)
     }
 
     @IBAction func loginWithFacebookTapped(_ sender: Any) {

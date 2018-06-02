@@ -22,7 +22,7 @@ class TapOnboardingViewController: UIViewController {
     @IBOutlet weak var subtitle: UILabel!
     @IBOutlet weak var continueButtonToBottom: NSLayoutConstraint!
     
-    var backgroundCircle: UIView!
+    var backgroundCircle: CircleView!
     var hasAnimated = false
     
     override func viewDidLoad() {
@@ -32,32 +32,38 @@ class TapOnboardingViewController: UIViewController {
         continueButton.setTitleColor(.mixedBlue, for: .normal)
         iconView.backgroundColor = .clear
         setupImage()
-
     }
     
     func setupImage(){
-        self.titleLabel.alpha = 0
-        self.subtitle.alpha = 0
-        self.continueButtonToBottom.constant = -200
-        
-        
-        backgroundCircle = UIView(frame: CGRect(x: 0, y: 0, width: iconView.frame.width, height: iconView.frame.height))
-        backgroundCircle.backgroundColor = .mixedRed
-        backgroundCircle.layer.cornerRadius = iconView.frame.width / 2
+        // Generate circle view
+        backgroundCircle = CircleView(diameter: iconView.frame.width)
         iconView.insertSubview(backgroundCircle, at: 0)
-        backgroundCircle.layer.transform = CATransform3DMakeScale(0, 0, 0)
+        
+        // Hide all graphics
+        titleLabel.alpha = 0
+        subtitle.alpha = 0
         phoneImage.alpha = 0
         handImage.alpha = 0
-        handImage.frame.origin = CGPoint(x: self.handImage.frame.origin.x - 10, y: self.handImage.frame.origin.y)
+        
+        // Move continue button off screen
+        continueButtonToBottom.constant = -200
+
+        // Shrink circles
+        backgroundCircle.layer.transform = CATransform3DMakeScale(0, 0, 0)
         tapCircle.layer.transform = CATransform3DMakeScale(0, 0, 0)
+        
+        // Offset hand
+        handImage.frame.origin = CGPoint(x: self.handImage.frame.origin.x - 10, y: self.handImage.frame.origin.y)
+        
         iconView.bringSubview(toFront: handImage)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if !hasAnimated {
-            animateCircle()
-            hasAnimated = true
+        guard !hasAnimated else {
+            return
         }
+        animateCircle()
+        hasAnimated = true
     }
     
     
@@ -65,8 +71,7 @@ class TapOnboardingViewController: UIViewController {
     func animateCircle(){
         let period = MKTweenPeriod(duration: 1, delay: 0, startValue: 0, endValue: 1)
         let operation = MKTweenOperation(period: period, updateBlock: { (period) in
-            let progress = CGFloat(period.progress)
-            self.backgroundCircle.layer.transform = CATransform3DMakeScale(progress, progress, 0)
+            self.backgroundCircle.layer.transform = CATransform3DMakeScale(CGFloat(period.progress), CGFloat(period.progress), 0)
         }, completeBlock: { () in
             self.animatePhone()
             UIView.animate(withDuration: 0.5, animations: { 
@@ -113,13 +118,11 @@ class TapOnboardingViewController: UIViewController {
     func animateButton(){
         let period = MKTweenPeriod(duration: 1, delay: 0, startValue: -200, endValue: 35)
         let operation = MKTweenOperation(period: period, updateBlock: { (period) in
-            let progress = CGFloat(period.progress)
-            self.continueButtonToBottom.constant = progress
+            self.continueButtonToBottom.constant = CGFloat(period.progress)
         }, completeBlock: { () in
         }, timingFunction: MKTweenTiming.BackOut)
         
         MKTween.shared.addTweenOperation(operation)
-
     }
     
     

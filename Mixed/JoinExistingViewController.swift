@@ -15,11 +15,13 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
     @IBOutlet weak var codeTextField: UITextField!
     @IBOutlet weak var textBackground: UIView!
     var partyProvider: MusicProvider = .appleMusic
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         codeTextField.delegate = self
         setupCodeText()
-        setupView(textBackground)
+        style(view: textBackground)
         
         goButton.setTitleColor(.white, for: .normal)
         goButton.layer.cornerRadius = goButton.frame.height/2
@@ -47,26 +49,32 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
         codeTextField.placeholderRect(forBounds: CGRect(x: 10, y: 0, width: codeTextField.bounds.width - 10, height: codeTextField.bounds.height))
     }
     
+    func extractProvider(from snapshot: DataSnapshot) -> MusicProvider? {
+        if let snapshotVal = snapshot.value as? [String:Any], let val = snapshotVal[self.codeTextField.text!] as? [String:Any] {
+            if let type = val["partyType"] as? String{
+                return type == "AppleMusic" ? .appleMusic : .spotify
+            }
+        }
+        return nil
+    }
+    
+    // MARK: - Button Action Methods
     @IBAction func userTappedGo(_ sender: Any) {
         Database.database().reference().child("parties").observeSingleEvent(of: .value, with: { (snapshot) in
-            if let snapshotVal = snapshot.value as? [String:Any]{
-                if let val = snapshotVal[self.codeTextField.text!] as? [String:Any]{
-                    if val["partyType"] as! String == "AppleMusic"{
-                        self.partyProvider = .appleMusic
-                    } else {
-                       self.partyProvider = .spotify
-                    }
-                    self.performSegue(withIdentifier: "toQueue", sender: self)
-                } else {
-                    showError(title: "Error whilst finding party", withMessage: "It seems that a party with this ID doesn't exist. Please try again", fromController: self)
-                }
+            guard let provider = self.extractProvider(from: snapshot) else {
+                showError(title: "Error whilst finding party", withMessage: "It seems that a party with this ID doesn't exist. Please try again", fromController: self)
+                return
             }
+    
+            self.partyProvider = provider
+            self.performSegue(withIdentifier: "toQueue", sender: self)
         })
     }
     
     @IBAction func tappedBackButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toQueue" {
             let dest = segue.destination as! QueueViewController

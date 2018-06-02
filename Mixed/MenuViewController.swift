@@ -26,30 +26,23 @@ class MenuViewController: MixedViewController {
         profileImageView.layer.borderColor = UIColor.white.cgColor
         profileImageView.clipsToBounds = true
         
-        setupUserName()
-        setupButton(startPartyButton, fontSize: 36)
-        setupButton(joinPartyButton, fontSize: 36)
+        nameLabel.text = Auth.auth().currentUser?.displayName
+        
+        style(button: startPartyButton, fontSize: 36)
+        style(button: joinPartyButton, fontSize: 36)
         getImageFromFacebook()
         getAppleMusicToken()
-        setupView(titleView)
+        style(view: titleView)
         
         guard hasNetworkConnection() else {
             showError(title: "No Network Connection", withMessage: "In order to use this app fully you need a valid internet connection. Please check your settings and try again", fromController: self)
             return
         }
         
-        let appleMusicShortcut = UIApplicationShortcutItem(type: "com.jaylees.mixed.startParty", localizedTitle: "Start a Party", localizedSubtitle: nil, icon: nil, userInfo: nil)
-        let spotifyShortcut = UIApplicationShortcutItem(type: "com.jaylees.mixed.joinParty", localizedTitle: "Join a Party", localizedSubtitle: nil, icon: nil, userInfo: nil)
-        UIApplication.shared.shortcutItems = [appleMusicShortcut, spotifyShortcut]
+        let startParty = UIApplicationShortcutItem(type: "com.jaylees.mixed.startParty", localizedTitle: "Start a Party", localizedSubtitle: nil, icon: nil, userInfo: nil)
+        let joinParty = UIApplicationShortcutItem(type: "com.jaylees.mixed.joinParty", localizedTitle: "Join a Party", localizedSubtitle: nil, icon: nil, userInfo: nil)
+        UIApplication.shared.shortcutItems = [startParty, joinParty]
 
-    }
-
-    func setupUserName(){
-        if let user = Auth.auth().currentUser {
-            if let username = user.displayName {
-                nameLabel.text = username
-            }
-        }
     }
     
     func getImageFromFacebook(){

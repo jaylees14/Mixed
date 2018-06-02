@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3C093A6FA218CD1D542D75B4 /* Pods_Mixed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADC66332F545A2CD7DDB934 /* Pods_Mixed.framework */; };
 		6939A5841F1C082400D20D5E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6939A5831F1C082400D20D5E /* Utils.swift */; };
+		694F1EA620C30A9F00EAF042 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694F1EA520C30A9F00EAF042 /* CircleView.swift */; };
 		69662A7A1F1B6719003FCB80 /* NewPartyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69662A791F1B6719003FCB80 /* NewPartyViewController.swift */; };
 		69662A7C1F1B6727003FCB80 /* JoinExistingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69662A7B1F1B6727003FCB80 /* JoinExistingViewController.swift */; };
 		69662A7E1F1B67B0003FCB80 /* QueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69662A7D1F1B67B0003FCB80 /* QueueViewController.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		1B160BC61CE6119DA4FDF27B /* Pods-Mixed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mixed.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mixed/Pods-Mixed.release.xcconfig"; sourceTree = "<group>"; };
 		6939A5831F1C082400D20D5E /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		694F1EA520C30A9F00EAF042 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		69662A791F1B6719003FCB80 /* NewPartyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPartyViewController.swift; sourceTree = "<group>"; };
 		69662A7B1F1B6727003FCB80 /* JoinExistingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinExistingViewController.swift; sourceTree = "<group>"; };
 		69662A7D1F1B67B0003FCB80 /* QueueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				69D9E6221F2C8AD60012319A /* SpeakerOnboardingViewController.swift */,
 				69D9E6241F2C8AE00012319A /* BeerOnboardingViewController.swift */,
 				69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */,
+				694F1EA520C30A9F00EAF042 /* CircleView.swift */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				69662A7C1F1B6727003FCB80 /* JoinExistingViewController.swift in Sources */,
 				69662A7A1F1B6719003FCB80 /* NewPartyViewController.swift in Sources */,
 				697E8BC01FDE0624009407FA /* AutoLoginViewController.swift in Sources */,
+				694F1EA620C30A9F00EAF042 /* CircleView.swift in Sources */,
 				69F1F1621F1EBAB300449F28 /* Queue.swift in Sources */,
 				69662A7E1F1B67B0003FCB80 /* QueueViewController.swift in Sources */,
 				69D9E61F1F2C8AB60012319A /* HomeOnboardingViewController.swift in Sources */,

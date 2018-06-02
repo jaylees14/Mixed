@@ -17,7 +17,6 @@ class SoundWave: UIView{
         super.init(frame: CGRect(x: x, y: y, width: width, height: 150))
         let path = getPath()
         
-        
         waveLayer = CAShapeLayer()
         waveLayer.path = path.cgPath
         waveLayer.fillColor = UIColor.clear.cgColor
@@ -32,7 +31,7 @@ class SoundWave: UIView{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func animateWave(duration: TimeInterval){
+    func animate(duration: TimeInterval){
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.duration = duration
         animation.fromValue = 0

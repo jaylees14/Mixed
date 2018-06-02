@@ -13,13 +13,9 @@ class AutoLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mixedBlue
-           }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
-        if AccessToken.current == nil {
-            performSegue(withIdentifier: "toLogin", sender: nil)
-        } else {
-            performSegue(withIdentifier: "toMenu", sender: nil)
-        }
+        performSegue(withIdentifier: AccessToken.current == nil ? "toLogin" : "toMenu", sender: nil)
     }
 }
