@@ -23,28 +23,9 @@ class AppleMusic {
     
     init(delegate: AppleMusicDelegate){
         self.delegate = delegate
-        requestCapabilities { (result) in
-            guard result else {
-                delegate.noSubscription()
-                return
-            }
-            self.determineAuthStatus()
-        }
-        
+        self.determineAuthStatus()
     }
     
-    private func requestCapabilities(_ callback: @escaping (Bool) -> Void) {
-        let serviceController = SKCloudServiceController()
-        serviceController.requestCapabilities { (capability, error) in
-            switch capability {
-            case SKCloudServiceCapability.musicCatalogPlayback,
-                 SKCloudServiceCapability.addToCloudMusicLibrary:
-                callback(true)
-            default:
-                callback(false)
-            }
-        }
-    }
     
     private func determineAuthStatus() {
         // Determine if the user is already authorised
@@ -131,14 +112,4 @@ class AppleMusic {
             self.delegate?.queryDidReturn(songsArray)
         }
     }
-    
-    
-    //    func appleMusicFetchStorefrontRegion() {
-    //        let serviceController = SKCloudServiceController()
-    //        serviceController.requestStorefrontIdentifier { (id, error) in
-    //            guard error == nil else { return }
-    //            print(id)
-    //        }
-    //    }
-
 }

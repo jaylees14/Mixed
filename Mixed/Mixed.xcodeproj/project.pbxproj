@@ -8,8 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		3C093A6FA218CD1D542D75B4 /* Pods_Mixed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADC66332F545A2CD7DDB934 /* Pods_Mixed.framework */; };
+		69275DF420C4D071004C6642 /* AppleMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF320C4D071004C6642 /* AppleMusicPlayer.swift */; };
+		69275DF620C4D090004C6642 /* SpotifyMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF520C4D090004C6642 /* SpotifyMusicPlayer.swift */; };
+		69275DF820C4D255004C6642 /* MusicPlayerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF720C4D255004C6642 /* MusicPlayerFactory.swift */; };
+		69275DFA20C4D6CD004C6642 /* PlaybackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF920C4D6CD004C6642 /* PlaybackStatus.swift */; };
 		6939A5841F1C082400D20D5E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6939A5831F1C082400D20D5E /* Utils.swift */; };
 		694F1EA620C30A9F00EAF042 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694F1EA520C30A9F00EAF042 /* CircleView.swift */; };
+		6954035020C61929001FCAFF /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6954034F20C61929001FCAFF /* PlayerDelegate.swift */; };
 		69662A7A1F1B6719003FCB80 /* NewPartyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69662A791F1B6719003FCB80 /* NewPartyViewController.swift */; };
 		69662A7C1F1B6727003FCB80 /* JoinExistingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69662A7B1F1B6727003FCB80 /* JoinExistingViewController.swift */; };
 		69662A7E1F1B67B0003FCB80 /* QueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69662A7D1F1B67B0003FCB80 /* QueueViewController.swift */; };
@@ -31,6 +36,7 @@
 		69AF594E1F18019400402BE2 /* LoginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */; };
 		69AF59521F18047700402BE2 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF59501F18047700402BE2 /* UIColorExtension.swift */; };
 		69B1E09F1F2E6369001F1D7F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B1E09E1F2E6369001F1D7F /* LaunchViewController.swift */; };
+		69B9C2F520C4CFEC000DB798 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B9C2F420C4CFEC000DB798 /* MusicPlayer.swift */; };
 		69D9E61C1F2C89EC0012319A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E61B1F2C89EC0012319A /* OnboardingViewController.swift */; };
 		69D9E61F1F2C8AB60012319A /* HomeOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E61E1F2C8AB60012319A /* HomeOnboardingViewController.swift */; };
 		69D9E6211F2C8AC70012319A /* TapOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E6201F2C8AC70012319A /* TapOnboardingViewController.swift */; };
@@ -51,8 +57,13 @@
 
 /* Begin PBXFileReference section */
 		1B160BC61CE6119DA4FDF27B /* Pods-Mixed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mixed.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mixed/Pods-Mixed.release.xcconfig"; sourceTree = "<group>"; };
+		69275DF320C4D071004C6642 /* AppleMusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicPlayer.swift; sourceTree = "<group>"; };
+		69275DF520C4D090004C6642 /* SpotifyMusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayer.swift; sourceTree = "<group>"; };
+		69275DF720C4D255004C6642 /* MusicPlayerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerFactory.swift; sourceTree = "<group>"; };
+		69275DF920C4D6CD004C6642 /* PlaybackStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackStatus.swift; sourceTree = "<group>"; };
 		6939A5831F1C082400D20D5E /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		694F1EA520C30A9F00EAF042 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		6954034F20C61929001FCAFF /* PlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDelegate.swift; sourceTree = "<group>"; };
 		69662A791F1B6719003FCB80 /* NewPartyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPartyViewController.swift; sourceTree = "<group>"; };
 		69662A7B1F1B6727003FCB80 /* JoinExistingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinExistingViewController.swift; sourceTree = "<group>"; };
 		69662A7D1F1B67B0003FCB80 /* QueueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +87,7 @@
 		69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginOnboardingViewController.swift; sourceTree = "<group>"; };
 		69AF59501F18047700402BE2 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		69B1E09E1F2E6369001F1D7F /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		69B9C2F420C4CFEC000DB798 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		69D9E61B1F2C89EC0012319A /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		69D9E61E1F2C8AB60012319A /* HomeOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeOnboardingViewController.swift; sourceTree = "<group>"; };
 		69D9E6201F2C8AC70012319A /* TapOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +190,7 @@
 				69AF594B1F18017B00402BE2 /* Providers */,
 				69662A811F1B6CE1003FCB80 /* Extensions */,
 				69AF594C1F18018400402BE2 /* Misc */,
+				69B9C2F620C4D010000DB798 /* Players */,
 			);
 			path = Mixed;
 			sourceTree = "<group>";
@@ -208,6 +221,19 @@
 				69675FDE1F17FF72008A3299 /* Info.plist */,
 			);
 			name = Misc;
+			sourceTree = "<group>";
+		};
+		69B9C2F620C4D010000DB798 /* Players */ = {
+			isa = PBXGroup;
+			children = (
+				69B9C2F420C4CFEC000DB798 /* MusicPlayer.swift */,
+				69275DF320C4D071004C6642 /* AppleMusicPlayer.swift */,
+				69275DF520C4D090004C6642 /* SpotifyMusicPlayer.swift */,
+				69275DF720C4D255004C6642 /* MusicPlayerFactory.swift */,
+				69275DF920C4D6CD004C6642 /* PlaybackStatus.swift */,
+				6954034F20C61929001FCAFF /* PlayerDelegate.swift */,
+			);
+			name = Players;
 			sourceTree = "<group>";
 		};
 		69D9E61D1F2C8A9C0012319A /* Onboarding */ = {
@@ -372,16 +398,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				69662A801F1B6A47003FCB80 /* MixedViewController.swift in Sources */,
+				69275DF420C4D071004C6642 /* AppleMusicPlayer.swift in Sources */,
 				69D9E6211F2C8AC70012319A /* TapOnboardingViewController.swift in Sources */,
 				69AF594E1F18019400402BE2 /* LoginOnboardingViewController.swift in Sources */,
 				69EE13581F292BB5008FE4A6 /* UIFontExtension.swift in Sources */,
+				69275DF620C4D090004C6642 /* SpotifyMusicPlayer.swift in Sources */,
 				69662A831F1BF236003FCB80 /* PlayerViewController.swift in Sources */,
+				69275DF820C4D255004C6642 /* MusicPlayerFactory.swift in Sources */,
 				69675FE71F17FF86008A3299 /* AppleMusic.swift in Sources */,
 				69EE135A1F2936FB008FE4A6 /* UITextFieldExtension.swift in Sources */,
 				6939A5841F1C082400D20D5E /* Utils.swift in Sources */,
 				69D9E61C1F2C89EC0012319A /* OnboardingViewController.swift in Sources */,
 				69AF59521F18047700402BE2 /* UIColorExtension.swift in Sources */,
 				696DEEAA1F1A704400BA512B /* MenuViewController.swift in Sources */,
+				6954035020C61929001FCAFF /* PlayerDelegate.swift in Sources */,
 				69D9E6291F2C94F60012319A /* SoundWave.swift in Sources */,
 				69D9E6231F2C8AD60012319A /* SpeakerOnboardingViewController.swift in Sources */,
 				69B1E09F1F2E6369001F1D7F /* LaunchViewController.swift in Sources */,
@@ -389,10 +419,12 @@
 				69662A7C1F1B6727003FCB80 /* JoinExistingViewController.swift in Sources */,
 				69662A7A1F1B6719003FCB80 /* NewPartyViewController.swift in Sources */,
 				697E8BC01FDE0624009407FA /* AutoLoginViewController.swift in Sources */,
+				69B9C2F520C4CFEC000DB798 /* MusicPlayer.swift in Sources */,
 				694F1EA620C30A9F00EAF042 /* CircleView.swift in Sources */,
 				69F1F1621F1EBAB300449F28 /* Queue.swift in Sources */,
 				69662A7E1F1B67B0003FCB80 /* QueueViewController.swift in Sources */,
 				69D9E61F1F2C8AB60012319A /* HomeOnboardingViewController.swift in Sources */,
+				69275DFA20C4D6CD004C6642 /* PlaybackStatus.swift in Sources */,
 				69675FE81F17FF86008A3299 /* MusicProvider.swift in Sources */,
 				69D9E6361F2D2B980012319A /* Spotify.swift in Sources */,
 				69D9E6251F2C8AE00012319A /* BeerOnboardingViewController.swift in Sources */,

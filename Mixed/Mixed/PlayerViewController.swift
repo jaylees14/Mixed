@@ -20,20 +20,15 @@ class PlayerViewController: MixedViewController {
     @IBOutlet weak var partyTitleView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var codeText: UILabel!
-    var partyID: String!
-    var partyProvider: MusicProvider = MusicProvider.appleMusic
-    var spotifyDidFinish = false
-    var spotifyTappedPause = true
-    var appleMusicPreviousItem: MPMediaItem? = nil
+    
     var safariViewController: SFSafariViewController?
     
-    let appleMusicPlayer = MPMusicPlayerController.systemMusicPlayer
-    var spotifyPlayer: SPTAudioStreamingController?
-    
+    var partyID: String!
+    var partyProvider: MusicProvider = MusicProvider.appleMusic
+    var musicPlayer: MusicPlayer!
     var songQueue = [Song]()
-    var playedSongs = [Song]()
-    
-    var isQueueing = false
+    var playedSongs = 0
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,65 +41,20 @@ class PlayerViewController: MixedViewController {
         addToQueueButton.layer.shadowColor = UIColor.black.cgColor
         addToQueueButton.layer.shadowOffset = CGSize(width: 0, height: 1)
         
-        switch partyProvider {
-        case .appleMusic: setupAppleMusic()
-        case .spotify: setupSpotify()
-        }
+        musicPlayer = MusicPlayerFactory.generatePlayer(for: partyProvider)
+        musicPlayer.setDelegate(self)
+        musicPlayer.validateSession()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(sessionSuccess), name: NSNotification.Name.init("spotifySessionUpdated"), object: nil)
+        // Notification when Spotify sends callback
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(spotifySessionComplete),
+                                               name: NSNotification.Name.init("spotifySessionUpdated"),
+                                               object: nil)
+        observeDatabase()
     }
     
     override func viewDidLayoutSubviews() {
         style(view: partyTitleView)
-    }
-    
-    
-    //MARK: - Provider setup
-    func setupAppleMusic(){
-        appleMusicPlayer.beginGeneratingPlaybackNotifications()
-        appleMusicPlayer.repeatMode = .none
-        appleMusicPlayer.shuffleMode = .off
-        clearAppleMusicQueue()
-        NotificationCenter.default.addObserver(self, selector: #selector(nowPlayingChanged), name: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(nowPlayingStateChanged), name: NSNotification.Name.MPMusicPlayerControllerPlaybackStateDidChange, object: nil)
-        setupDatabase()
-    }
-    
-    func setupSpotify(){
-        if let session = SPTAuth.defaultInstance().session {
-            if session.isValid() {
-                createNewSpotifySession()
-                setupDatabase()
-            } else {
-                requestSpotifyAuth()
-                return
-            }
-        } else {
-            requestSpotifyAuth()
-            return
-        }
-    }
-    
-    @objc func sessionSuccess(){
-        safariViewController?.dismiss(animated: true, completion: nil)
-        createNewSpotifySession()
-        setupDatabase()
-    }
-    
-    func requestSpotifyAuth(){
-        let alert = UIAlertController(title: "You need to sign in with Spotify.", message: "Clicking OK will take you to a sign in page for Spotify. You are required to sign in even if you're not the host, but you are not required to have a premium account.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
-            alert.dismiss(animated: true, completion: { 
-                self.navigationController?.popViewController(animated: true)
-            })
-        }))
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
-            let URLAuth = SPTAuth.defaultInstance().spotifyWebAuthenticationURL()
-            self.safariViewController = SFSafariViewController(url: URLAuth!)
-            self.safariViewController!.delegate = self
-            self.present(self.safariViewController!, animated: true, completion: nil)
-        }))
-       present(alert, animated: true, completion: nil)
     }
     
 
@@ -113,17 +63,17 @@ class PlayerViewController: MixedViewController {
         let _ = Database.database().reference().child("parties").child(partyID).child("hostName").observeSingleEvent(of: .value, with: { (snapshot) in
             if let hostName = snapshot.value as? String {
                 let attributedText = NSMutableAttributedString(string: "\(hostName)'s Party", attributes: [:])
-                attributedText.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: self.partyTitle.font.pointSize), range: NSRange(location: 0, length: hostName.characters.count + 2))
+                attributedText.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: self.partyTitle.font.pointSize), range: NSRange(location: 0, length: hostName.count + 2))
                 self.partyTitle.attributedText = attributedText
             } else {
                 self.partyTitle.text = "Party"
             }
         })
-        
     }
     
-    func setupDatabase(){
+    func observeDatabase(){
         Database.database().reference().child("parties").child(partyID).child("queue").observe(.childAdded , with: { (snapshot) in
+            print("Child added")
             let data = snapshot.value as! [String:Any]
             let songURL = data["songURL"] as! String
             let artist = data["artistName"] as! String
@@ -138,107 +88,22 @@ class PlayerViewController: MixedViewController {
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                
-                if self.partyProvider == .appleMusic {
-                    let newStoreID = self.songQueue[self.songQueue.count-1].songURL.components(separatedBy: "?i=")[1]
-                    self.appleMusicPlayer.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [newStoreID]))
-                } else {
-                    self.queueSong(uri: newSong.songURL)
-                }
+                self.musicPlayer.enqueue(song: self.partyProvider == .appleMusic
+                                                    ? self.extractAppleMusicID(from: newSong.songURL)
+                                                    : newSong.songURL)
             }
         })
     }
     
+    private func extractAppleMusicID(from url: String) -> String {
+        return url.components(separatedBy: "?i=")[1]
+    }
+    
+    @objc private func spotifySessionComplete(){
+        safariViewController?.dismiss(animated: true, completion: nil)
+    }
+    
 
-    //MARK: - Apple Music Player State
-    @objc func nowPlayingStateChanged(){
-        if songQueue.count == 1 && appleMusicPlayer.playbackState == .stopped {
-            Database.database().reference().child("parties").child(partyID).child("queue").child(String(playedSongs.count)).child("played").setValue(true)
-            playedSongs.append(songQueue[0])
-            songQueue.remove(at: 0)
-            clearAppleMusicQueue()
-            tableView.reloadData()
-            appleMusicPreviousItem = nil
-        }
-        
-        //ICON Change
-        if appleMusicPlayer.playbackState == .playing {
-            playButton.setBackgroundImage(#imageLiteral(resourceName: "pause"), for: .normal)
-        } else if appleMusicPlayer.playbackState == .paused || appleMusicPlayer.playbackState == .stopped {
-           playButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
-        }
-    }
-    
-    @objc func nowPlayingChanged(){
-        if songQueue.count == 0 {
-            clearAppleMusicQueue()
-            tableView.reloadData()
-            appleMusicPreviousItem = nil
-            return
-        }
-        
-        if appleMusicPreviousItem == nil || appleMusicPreviousItem == appleMusicPlayer.nowPlayingItem {
-            appleMusicPreviousItem = appleMusicPlayer.nowPlayingItem
-            return
-        }
-
-        Database.database().reference().child("parties").child(partyID).child("queue").child(String(playedSongs.count)).child("played").setValue(true)
-        
-        let justPlayed = songQueue[0]
-        playedSongs.append(justPlayed)
-        songQueue.remove(at: 0)
-        
-        let remainingSongIDs = songQueue.map{$0.songURL.components(separatedBy: "?i=")[1]}
-        appleMusicPlayer.setQueue(with: remainingSongIDs)
-        
-        tableView.reloadData()
-        
-    }
-    
-    func clearAppleMusicQueue(){
-        let query = MPMediaQuery()
-        let newPredicate = MPMediaPropertyPredicate(value: "NAME_WHERE_THIS_DOENST_EXIST", forProperty: MPMediaItemPropertyTitle)
-        query.addFilterPredicate(newPredicate)
-        appleMusicPlayer.setQueue(with: query)
-        appleMusicPlayer.nowPlayingItem = nil
-        appleMusicPlayer.stop()
-    }
-    
-    
-    //MARK: - Spotify Session
-    func createNewSpotifySession(){
-        if spotifyPlayer == nil {
-            do {
-                self.spotifyPlayer = SPTAudioStreamingController.sharedInstance()
-                self.spotifyPlayer!.playbackDelegate = self
-                try self.spotifyPlayer?.start(withClientId: SPTAuth.defaultInstance().clientID)
-                self.spotifyPlayer?.login(withAccessToken: SPTAuth.defaultInstance().session.accessToken)
-                self.spotifyPlayer?.setIsPlaying(false, callback: { (error) in
-                    
-                })
-            } catch let error {
-                print("Error whilst trying to log in handle new session: \(error.localizedDescription)")
-                //self.closeSpotifySession()
-            }
-        }
-    }
-    
-    func closeSpotifySession(){
-        spotifyPlayer?.setIsPlaying(false, callback: { (_) in
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { (_) in
-                self.spotifyPlayer?.logout()
-                
-                do {
-                 try self.spotifyPlayer?.stop()
-                } catch let error {
-                    print(error)
-                }
-                
-                self.navigationController?.popViewController(animated: true)
-            })
-        })
-    }
-    
     
     //MARK: - Button Methods
     @IBAction func addToQueueTapped(_ sender: Any) {
@@ -246,69 +111,30 @@ class PlayerViewController: MixedViewController {
     }
     
     @IBAction func userDidTapPlay(_ sender: Any) {
-        if partyProvider == .appleMusic {
-            if appleMusicPlayer.playbackState == .playing {
-                appleMusicPlayer.pause()
-            } else {
-                appleMusicPlayer.play()
-            }
+        if musicPlayer.getCurrentStatus() == .playing {
+            musicPlayer.pause()
         } else {
-            guard songQueue.count > 0 else { return }
-            if spotifyPlayer?.playbackState != nil {
-                if spotifyPlayer?.metadata.currentTrack == nil || spotifyDidFinish {
-                    spotifyPlayer?.playSpotifyURI(songQueue[0].songURL, startingWith: 0, startingWithPosition: 0, callback: { (error) in
-                        if let error = error {
-                            print(error)
-                        }
-                    })
-                    spotifyDidFinish = false
-                }
-                
-                spotifyPlayer?.setIsPlaying(!(spotifyPlayer?.playbackState.isPlaying)!, callback: { (error) in
-                    if let error = error {
-                        print(error)
-                    }
-                })
-
-                spotifyTappedPause = !spotifyTappedPause
-                
-            }
+            musicPlayer.play()
         }
     }
     
     @IBAction func userDidTapBack(_ sender: Any) {
         if partyProvider == .spotify {
-            closeSpotifySession()
+            //closeSpotifySession()
         } else {
             self.navigationController?.popViewController(animated: true)
         }
     }
     
     @IBAction func userDidTapNext(_ sender: Any) {
-        if partyProvider == .appleMusic {
-            if songQueue.count == 1 {
-                clearAppleMusicQueue()
-                Database.database().reference().child("parties").child(partyID).child("queue").child(String(playedSongs.count)).child("played").setValue(true)
-                playedSongs.append(songQueue[0])
-                songQueue.remove(at: 0)
-                tableView.reloadData()
-            } else {
-                appleMusicPlayer.skipToNextItem()
-            }
-        } else {
-            spotifyPlayer?.skipNext({ (error) in
-                if let error = error {
-                    print(error)
-                }
-            })
-            if self.songQueue.count == 1 {
-                spotifyDidFinish = true
-                Database.database().reference().child("parties").child(self.partyID).child("queue").child(String(self.playedSongs.count)).child("played").setValue(true)
-                self.playedSongs.append(self.songQueue[0])
-                self.songQueue.remove(at: 0)
-                self.tableView.reloadData()
-            }
-
+        musicPlayer.next()
+        
+        // If they next on last song, clear queue and reset view
+        if songQueue.count <= 1 {
+            removeTopSong()
+            musicPlayer.clearQueue()
+            songQueue = []
+            tableView.reloadData()
         }
     }
     
@@ -392,77 +218,60 @@ extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
 
 }
 
-extension PlayerViewController: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
-    //If an error was formed from the server, display it to the user in an altert conroller
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didReceiveMessage message: String) {
-        let alert = UIAlertController(title: "Message from Spotify", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+
+extension PlayerViewController: PlayerDelegate {
+    func didReceiveError(_ error: Error) {
+        showError(title: "Whoops, looks like something went wrong",
+                  withMessage: error.localizedDescription,
+                  fromController: self)
     }
     
-    //Did switch between playing and not playing
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePlaybackStatus isPlaying: Bool) {
-        if !isPlaying && songQueue.count == 1 && spotifyPlayer?.metadata.currentTrack != nil && !spotifyTappedPause {
-            spotifyDidFinish = true
-            Database.database().reference().child("parties").child(self.partyID).child("queue").child(String(self.playedSongs.count)).child("played").setValue(true)
-            self.playedSongs.append(self.songQueue[0])
-            self.songQueue.remove(at: 0)
-            self.tableView.reloadData()
-        }
-        
-        if isPlaying {
-            playButton.setBackgroundImage(#imageLiteral(resourceName: "pause"), for: .normal)
-            self.activateAudioSession()
-        } else  {
-            playButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
-            self.deactivateAudioSession()
-        }
-    }
-    
-    // If metadata changes then update the UI
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChange metadata: SPTPlaybackMetadata) {
-        if isQueueing {
-            isQueueing = false
+    func playerDidStartPlaying(songID: String?) {
+        guard let id = songID, !id.isEmpty else {
             return
         }
-        if spotifyPlayer?.metadata.prevTrack != nil {
-            Database.database().reference().child("parties").child(partyID).child("queue").child(String(playedSongs.count)).child("played").setValue(true)
-            playedSongs.append(songQueue[0])
-            songQueue.remove(at: 0)
-            tableView.reloadData()
+        
+        if let currentURL = songQueue.first?.songURL {
+            if partyProvider == .appleMusic {
+                if extractAppleMusicID(from: currentURL) != id {
+                    removeTopSong()
+                }
+            } else {
+                if currentURL != id {
+                    removeTopSong()
+                }
+            }
         }
     }
     
-    //If user did logout, close session
-    func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController) {
-        self.closeSpotifySession()
+    func playerDidChange(to state: PlaybackStatus) {
+        switch state {
+        case .playing:
+            playButton.setBackgroundImage(#imageLiteral(resourceName: "pause"), for: .normal)
+        default:
+            playButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
+        }
     }
     
-    //If recieve error, show error
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didReceiveError error: Error?) {
-        print("Recieved error: \(error!)")
-        showError(title: "Error!", withMessage: "There was an error whilst trying to process your request: \(error!.localizedDescription)", fromController: self)
+    func requestAuth(to url: URL) {
+        let alert = UIAlertController(title: "You need to sign in with Spotify.", message: "Clicking OK will take you to a sign in page for Spotify. You are required to sign in even if you're not the host, but you are not required to have a premium account.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+            alert.dismiss(animated: true, completion: {
+                self.navigationController?.popViewController(animated: true)
+            })
+        }))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            self.safariViewController = SFSafariViewController(url: url)
+            self.safariViewController!.delegate = self
+            self.present(self.safariViewController!, animated: true, completion: nil)
+        }))
+       present(alert, animated: true, completion: nil)
     }
     
-    func queueSong(uri: String){
-        isQueueing = true
-        spotifyPlayer?.queueSpotifyURI(uri, callback: { (error) in
-            if error != nil {
-                showError(title: "Whoops!", withMessage: "Look's like there's a problem with your Spotify account. Remember, party hosts need to have a Spotify Premium subscription.", fromController: self)
-            }
-        })
-    }
-    
-    // MARK: Activate audio session
-    
-    func activateAudioSession() {
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-        try? AVAudioSession.sharedInstance().setActive(true)
-    }
-    
-    // MARK: Deactivate audio session
-    
-    func deactivateAudioSession() {
-        try? AVAudioSession.sharedInstance().setActive(false)
+    private func removeTopSong(){
+        Database.database().reference().child("parties").child(partyID).child("queue").child("\(playedSongs)").child("played").setValue(true)
+        songQueue = Array(songQueue.dropFirst())
+        playedSongs += 1
+        tableView.reloadData()
     }
 }
