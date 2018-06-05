@@ -15,22 +15,22 @@ class MenuViewController: MixedViewController {
     @IBOutlet weak var startPartyButton: UIButton!
     @IBOutlet weak var joinPartyButton: UIButton!
     @IBOutlet weak var titleView: UIView!
-    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        profileImageView.layer.cornerRadius = profileImageView.frame.height/2
-        profileImageView.layer.borderWidth = 4
-        profileImageView.layer.borderColor = UIColor.white.cgColor
-        profileImageView.clipsToBounds = true
         
-        nameLabel.text = Auth.auth().currentUser?.displayName
+        if let user = Auth.auth().currentUser {
+            nameLabel.text = user.displayName
+        } else {
+            let name = UserDefaults.standard.string(forKey: "MixedUserName")
+            nameLabel.text = name
+        }
+        
         
         style(button: startPartyButton, fontSize: 36)
         style(button: joinPartyButton, fontSize: 36)
-        getImageFromFacebook()
         getAppleMusicToken()
         style(view: titleView)
         
@@ -43,24 +43,6 @@ class MenuViewController: MixedViewController {
         let joinParty = UIApplicationShortcutItem(type: "com.jaylees.mixed.joinParty", localizedTitle: "Join a Party", localizedSubtitle: nil, icon: nil, userInfo: nil)
         UIApplication.shared.shortcutItems = [startParty, joinParty]
 
-    }
-    
-    func getImageFromFacebook(){
-        guard let user = Auth.auth().currentUser else { return }
-        
-        if let photo = getFromCache(name: user.uid){
-            profileImageView.image = photo
-        } else if let photoURL = user.photoURL {
-            URLSession.shared.dataTask(with: photoURL, completionHandler: { (data, response, error) in
-                guard error == nil else { return }
-                DispatchQueue.main.async {
-                    guard let data = data else { return }
-                    guard let image = UIImage(data: data) else { return }
-                    self.profileImageView.image = image
-                    cacheImage(image: image, name: user.uid)
-                }
-            }).resume()
-        }
     }
     
     func getAppleMusicToken(){

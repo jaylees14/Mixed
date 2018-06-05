@@ -182,6 +182,8 @@ class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDele
                 if let splitNames = user.displayName?.components(separatedBy: " ") {
                     username = splitNames[0]
                 }
+            } else {
+                username = UserDefaults.standard.string(forKey: "MixedUserName") ?? ""
             }
     
             let newSongInfo = ["songName": song.songName, "songURL": song.songURL, "imageURL": song.imageURL, "artistName": song.artist, "addedBy": username, "imageWidth": song.imageSize.width, "imageHeight": song.imageSize.height] as [String: Any]
