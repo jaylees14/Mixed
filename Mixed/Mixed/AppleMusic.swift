@@ -26,7 +26,6 @@ class AppleMusic {
         self.determineAuthStatus()
     }
     
-    
     private func determineAuthStatus() {
         // Determine if the user is already authorised
         switch SKCloudServiceController.authorizationStatus() {

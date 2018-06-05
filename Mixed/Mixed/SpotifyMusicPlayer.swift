@@ -12,6 +12,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     private let player: SPTAudioStreamingController
     private var delegate: PlayerDelegate?
     private var hasStarted: Bool = false
+    private var gotFirstTrack: Bool = false
     
     public override init() {
         player = SPTAudioStreamingController.sharedInstance()
@@ -91,7 +92,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func clearQueue() {
-        
+        gotFirstTrack = false
     }
     
     public func enqueue(song: String) {
@@ -99,13 +100,14 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
             startPlayer()
         }
         
-        if player.metadata == nil || player.metadata.currentTrack == nil {
+        if !gotFirstTrack {
             player.playSpotifyURI(song, startingWith: 0, startingWithPosition: 0) { (error) in
                 guard error == nil else {
                     self.delegate?.didReceiveError(error!)
                     return
                 }
                 self.pause()
+                self.gotFirstTrack = true
             }
             
         } else {

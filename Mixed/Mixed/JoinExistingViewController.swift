@@ -77,9 +77,10 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toQueue" {
-            let dest = segue.destination as! QueueViewController
+            let dest = segue.destination as! PlayerViewController
             dest.partyID = codeTextField.text
             dest.partyProvider = partyProvider
+            dest.isPlayer = false
         }
     }
 }
