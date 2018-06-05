@@ -50,8 +50,7 @@ public class AppleMusicPlayer: MusicPlayer {
         
         player.prepareToPlay { (error) in
             guard error == nil else {
-                print("!!!!!!!!! \(error)")
-                // TODO: Throw?
+                self.delegate?.didReceiveError(error!)
                 return
             }
             self.player.play()

@@ -223,20 +223,28 @@ extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
 
 
 extension PlayerViewController: PlayerDelegate {
+    func didReceiveError(_ error: Error) {
+        showError(title: "Whoops, looks like something went wrong",
+                  withMessage: error.localizedDescription,
+                  fromController: self)
+    }
+    
     func playerDidStartPlaying(songID: String?) {
         guard let id = songID, !id.isEmpty else {
             return
         }
         
-        if partyProvider == .appleMusic {
-            if let currentURL = songQueue.first?.songURL {
-                let topID = extractAppleMusicID(from: currentURL)
-                if topID != id {
+        if let currentURL = songQueue.first?.songURL {
+            if partyProvider == .appleMusic {
+                if extractAppleMusicID(from: currentURL) != id {
+                    removeTopSong()
+                }
+            } else {
+                if currentURL != id {
                     removeTopSong()
                 }
             }
         }
-
     }
     
     func playerDidChange(to state: PlaybackStatus) {
