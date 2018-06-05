@@ -109,13 +109,12 @@ class PlayerViewController: MixedViewController {
         Database.database().reference().child("parties").child(partyID).child("queue").observe(.childChanged, with: { (snapshot) in
             let data = snapshot.value as! [String:Any]
             let url = data["songURL"] as! String
-            let extracted = self.partyProvider == .appleMusic ? self.extractAppleMusicID(from: url) : url
-            
+
             guard let song = self.songQueue.first?.songURL else {
                 return
             }
             
-            if song == extracted {
+            if song == url {
                 self.songQueue = Array(self.songQueue.dropFirst())
                 // If they next on last song, clear queue and reset view
                 if self.songQueue.count == 0 {
