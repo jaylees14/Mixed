@@ -57,9 +57,6 @@ class PlayerViewController: MixedViewController {
         style(view: partyTitleView)
     }
     
-    
-    
-    
 
     //MARK: - View and database setup
     func setupPartyTitle(){
