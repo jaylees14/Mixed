@@ -34,15 +34,20 @@ public class AppleMusicPlayer: MusicPlayer {
     public func setDelegate(_ delegate: PlayerDelegate) {
         self.delegate = delegate
     }
+
     
     // MARK: - Music Player
+    
+    public func validateSession() {
+        // Not needed for AM
+    }
+    
     public func play() {
         guard hasSetInitialQueue else {
             //TODO: Throw an error
             return
         }
         
-        print("Playing")
         player.prepareToPlay { (error) in
             guard error == nil else {
                 print("!!!!!!!!! \(error)")
@@ -82,7 +87,6 @@ public class AppleMusicPlayer: MusicPlayer {
     
     // MARK: - Player Notifications
     @objc private func nowPlayingChanged(){
-        print(player.nowPlayingItem)
         delegate?.playerDidStartPlaying(songID: player.nowPlayingItem?.playbackStoreID)
     }
     
@@ -98,6 +102,4 @@ public class AppleMusicPlayer: MusicPlayer {
             break
         }
     }
-    
-    
 }

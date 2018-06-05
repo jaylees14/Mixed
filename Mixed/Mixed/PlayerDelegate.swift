@@ -11,4 +11,5 @@ import Foundation
 public protocol PlayerDelegate {
     func playerDidStartPlaying(songID: String?)
     func playerDidChange(to state: PlaybackStatus)
+    func requestAuth(to url: URL)
 }

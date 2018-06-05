@@ -20,19 +20,15 @@ class PlayerViewController: MixedViewController {
     @IBOutlet weak var partyTitleView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var codeText: UILabel!
-    var partyID: String!
-    var partyProvider: MusicProvider = MusicProvider.appleMusic
-    var spotifyDidFinish = false
-    var spotifyTappedPause = true
-    var appleMusicPreviousItem: MPMediaItem? = nil
+    
     var safariViewController: SFSafariViewController?
     
+    var partyID: String!
+    var partyProvider: MusicProvider = MusicProvider.appleMusic
     var musicPlayer: MusicPlayer!
-    
     var songQueue = [Song]()
     var playedSongs = 0
-    
-    var isQueueing = false
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,11 +43,13 @@ class PlayerViewController: MixedViewController {
         
         musicPlayer = MusicPlayerFactory.generatePlayer(for: partyProvider)
         musicPlayer.setDelegate(self)
+        musicPlayer.validateSession()
         
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(sessionSuccess),
-//                                               name: NSNotification.Name.init("spotifySessionUpdated"),
-//                                               object: nil)
+        // Notification when Spotify sends callback
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(spotifySessionComplete),
+                                               name: NSNotification.Name.init("spotifySessionUpdated"),
+                                               object: nil)
         observeDatabase()
     }
     
@@ -93,21 +91,21 @@ class PlayerViewController: MixedViewController {
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                
-                if self.partyProvider == .appleMusic {
-                    let id = self.extractAppleMusicID(from: self.songQueue[self.songQueue.count-1].songURL)
-                    self.musicPlayer.enqueue(song: id)
-                  
-                } else {
-                    //self.queueSong(uri: newSong.songURL)
-                }
+                self.musicPlayer.enqueue(song: self.partyProvider == .appleMusic
+                                                    ? self.extractAppleMusicID(from: newSong.songURL)
+                                                    : newSong.songURL)
             }
         })
     }
     
-    func extractAppleMusicID(from url: String) -> String {
+    private func extractAppleMusicID(from url: String) -> String {
         return url.components(separatedBy: "?i=")[1]
     }
+    
+    @objc private func spotifySessionComplete(){
+        safariViewController?.dismiss(animated: true, completion: nil)
+    }
+    
 
     
     //MARK: - Button Methods
@@ -121,28 +119,6 @@ class PlayerViewController: MixedViewController {
         } else {
             musicPlayer.play()
         }
-        
-        //SPOT
-//            guard songQueue.count > 0 else { return }
-//            if spotifyPlayer?.playbackState != nil {
-//                if spotifyPlayer?.metadata.currentTrack == nil || spotifyDidFinish {
-//                    spotifyPlayer?.playSpotifyURI(songQueue[0].songURL, startingWith: 0, startingWithPosition: 0, callback: { (error) in
-//                        if let error = error {
-//                            print(error)
-//                        }
-//                    })
-//                    spotifyDidFinish = false
-//                }
-//
-//                spotifyPlayer?.setIsPlaying(!(spotifyPlayer?.playbackState.isPlaying)!, callback: { (error) in
-//                    if let error = error {
-//                        print(error)
-//                    }
-//                })
-//
-//                spotifyTappedPause = !spotifyTappedPause
-//
-//            }
     }
     
     @IBAction func userDidTapBack(_ sender: Any) {
@@ -163,20 +139,6 @@ class PlayerViewController: MixedViewController {
             songQueue = []
             tableView.reloadData()
         }
-        
-//            spotifyPlayer?.skipNext({ (error) in
-//                if let error = error {
-//                    print(error)
-//                }
-//            })
-//            if self.songQueue.count == 1 {
-//                spotifyDidFinish = true
-//                Database.database().reference().child("parties").child(self.partyID).child("queue").child(String(self.playedSongs.count)).child("played").setValue(true)
-//                self.playedSongs.append(self.songQueue[0])
-//                self.songQueue.remove(at: 0)
-//                self.tableView.reloadData()
-//            }
-
     }
     
     //MARK: - Prepare for segue
@@ -278,13 +240,27 @@ extension PlayerViewController: PlayerDelegate {
     }
     
     func playerDidChange(to state: PlaybackStatus) {
-        print("Did change to \(state)")
         switch state {
         case .playing:
             playButton.setBackgroundImage(#imageLiteral(resourceName: "pause"), for: .normal)
         default:
             playButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
         }
+    }
+    
+    func requestAuth(to url: URL) {
+        let alert = UIAlertController(title: "You need to sign in with Spotify.", message: "Clicking OK will take you to a sign in page for Spotify. You are required to sign in even if you're not the host, but you are not required to have a premium account.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+            alert.dismiss(animated: true, completion: {
+                self.navigationController?.popViewController(animated: true)
+            })
+        }))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            self.safariViewController = SFSafariViewController(url: url)
+            self.safariViewController!.delegate = self
+            self.present(self.safariViewController!, animated: true, completion: nil)
+        }))
+       present(alert, animated: true, completion: nil)
     }
     
     private func removeTopSong(){
