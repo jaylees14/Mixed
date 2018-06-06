@@ -15,33 +15,73 @@ class NewPartyViewController: MixedViewController {
     @IBOutlet weak var spotifyButton: UIButton!
     @IBOutlet weak var titleBackground: UIView!
     var provider: MusicProvider!
+    var username: String!
     
     var ref = Database.database().reference()
-    let partyID = randomString(length: 6)
+    var partyID: String?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         style(button: appleMusicButton, fontSize: 36)
         style(button: spotifyButton, fontSize: 36)
+        titleBackground.backgroundColor = .mixedBlue
+        
+        if let user = Auth.auth().currentUser {
+            username = user.displayName
+        } else {
+            let name = UserDefaults.standard.string(forKey: "MixedUserName")
+            username = name
+        }
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         style(view: titleBackground)
+        if partyID == nil {
+            generateNewPartyID { (id) in
+                print("got id \(id)")
+                self.partyID = id
+            }
+        }
+    }
+    
+    fileprivate func generateNewPartyID(callback: @escaping (String) -> Void){
+        let id = randomString(length: 6)
+        ref.child("parties").child(id).observe(.value) { (snapshot) in
+            if !snapshot.exists() {
+                callback(id)
+            } else {
+                self.generateNewPartyID(callback: callback)
+            }
+        }
     }
     
        
     @IBAction func appleMusicTapped(_ sender: Any) {
+        guard let partyID = partyID else {
+            showError(title: "Whoops", withMessage: "Error while generating party ID. Please try again.", fromController: self)
+            return
+        }
+        
         let standardRef = ref.child("parties").child(partyID)
         standardRef.child("partyType").setValue("AppleMusic")
         standardRef.child("creationDate").setValue(getCurrentDate())
-        standardRef.child("hostName").setValue(Auth.auth().currentUser?.displayName?.components(separatedBy: " ")[0])
+        standardRef.child("hostName").setValue(username)
         provider = MusicProvider.appleMusic
         performSegue(withIdentifier: "toPlayer", sender: self)
     }
     
     @IBAction func spotifyTapped(_ sender: Any) {
+        guard let partyID = partyID else {
+            showError(title: "Whoops", withMessage: "Error while generating party ID. Please try again.", fromController: self)
+            return
+        }
+        
         let standardRef = ref.child("parties").child(partyID)
         standardRef.child("partyType").setValue("Spotify")
         standardRef.child("creationDate").setValue(getCurrentDate())
-        standardRef.child("hostName").setValue(Auth.auth().currentUser?.displayName?.components(separatedBy: " ")[0])
+        standardRef.child("hostName").setValue(username)
         provider = MusicProvider.spotify
         performSegue(withIdentifier: "toPlayer", sender: self)
     }

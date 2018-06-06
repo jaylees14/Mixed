@@ -25,14 +25,15 @@ class PlayerViewController: MixedViewController {
     
     var partyID: String!
     var partyProvider: MusicProvider = MusicProvider.appleMusic
-    var musicPlayer: MusicPlayer!
+    var musicPlayer: MusicPlayer?
     var songQueue = [Song]()
     var playedSongs = 0
-
+    var isPlayer: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPartyTitle()
+        partyTitleView.backgroundColor = .mixedBlue
         
         codeText.text = "Code: \(partyID!)"
         addToQueueButton.layer.cornerRadius = 35
@@ -41,9 +42,14 @@ class PlayerViewController: MixedViewController {
         addToQueueButton.layer.shadowColor = UIColor.black.cgColor
         addToQueueButton.layer.shadowOffset = CGSize(width: 0, height: 1)
         
-        musicPlayer = MusicPlayerFactory.generatePlayer(for: partyProvider)
-        musicPlayer.setDelegate(self)
-        musicPlayer.validateSession()
+        if !isPlayer {
+            nextButton.isHidden = true
+            playButton.isHidden = true
+        } else {
+            musicPlayer = MusicPlayerFactory.generatePlayer(for: partyProvider)
+            musicPlayer!.setDelegate(self)
+            musicPlayer!.validateSession()
+        }
         
         // Notification when Spotify sends callback
         NotificationCenter.default.addObserver(self,
@@ -73,8 +79,11 @@ class PlayerViewController: MixedViewController {
     
     func observeDatabase(){
         Database.database().reference().child("parties").child(partyID).child("queue").observe(.childAdded , with: { (snapshot) in
-            print("Child added")
             let data = snapshot.value as! [String:Any]
+            
+            guard data["played"] == nil else {
+                return
+            }
             let songURL = data["songURL"] as! String
             let artist = data["artistName"] as! String
             let songName = data["songName"] as! String
@@ -84,13 +93,34 @@ class PlayerViewController: MixedViewController {
             let addedBy = data["addedBy"] as! String
             let newSong = Song(artist: artist, songName: songName, songURL: songURL, imageURL: imageURL, imageSize: CGSize(width: imageWidth, height: imageHeight) , image: nil)
             newSong.addedBy = addedBy
+            
             self.songQueue.append(newSong)
+            
+            self.musicPlayer?.enqueue(song: self.partyProvider == .appleMusic
+                ? self.extractAppleMusicID(from: newSong.songURL)
+                : newSong.songURL)
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                self.musicPlayer.enqueue(song: self.partyProvider == .appleMusic
-                                                    ? self.extractAppleMusicID(from: newSong.songURL)
-                                                    : newSong.songURL)
+            }
+        })
+        
+        Database.database().reference().child("parties").child(partyID).child("queue").observe(.childChanged, with: { (snapshot) in
+            let data = snapshot.value as! [String:Any]
+            let url = data["songURL"] as! String
+
+            guard let song = self.songQueue.first?.songURL else {
+                return
+            }
+            
+            if song == url {
+                self.songQueue = Array(self.songQueue.dropFirst())
+                // If they next on last song, clear queue and reset view
+                if self.songQueue.count == 0 {
+                    self.musicPlayer?.clearQueue()
+                }
+                self.playedSongs += 1
+                self.tableView.reloadData()
             }
         })
     }
@@ -101,9 +131,8 @@ class PlayerViewController: MixedViewController {
     
     @objc private func spotifySessionComplete(){
         safariViewController?.dismiss(animated: true, completion: nil)
+        musicPlayer?.validateSession()
     }
-    
-
     
     //MARK: - Button Methods
     @IBAction func addToQueueTapped(_ sender: Any) {
@@ -111,31 +140,19 @@ class PlayerViewController: MixedViewController {
     }
     
     @IBAction func userDidTapPlay(_ sender: Any) {
-        if musicPlayer.getCurrentStatus() == .playing {
-            musicPlayer.pause()
+        if musicPlayer?.getCurrentStatus() == .playing {
+            musicPlayer?.pause()
         } else {
-            musicPlayer.play()
+            musicPlayer?.play()
         }
     }
     
     @IBAction func userDidTapBack(_ sender: Any) {
-        if partyProvider == .spotify {
-            //closeSpotifySession()
-        } else {
-            self.navigationController?.popViewController(animated: true)
-        }
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func userDidTapNext(_ sender: Any) {
-        musicPlayer.next()
-        
-        // If they next on last song, clear queue and reset view
-        if songQueue.count <= 1 {
-            removeTopSong()
-            musicPlayer.clearQueue()
-            songQueue = []
-            tableView.reloadData()
-        }
+        musicPlayer?.next()
     }
     
     //MARK: - Prepare for segue
@@ -149,12 +166,6 @@ class PlayerViewController: MixedViewController {
         }
     }
     
-}
-
-extension PlayerViewController: SFSafariViewControllerDelegate {
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        controller.dismiss(animated: true, completion: nil)
-    }
 }
 
 extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
@@ -230,7 +241,7 @@ extension PlayerViewController: PlayerDelegate {
         guard let id = songID, !id.isEmpty else {
             return
         }
-        
+
         if let currentURL = songQueue.first?.songURL {
             if partyProvider == .appleMusic {
                 if extractAppleMusicID(from: currentURL) != id {
@@ -262,7 +273,6 @@ extension PlayerViewController: PlayerDelegate {
         }))
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
             self.safariViewController = SFSafariViewController(url: url)
-            self.safariViewController!.delegate = self
             self.present(self.safariViewController!, animated: true, completion: nil)
         }))
        present(alert, animated: true, completion: nil)
@@ -270,8 +280,5 @@ extension PlayerViewController: PlayerDelegate {
     
     private func removeTopSong(){
         Database.database().reference().child("parties").child(partyID).child("queue").child("\(playedSongs)").child("played").setValue(true)
-        songQueue = Array(songQueue.dropFirst())
-        playedSongs += 1
-        tableView.reloadData()
     }
 }
