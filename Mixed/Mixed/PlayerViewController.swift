@@ -45,6 +45,15 @@ class PlayerViewController: MixedViewController {
         if !isPlayer {
             nextButton.isHidden = true
             playButton.isHidden = true
+            if partyProvider == .spotify {
+                if let session = SPTAuth.defaultInstance().session {
+                    if !session.isValid() {
+                        requestAuth(to: SPTAuth.defaultInstance().spotifyWebAuthenticationURL())
+                    }
+                } else {
+                    requestAuth(to: SPTAuth.defaultInstance().spotifyWebAuthenticationURL())
+                }
+            }
         } else {
             musicPlayer = MusicPlayerFactory.generatePlayer(for: partyProvider)
             musicPlayer!.setDelegate(self)
