@@ -33,6 +33,7 @@ class PlayerViewController: MixedViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPartyTitle()
+        partyTitleView.backgroundColor = .mixedBlue
         
         codeText.text = "Code: \(partyID!)"
         addToQueueButton.layer.cornerRadius = 35
@@ -40,8 +41,6 @@ class PlayerViewController: MixedViewController {
         addToQueueButton.layer.shadowOpacity = 0.5
         addToQueueButton.layer.shadowColor = UIColor.black.cgColor
         addToQueueButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        
-       
         
         if !isPlayer {
             nextButton.isHidden = true
@@ -132,6 +131,7 @@ class PlayerViewController: MixedViewController {
     
     @objc private func spotifySessionComplete(){
         safariViewController?.dismiss(animated: true, completion: nil)
+        musicPlayer?.validateSession()
     }
     
     //MARK: - Button Methods
@@ -241,9 +241,7 @@ extension PlayerViewController: PlayerDelegate {
         guard let id = songID, !id.isEmpty else {
             return
         }
-        
-        print("NOW PLAYING \(songID)")
-        
+
         if let currentURL = songQueue.first?.songURL {
             if partyProvider == .appleMusic {
                 if extractAppleMusicID(from: currentURL) != id {

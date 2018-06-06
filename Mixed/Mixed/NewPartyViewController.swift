@@ -25,7 +25,7 @@ class NewPartyViewController: MixedViewController {
         super.viewDidLoad()
         style(button: appleMusicButton, fontSize: 36)
         style(button: spotifyButton, fontSize: 36)
-        style(view: titleBackground)
+        titleBackground.backgroundColor = .mixedBlue
         
         if let user = Auth.auth().currentUser {
             username = user.displayName
@@ -37,6 +37,7 @@ class NewPartyViewController: MixedViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        style(view: titleBackground)
         if partyID == nil {
             generateNewPartyID { (id) in
                 print("got id \(id)")

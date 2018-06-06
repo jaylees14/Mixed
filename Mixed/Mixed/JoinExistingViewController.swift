@@ -21,7 +21,7 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
         super.viewDidLoad()
         codeTextField.delegate = self
         setupCodeText()
-        style(view: textBackground)
+        textBackground.backgroundColor = .mixedBlue
         
         goButton.setTitleColor(.white, for: .normal)
         goButton.layer.cornerRadius = goButton.frame.height/2
@@ -29,6 +29,10 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        style(view: textBackground)
     }
     
     @objc func dismissKeyboard(){

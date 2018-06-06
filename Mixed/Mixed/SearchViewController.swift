@@ -43,19 +43,21 @@ class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDele
     func queryDidReturn(_ songs: [Song]) {
         self.songs = songs
         
-        for song in self.songs {
-//            let formattedURL = song.imageURL.replacingOccurrences(of: "{w}", with: "\(Int(song.imageSize.width))").replacingOccurrences(of: "{h}", with: "\(Int(song.imageSize.height))")
-            
-//            do {
-//                let data = try Data(contentsOf: URL(string: formattedURL)!)
-//                song.image = UIImage(data: data)
-//                DispatchQueue.main.async {
-//                    self.songsTableView.reloadData()
-//                }
-//            } catch let error {
-//                print(error)
-//            }
-            
+        DispatchQueue(label: "com.jaylees.mixed.imagedownload").async {
+            for song in self.songs {
+                let formattedURL = song.imageURL.replacingOccurrences(of: "{w}", with: "\(Int(song.imageSize.width))").replacingOccurrences(of: "{h}", with: "\(Int(song.imageSize.height))")
+                
+                do {
+                    let data = try Data(contentsOf: URL(string: formattedURL)!)
+                    song.image = UIImage(data: data)
+                    DispatchQueue.main.async {
+                        self.songsTableView.reloadData()
+                    }
+                } catch let error {
+                    print(error)
+                }
+                
+            }
         }
         
         hideLoadingView()

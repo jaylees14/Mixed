@@ -21,6 +21,7 @@ class LoginOnboardingViewController: MixedViewController {
         facebookButton.layer.borderColor = UIColor.mixedRed.cgColor
         facebookButton.layer.borderWidth = 3
         
+        view.backgroundColor = .mixedBlue
         style(view: self.view)
     }
     

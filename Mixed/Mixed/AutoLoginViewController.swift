@@ -16,6 +16,9 @@ class AutoLoginViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        performSegue(withIdentifier: AccessToken.current == nil ? "toLogin" : "toMenu", sender: nil)
+        performSegue(withIdentifier:
+            AccessToken.current == nil && UserDefaults.standard.string(forKey: "MixedUserName") == nil
+            ? "toLogin"
+            : "toMenu", sender: nil)
     }
 }

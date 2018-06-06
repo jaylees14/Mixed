@@ -11,9 +11,25 @@ import UIKit
 class NameInputViewController: UIViewController {
 
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var getStartedButton: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.mixedBlue
+        getStartedButton.layer.cornerRadius = getStartedButton.frame.height / 2
+        getStartedButton.setTitleColor(.mixedBlue, for: .normal)
+        
+        let gestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(gestureRecogniser)
+    }
+    
+    @objc func dismissKeyboard(){
+        nameTextField.resignFirstResponder()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     @IBAction func userDidTapSubmit(_ sender: Any) {

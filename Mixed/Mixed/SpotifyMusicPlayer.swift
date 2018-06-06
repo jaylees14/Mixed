@@ -144,6 +144,7 @@ extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlayba
     }
 
     public func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+        print("Login did finish")
         // TODO: FILL THIS IN!!!!!
     }
 

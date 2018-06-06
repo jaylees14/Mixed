@@ -28,12 +28,11 @@ class MenuViewController: MixedViewController {
             nameLabel.text = name
         }
         
-        
+        titleView.backgroundColor = .mixedBlue
         style(button: startPartyButton, fontSize: 36)
         style(button: joinPartyButton, fontSize: 36)
         getAppleMusicToken()
-        style(view: titleView)
-        
+       
         guard hasNetworkConnection() else {
             showError(title: "No Network Connection", withMessage: "In order to use this app fully you need a valid internet connection. Please check your settings and try again", fromController: self)
             return
@@ -42,7 +41,10 @@ class MenuViewController: MixedViewController {
         let startParty = UIApplicationShortcutItem(type: "com.jaylees.mixed.startParty", localizedTitle: "Start a Party", localizedSubtitle: nil, icon: nil, userInfo: nil)
         let joinParty = UIApplicationShortcutItem(type: "com.jaylees.mixed.joinParty", localizedTitle: "Join a Party", localizedSubtitle: nil, icon: nil, userInfo: nil)
         UIApplication.shared.shortcutItems = [startParty, joinParty]
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+         style(view: titleView)
     }
     
     func getAppleMusicToken(){
