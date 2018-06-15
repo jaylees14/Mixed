@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SoundWave: UIView{
+class SoundWave: UIView {
     
     var waveLayer: CAShapeLayer!
     
@@ -82,12 +82,5 @@ class SoundWave: UIView{
         
         return path
         
-    }
-}
-
-
-extension UIBezierPath {
-    func addLine(dx: CGFloat, dy: CGFloat){
-        return addLine(to: CGPoint(x: currentPoint.x + dx, y: currentPoint.y + dy))
     }
 }

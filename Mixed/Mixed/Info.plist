@@ -56,9 +56,9 @@
 	<string>Please allow photo access so that we can save photos</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>opensans-bold.ttf</string>
-		<string>opensans-light.ttf</string>
-		<string>opensans-regular.ttf</string>
+		<string>comfortaa-bold.ttf</string>
+		<string>comfortaa-light.ttf</string>
+		<string>comfortaa-regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
