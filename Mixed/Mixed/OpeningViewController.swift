@@ -11,6 +11,7 @@ import UIKit
 class OpeningViewController: UIViewController {
     @IBOutlet weak var welcomeToLabel: UILabel!
     @IBOutlet weak var mixedLabel: UILabel!
+    @IBOutlet weak var startPartyButton: OnboardingButton!
     
     private var logo: LogoView!
     
@@ -18,6 +19,7 @@ class OpeningViewController: UIViewController {
         super.viewDidLoad()
         welcomeToLabel.alpha = 0
         mixedLabel.alpha = 0
+        startPartyButton.alpha = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,6 +31,7 @@ class OpeningViewController: UIViewController {
         }
     }
 
+    // TODO: Can this be refactored in a cleaner way
     private func beginAnimation(){
         UIView.animate(withDuration: 1, animations: {
             self.logo.center.y = self.welcomeToLabel.frame.origin.y - (self.logo.frame.height + 16)
@@ -38,8 +41,17 @@ class OpeningViewController: UIViewController {
             }, completion: { (_) in
                 UIView.animate(withDuration: 1, animations: {
                     self.mixedLabel.alpha = 1
+                }, completion: { (_) in
+                    UIView.animate(withDuration: 1, animations: {
+                        self.startPartyButton.alpha = 1
+                    })
                 })
             })
         }
+    }
+    
+    // MARK: - Button Actions
+    @IBAction func startPartyTapped(_ sender: Any) {
+        
     }
 }

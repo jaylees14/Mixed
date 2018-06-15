@@ -9,12 +9,19 @@
 import Foundation
 import UIKit
 
-extension UIFont{
-    public func mixedFont(ofSize size: CGFloat) -> UIFont {
-        return UIFont(name: "OpenSans", size: size)!
+extension UIFont {
+    public enum FontWeight {
+        case light
+        case regular
+        case bold
     }
     
-    public func mixedFontLight(ofSize size: CGFloat) -> UIFont {
-        return UIFont(name: "OpenSans-Light", size: size)!
+    public static func mixedFont(size: CGFloat, weight: FontWeight = .regular) -> UIFont {
+        switch weight {
+        case .light: return UIFont(name: "Comfortaa-Light", size: size)!
+        case .regular: return UIFont(name: "Comfortaa-Regular", size: size)!
+        case .bold: return UIFont(name: "Comfortaa-Bold", size: size)!
+        }
+        
     }
 }

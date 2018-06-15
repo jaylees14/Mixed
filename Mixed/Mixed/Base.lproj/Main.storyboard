@@ -320,13 +320,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="Jab-EE-5yV">
-                                <rect key="frame" x="-89.666666666666686" y="5" width="554.33333333333337" height="812"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WELCOME TO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1gp-Fn-HCA">
+                                <rect key="frame" x="143.66666666666666" y="367" width="88.666666666666657" height="14"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="554" id="F07-8D-PvF"/>
-                                    <constraint firstAttribute="height" constant="812" id="rQ0-aN-otW"/>
+                                    <constraint firstAttribute="height" constant="14" id="xDd-aH-7aa"/>
                                 </constraints>
-                            </imageView>
+                                <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MIXED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6A-Ua-zH5">
                                 <rect key="frame" x="110.99999999999999" y="385" width="153.66666666666663" height="53"/>
                                 <constraints>
@@ -336,26 +338,32 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WELCOME TO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1gp-Fn-HCA">
-                                <rect key="frame" x="143.33333333333334" y="367" width="89" height="14"/>
-                                <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="12"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="juS-8C-rvV" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
+                                <rect key="frame" x="91.666666666666686" y="720" width="192" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="192" id="B8F-Yr-wwq"/>
+                                    <constraint firstAttribute="height" constant="50" id="OcC-Ia-fe7"/>
+                                </constraints>
+                                <state key="normal" title="START PARTY"/>
+                                <connections>
+                                    <action selector="startPartyTapped:" destination="Bws-5Z-WpY" eventType="touchUpInside" id="mzE-N2-K3m"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="v6A-Ua-zH5" firstAttribute="centerX" secondItem="Jab-EE-5yV" secondAttribute="centerX" id="271-Pj-R80"/>
-                            <constraint firstItem="Jab-EE-5yV" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="8MK-xF-bal"/>
-                            <constraint firstItem="Jab-EE-5yV" firstAttribute="centerY" secondItem="V3S-z3-TQx" secondAttribute="centerY" id="DIC-w1-LN0"/>
-                            <constraint firstItem="v6A-Ua-zH5" firstAttribute="centerY" secondItem="Jab-EE-5yV" secondAttribute="centerY" id="I4Z-QS-V02"/>
+                            <constraint firstItem="V3S-z3-TQx" firstAttribute="bottom" secondItem="juS-8C-rvV" secondAttribute="bottom" constant="8" id="MAX-vh-skc"/>
+                            <constraint firstItem="v6A-Ua-zH5" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="SkA-JH-ymG"/>
                             <constraint firstItem="v6A-Ua-zH5" firstAttribute="top" secondItem="1gp-Fn-HCA" secondAttribute="bottom" constant="4" id="b70-6c-JqL"/>
-                            <constraint firstItem="1gp-Fn-HCA" firstAttribute="centerX" secondItem="Jab-EE-5yV" secondAttribute="centerX" id="xXe-lG-5vT"/>
+                            <constraint firstItem="juS-8C-rvV" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="qzl-CP-ZTt"/>
+                            <constraint firstItem="v6A-Ua-zH5" firstAttribute="centerY" secondItem="V3S-z3-TQx" secondAttribute="centerY" id="tO7-OT-f1C"/>
+                            <constraint firstItem="1gp-Fn-HCA" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="ue0-3w-2nL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="V3S-z3-TQx"/>
                     </view>
                     <connections>
                         <outlet property="mixedLabel" destination="v6A-Ua-zH5" id="u7w-4p-YWA"/>
+                        <outlet property="startPartyButton" destination="juS-8C-rvV" id="Ro3-zq-pwK"/>
                         <outlet property="welcomeToLabel" destination="1gp-Fn-HCA" id="kKP-qM-kDa"/>
                     </connections>
                 </viewController>
@@ -1326,7 +1334,6 @@
         <image name="back" width="22" height="42"/>
         <image name="beer" width="762" height="879"/>
         <image name="facebook" width="16" height="32"/>
-        <image name="gradient" width="907" height="600"/>
         <image name="hand" width="424" height="394"/>
         <image name="next" width="47" height="34"/>
         <image name="phone" width="480" height="628"/>
