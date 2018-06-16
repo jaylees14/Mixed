@@ -11,24 +11,40 @@ import UIKit
 
 extension UIColor {    
     public class var mixedBlue: UIColor {
-        return hexToRGB(hex: "313357")!
+        return self.init(hex: "313357")
     }
     
     public class var mixedRed: UIColor {
-        return hexToRGB(hex: "D7445C")!
+        return self.init(hex: "D7445C")
     }
     
     public class var mixedDirtyWhite: UIColor {
-        return hexToRGB(hex: "F1F1F1")!
+        return self.init(hex: "F1F1F1")
     }
     
-    static func hexToRGB(hex: String) -> UIColor? {
-        let array = hex.map { String($0) }
-        if array.count == 6 {
-            if let red = UInt8("\(array[0])\(array[1])", radix: 16), let green = UInt8("\(array[2])\(array[3])", radix: 16), let blue = UInt8("\(array[4])\(array[5])", radix: 16) {
-                return UIColor(displayP3Red: CGFloat(red)/255, green: CGFloat(green)/255, blue: CGFloat(blue)/255, alpha: 1)
+    /// Initalise a UIColor from a hex string formatted as RRGGBB or RRGGBBAA, with or without a leading #
+    ///
+    /// - Parameter hex: A hex string, formatted as above
+    public convenience init(hex: String){
+        var red: CGFloat = 0.0
+        var green: CGFloat = 0.0
+        var blue: CGFloat = 0.0
+        var alpha: CGFloat = 1.0
+        var rgb: UInt32 = 0
+        
+        let sanitisedHex = hex.replacingOccurrences(of: "#", with: "")
+        if Scanner(string: sanitisedHex).scanHexInt32(&rgb) {
+            if sanitisedHex.count == 6 {
+                red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+                green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+                blue = CGFloat((rgb & 0x0000FF)) / 255.0
+            } else if sanitisedHex.count == 8 {
+                red = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
+                green = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
+                blue = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
+                alpha = CGFloat((rgb & 0x000000FF)) / 255.0
             }
         }
-        return nil
+        self.init(displayP3Red: red, green: green, blue: blue, alpha: alpha)
     }
 }

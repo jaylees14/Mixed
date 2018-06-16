@@ -12,7 +12,7 @@ class LaunchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .hexToRGB(hex: "EA3259")
+        view.backgroundColor = UIColor(hex: "EA3259")
             //UIColor.hexToRGB(hex: "313357")
     }
 }

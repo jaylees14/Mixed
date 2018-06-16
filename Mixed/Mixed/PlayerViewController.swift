@@ -199,7 +199,7 @@ extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "queueCell", for: indexPath)
-        cell.layer.shadowColor = UIColor.hexToRGB(hex: "626262")!.cgColor
+        cell.layer.shadowColor = UIColor(hex: "626262").cgColor
         cell.layer.shadowOpacity = 0.3
         cell.layer.shadowPath = CGPath(rect: CGRect(x: cell.bounds.origin.x + 10, y: cell.bounds.origin.y + 10, width: cell.bounds.width - 20, height: cell.bounds.height), transform: nil)
         cell.layer.cornerRadius = 5

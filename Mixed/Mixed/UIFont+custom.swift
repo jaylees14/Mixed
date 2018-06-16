@@ -19,7 +19,7 @@ extension UIFont {
     public static func mixedFont(size: CGFloat, weight: FontWeight = .regular) -> UIFont {
         switch weight {
         case .light: return UIFont(name: "Comfortaa-Light", size: size)!
-        case .regular: return UIFont(name: "Comfortaa-Regular", size: size)!
+        case .regular: return UIFont(name: "Comfortaa", size: size)!
         case .bold: return UIFont(name: "Comfortaa-Bold", size: size)!
         }
         

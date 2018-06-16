@@ -48,7 +48,7 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
     func setupCodeText(){
         codeTextField.layer.cornerRadius = 8
         let customPlaceholder = NSMutableAttributedString(string: "Enter Code", attributes: [:])
-        customPlaceholder.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.hexToRGB(hex: "909090")!, range: NSRange(location: 0, length: customPlaceholder.length))
+        customPlaceholder.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor(hex: "909090"), range: NSRange(location: 0, length: customPlaceholder.length))
         codeTextField.attributedPlaceholder = customPlaceholder
         codeTextField.placeholderRect(forBounds: CGRect(x: 10, y: 0, width: codeTextField.bounds.width - 10, height: codeTextField.bounds.height))
     }

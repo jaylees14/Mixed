@@ -14,8 +14,8 @@
         <array key="Comfortaa-Bold.ttf">
             <string>Comfortaa-Bold</string>
         </array>
-        <array key="Comfortaa-Regular.ttf">
-            <string>Comfortaa-Regular</string>
+        <array key="Comfortaa-Light.ttf">
+            <string>Comfortaa-Light</string>
         </array>
         <array key="opensans-bold.ttf">
             <string>OpenSans-Bold</string>
@@ -320,22 +320,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WELCOME TO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1gp-Fn-HCA">
-                                <rect key="frame" x="143.66666666666666" y="367" width="88.666666666666657" height="14"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="14" id="xDd-aH-7aa"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="12"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="We5-sI-A9c">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="817"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MIXED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6A-Ua-zH5">
+                                <rect key="frame" x="110.99999999999999" y="386.33333333333331" width="153.66666666666663" height="49.333333333333314"/>
+                                <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="44"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MIXED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6A-Ua-zH5">
-                                <rect key="frame" x="110.99999999999999" y="385" width="153.66666666666663" height="53"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I97-Ko-lgK">
+                                <rect key="frame" x="54" y="435.66666666666669" width="266.33333333333331" height="56"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="53" id="7mm-xj-8aj"/>
+                                    <constraint firstAttribute="height" constant="56" id="zLO-qL-yH5"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="44"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">Live collaborative playlists for 
+parties and events.</string>
+                                <fontDescription key="fontDescription" name="Comfortaa-Light" family="Comfortaa" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="juS-8C-rvV" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
@@ -352,24 +355,60 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="I97-Ko-lgK" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="0Tb-x1-LMw"/>
+                            <constraint firstItem="We5-sI-A9c" firstAttribute="width" secondItem="yqE-ch-eKe" secondAttribute="width" id="5fe-ba-vbP"/>
                             <constraint firstItem="V3S-z3-TQx" firstAttribute="bottom" secondItem="juS-8C-rvV" secondAttribute="bottom" constant="8" id="MAX-vh-skc"/>
+                            <constraint firstItem="We5-sI-A9c" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="Oz0-nD-2uc"/>
                             <constraint firstItem="v6A-Ua-zH5" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="SkA-JH-ymG"/>
-                            <constraint firstItem="v6A-Ua-zH5" firstAttribute="top" secondItem="1gp-Fn-HCA" secondAttribute="bottom" constant="4" id="b70-6c-JqL"/>
+                            <constraint firstItem="I97-Ko-lgK" firstAttribute="top" secondItem="v6A-Ua-zH5" secondAttribute="bottom" id="YJz-O6-w1s"/>
+                            <constraint firstItem="We5-sI-A9c" firstAttribute="height" secondItem="yqE-ch-eKe" secondAttribute="height" constant="5" id="fmR-9t-MVL"/>
                             <constraint firstItem="juS-8C-rvV" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="qzl-CP-ZTt"/>
+                            <constraint firstItem="We5-sI-A9c" firstAttribute="centerY" secondItem="V3S-z3-TQx" secondAttribute="centerY" constant="-2.5" id="sVc-Fj-npa"/>
                             <constraint firstItem="v6A-Ua-zH5" firstAttribute="centerY" secondItem="V3S-z3-TQx" secondAttribute="centerY" id="tO7-OT-f1C"/>
-                            <constraint firstItem="1gp-Fn-HCA" firstAttribute="centerX" secondItem="V3S-z3-TQx" secondAttribute="centerX" id="ue0-3w-2nL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="V3S-z3-TQx"/>
                     </view>
                     <connections>
+                        <outlet property="backgroundView" destination="We5-sI-A9c" id="qLm-CC-fmH"/>
                         <outlet property="mixedLabel" destination="v6A-Ua-zH5" id="u7w-4p-YWA"/>
                         <outlet property="startPartyButton" destination="juS-8C-rvV" id="Ro3-zq-pwK"/>
-                        <outlet property="welcomeToLabel" destination="1gp-Fn-HCA" id="kKP-qM-kDa"/>
+                        <outlet property="subtitleLabel" destination="I97-Ko-lgK" id="YxD-aT-hMa"/>
+                        <segue destination="3pd-Bd-c8y" kind="show" identifier="toNameInput" id="yA2-Ck-843"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f6h-5g-p2t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-559.20000000000005" y="2464.2857142857142"/>
+        </scene>
+        <!--Name View Controller-->
+        <scene sceneID="11Q-dv-RCr">
+            <objects>
+                <viewController id="3pd-Bd-c8y" customClass="NameViewController" customModule="Mixed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iUi-Qe-WJc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l3X-he-YS5">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="817"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="l3X-he-YS5" firstAttribute="height" secondItem="iUi-Qe-WJc" secondAttribute="height" constant="5" id="2Dl-Xs-LOj"/>
+                            <constraint firstItem="l3X-he-YS5" firstAttribute="centerY" secondItem="221-iE-jqq" secondAttribute="centerY" constant="-2.5" id="Grr-ex-wsU"/>
+                            <constraint firstItem="l3X-he-YS5" firstAttribute="centerX" secondItem="221-iE-jqq" secondAttribute="centerX" id="QK7-0Z-wPX"/>
+                            <constraint firstItem="l3X-he-YS5" firstAttribute="width" secondItem="iUi-Qe-WJc" secondAttribute="width" id="hEg-zZ-ivq"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="221-iE-jqq"/>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="l3X-he-YS5" id="vDJ-7W-ggC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bma-P9-NY9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="200.80000000000001" y="2463.5467980295566"/>
         </scene>
         <!--Beer Onboarding View Controller-->
         <scene sceneID="f0q-Zp-QgC">
@@ -1342,7 +1381,7 @@
         <image name="tapCircle" width="125" height="123"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Czx-qT-LcQ"/>
+        <segue reference="sbD-tz-Pid"/>
         <segue reference="DFr-m5-YDJ"/>
     </inferredMetricsTieBreakers>
 </document>

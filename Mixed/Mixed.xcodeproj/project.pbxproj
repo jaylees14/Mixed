@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3C093A6FA218CD1D542D75B4 /* Pods_Mixed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADC66332F545A2CD7DDB934 /* Pods_Mixed.framework */; };
 		690109E120C74780005183D4 /* NameInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690109E020C74780005183D4 /* NameInputViewController.swift */; };
+		6915F08C20D52C590025A072 /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6915F08B20D52C590025A072 /* NameViewController.swift */; };
 		69275DF420C4D071004C6642 /* AppleMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF320C4D071004C6642 /* AppleMusicPlayer.swift */; };
 		69275DF620C4D090004C6642 /* SpotifyMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF520C4D090004C6642 /* SpotifyMusicPlayer.swift */; };
 		69275DF820C4D255004C6642 /* MusicPlayerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF720C4D255004C6642 /* MusicPlayerFactory.swift */; };
@@ -39,6 +40,7 @@
 		6979D99D20CA43C5000F6502 /* OpeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99C20CA43C5000F6502 /* OpeningViewController.swift */; };
 		6979D99F20CA4415000F6502 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99E20CA4415000F6502 /* LogoView.swift */; };
 		697E8BC01FDE0624009407FA /* AutoLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E8BBF1FDE0624009407FA /* AutoLoginViewController.swift */; };
+		69846C2D20D479D800889F86 /* MixedGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69846C2C20D479D800889F86 /* MixedGradient.swift */; };
 		69AF594A1F1800B300402BE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69AF59491F1800B300402BE2 /* GoogleService-Info.plist */; };
 		69AF594E1F18019400402BE2 /* LoginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */; };
 		69AF59521F18047700402BE2 /* UIColor+colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF59501F18047700402BE2 /* UIColor+colors.swift */; };
@@ -62,6 +64,7 @@
 /* Begin PBXFileReference section */
 		1B160BC61CE6119DA4FDF27B /* Pods-Mixed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mixed.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mixed/Pods-Mixed.release.xcconfig"; sourceTree = "<group>"; };
 		690109E020C74780005183D4 /* NameInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewController.swift; sourceTree = "<group>"; };
+		6915F08B20D52C590025A072 /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		69275DF320C4D071004C6642 /* AppleMusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicPlayer.swift; sourceTree = "<group>"; };
 		69275DF520C4D090004C6642 /* SpotifyMusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayer.swift; sourceTree = "<group>"; };
 		69275DF720C4D255004C6642 /* MusicPlayerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerFactory.swift; sourceTree = "<group>"; };
@@ -94,6 +97,7 @@
 		6979D99C20CA43C5000F6502 /* OpeningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningViewController.swift; sourceTree = "<group>"; };
 		6979D99E20CA4415000F6502 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		697E8BBF1FDE0624009407FA /* AutoLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoLoginViewController.swift; sourceTree = "<group>"; };
+		69846C2C20D479D800889F86 /* MixedGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedGradient.swift; sourceTree = "<group>"; };
 		69AF59491F1800B300402BE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginOnboardingViewController.swift; sourceTree = "<group>"; };
 		69AF59501F18047700402BE2 /* UIColor+colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colors.swift"; sourceTree = "<group>"; };
@@ -209,8 +213,10 @@
 			isa = PBXGroup;
 			children = (
 				6979D99C20CA43C5000F6502 /* OpeningViewController.swift */,
+				6915F08B20D52C590025A072 /* NameViewController.swift */,
 				6979D99E20CA4415000F6502 /* LogoView.swift */,
 				695B038F20D4560800946DC2 /* OnboardingButton.swift */,
+				69846C2C20D479D800889F86 /* MixedGradient.swift */,
 			);
 			name = New;
 			sourceTree = "<group>";
@@ -434,6 +440,7 @@
 				696DEEAA1F1A704400BA512B /* MenuViewController.swift in Sources */,
 				6954035020C61929001FCAFF /* PlayerDelegate.swift in Sources */,
 				695B038820D44D6E00946DC2 /* UIBezierPath+drawLine.swift in Sources */,
+				6915F08C20D52C590025A072 /* NameViewController.swift in Sources */,
 				69D9E6291F2C94F60012319A /* SoundWave.swift in Sources */,
 				69D9E6231F2C8AD60012319A /* SpeakerOnboardingViewController.swift in Sources */,
 				69B1E09F1F2E6369001F1D7F /* LaunchViewController.swift in Sources */,
@@ -446,6 +453,7 @@
 				690109E120C74780005183D4 /* NameInputViewController.swift in Sources */,
 				6979D99F20CA4415000F6502 /* LogoView.swift in Sources */,
 				694F1EA620C30A9F00EAF042 /* CircleView.swift in Sources */,
+				69846C2D20D479D800889F86 /* MixedGradient.swift in Sources */,
 				69F1F1621F1EBAB300449F28 /* Queue.swift in Sources */,
 				69D9E61F1F2C8AB60012319A /* HomeOnboardingViewController.swift in Sources */,
 				69275DFA20C4D6CD004C6642 /* PlaybackStatus.swift in Sources */,

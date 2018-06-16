@@ -23,13 +23,13 @@ class MixedViewController: UIViewController {
         button.backgroundColor = UIColor.white
         button.setTitleColor(.mixedBlue, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
-        button.layer.shadowColor = UIColor.hexToRGB(hex: "626262")?.cgColor
+        button.layer.shadowColor = UIColor(hex: "626262").cgColor
         button.layer.shadowOffset = CGSize(width: 5, height: 5)
         button.layer.shadowOpacity = 0.2
     }
     
     func style(view: UIView){
-        view.layer.shadowColor = UIColor.hexToRGB(hex: "626262")?.cgColor
+        view.layer.shadowColor = UIColor(hex: "626262").cgColor
         view.layer.shadowOpacity = 0.3
         view.layer.shadowPath = CGPath(rect: CGRect(x: view.bounds.origin.x + 10, y: view.bounds.origin.y + 10, width: view.bounds.width - 20, height: view.bounds.height), transform: nil)
     }
