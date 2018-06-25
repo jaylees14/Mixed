@@ -17,6 +17,9 @@
         <array key="Comfortaa-Light.ttf">
             <string>Comfortaa-Light</string>
         </array>
+        <array key="Comfortaa-Regular.ttf">
+            <string>Comfortaa-Regular</string>
+        </array>
         <array key="opensans-bold.ttf">
             <string>OpenSans-Bold</string>
         </array>
@@ -392,18 +395,47 @@ parties and events.</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="817"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add your name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LAt-9l-VFg">
+                                <rect key="frame" x="40" y="361" width="295" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ECf-9D-hrE"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="26"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0GA-yt-Jey" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
+                                <rect key="frame" x="91" y="720" width="192" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="DTV-S0-cjs"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="192" id="VZe-qp-tPX"/>
+                                </constraints>
+                                <state key="normal" title="CONTINUE"/>
+                                <connections>
+                                    <action selector="continueTapped:" destination="3pd-Bd-c8y" eventType="touchUpInside" id="g5S-PX-mdp"/>
+                                    <action selector="startPartyTapped:" destination="Bws-5Z-WpY" eventType="touchUpInside" id="8Wi-JX-a9S"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="l3X-he-YS5" firstAttribute="height" secondItem="iUi-Qe-WJc" secondAttribute="height" constant="5" id="2Dl-Xs-LOj"/>
+                            <constraint firstItem="LAt-9l-VFg" firstAttribute="centerX" secondItem="221-iE-jqq" secondAttribute="centerX" id="BqW-mW-UUh"/>
                             <constraint firstItem="l3X-he-YS5" firstAttribute="centerY" secondItem="221-iE-jqq" secondAttribute="centerY" constant="-2.5" id="Grr-ex-wsU"/>
+                            <constraint firstItem="221-iE-jqq" firstAttribute="trailing" secondItem="LAt-9l-VFg" secondAttribute="trailing" constant="40" id="HGO-fm-A3i"/>
                             <constraint firstItem="l3X-he-YS5" firstAttribute="centerX" secondItem="221-iE-jqq" secondAttribute="centerX" id="QK7-0Z-wPX"/>
+                            <constraint firstItem="LAt-9l-VFg" firstAttribute="leading" secondItem="221-iE-jqq" secondAttribute="leading" constant="40" id="S2U-bh-0Rs"/>
+                            <constraint firstItem="221-iE-jqq" firstAttribute="bottom" secondItem="0GA-yt-Jey" secondAttribute="bottom" constant="8" id="WsW-T8-25U"/>
+                            <constraint firstItem="LAt-9l-VFg" firstAttribute="centerY" secondItem="221-iE-jqq" secondAttribute="centerY" constant="-25" id="cdf-FX-Sq4"/>
                             <constraint firstItem="l3X-he-YS5" firstAttribute="width" secondItem="iUi-Qe-WJc" secondAttribute="width" id="hEg-zZ-ivq"/>
+                            <constraint firstItem="0GA-yt-Jey" firstAttribute="centerX" secondItem="221-iE-jqq" secondAttribute="centerX" id="xaY-Ne-uhC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="221-iE-jqq"/>
                     </view>
                     <connections>
                         <outlet property="backgroundView" destination="l3X-he-YS5" id="vDJ-7W-ggC"/>
+                        <outlet property="nameTextField" destination="LAt-9l-VFg" id="sHa-3o-tI3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bma-P9-NY9" userLabel="First Responder" sceneMemberID="firstResponder"/>

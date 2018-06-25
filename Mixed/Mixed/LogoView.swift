@@ -15,7 +15,7 @@ class LogoView: UIView {
     private var scaledWidth: CGFloat
     private var logoLayer: CAShapeLayer
     
-    init(center: CGPoint, scale: CGFloat) {
+    init(center: CGPoint, scale: CGFloat, isHidden: Bool) {
         self.scaledHeight = scale * height
         self.scaledWidth = scale * width
 
@@ -29,7 +29,7 @@ class LogoView: UIView {
         logoLayer = CAShapeLayer()
         logoLayer.path = path.cgPath
         logoLayer.strokeColor = UIColor.white.cgColor
-        logoLayer.strokeEnd = 0.0
+        logoLayer.strokeEnd = isHidden ? 0.0 : 1.0
         logoLayer.fillColor = UIColor.clear.cgColor
         logoLayer.lineCap = kCALineCapRound
         logoLayer.lineJoin = kCALineJoinRound
