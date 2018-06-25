@@ -23,7 +23,7 @@ class MixedButton: UIButton {
         self.layer.cornerRadius = 5
         self.layer.borderColor = UIColor.mixedPrimaryBlue.cgColor
         self.layer.borderWidth = 1
-        self.titleLabel?.font = UIFont.mixedFont(size: 18, weight: .bold)
+        self.titleLabel?.font = UIFont.mixedFont(size: 17, weight: .bold)
         self.setTitleColor(UIColor.mixedPrimaryBlue, for: .normal)
     }
 }

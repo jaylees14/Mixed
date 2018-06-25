@@ -32,7 +32,7 @@ extension UIColor {
     }
     
     public class var mixedSecondaryBlue: UIColor {
-        return self.init(hex: "#0B132B3C")
+        return self.init(hex: "#0B132B99")
     }
     
     /// Initalise a UIColor from a hex string formatted as RRGGBB or RRGGBBAA, with or without a leading #
