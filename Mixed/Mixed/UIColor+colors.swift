@@ -9,17 +9,30 @@
 import Foundation
 import UIKit
 
-extension UIColor {    
+extension UIColor {
+
+    @available(*, deprecated, message: "Use mixedPrimaryBlue instead")
     public class var mixedBlue: UIColor {
         return self.init(hex: "313357")
     }
     
+    @available(*, deprecated, message: "Use new color scheme instead")
     public class var mixedRed: UIColor {
         return self.init(hex: "D7445C")
     }
     
+    @available(*, deprecated, message: "Use new color scheme instead")
     public class var mixedDirtyWhite: UIColor {
         return self.init(hex: "F1F1F1")
+    }
+    
+    
+    public class var mixedPrimaryBlue: UIColor {
+        return self.init(hex: "#0B132BFF")
+    }
+    
+    public class var mixedSecondaryBlue: UIColor {
+        return self.init(hex: "#0B132B3C")
     }
     
     /// Initalise a UIColor from a hex string formatted as RRGGBB or RRGGBBAA, with or without a leading #

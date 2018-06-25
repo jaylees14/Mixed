@@ -25,7 +25,7 @@ class OpeningViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        logo = LogoView(center: view.center, scale: 1, isHidden: true)
+        logo = LogoView(center: view.center, scale: 1, isInitiallyHidden: true)
         view.addSubview(logo)
         
         gradient = MixedGradient(in: self.backgroundView.frame)

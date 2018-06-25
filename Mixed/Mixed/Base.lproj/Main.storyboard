@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Bws-5Z-WpY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qPQ-qI-zpd">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -436,11 +436,63 @@ parties and events.</string>
                     <connections>
                         <outlet property="backgroundView" destination="l3X-he-YS5" id="vDJ-7W-ggC"/>
                         <outlet property="nameTextField" destination="LAt-9l-VFg" id="sHa-3o-tI3"/>
+                        <segue destination="qPQ-qI-zpd" kind="show" identifier="toMainMenu" id="x8h-xB-9ri"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bma-P9-NY9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="200.80000000000001" y="2463.5467980295566"/>
+        </scene>
+        <!--Main Menu View Controller-->
+        <scene sceneID="Owk-PN-LzX">
+            <objects>
+                <viewController id="qPQ-qI-zpd" customClass="MainMenuViewController" customModule="Mixed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qae-BZ-87x">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rhu-9U-JNt" customClass="MixedButton" customModule="Mixed" customModuleProvider="target">
+                                <rect key="frame" x="36" y="180" width="302" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="JBw-bZ-9BD"/>
+                                </constraints>
+                                <state key="normal" title="Join Party"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcn-MT-0m4" customClass="MixedButton" customModule="Mixed" customModuleProvider="target">
+                                <rect key="frame" x="36" y="634" width="302" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="i3s-1f-t64"/>
+                                </constraints>
+                                <state key="normal" title="Start Party with Spotify"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYe-Qv-gPn" customClass="MixedButton" customModule="Mixed" customModuleProvider="target">
+                                <rect key="frame" x="36" y="701" width="302" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="cxQ-Ce-bh0"/>
+                                </constraints>
+                                <state key="normal" title="Start Party with Apple Music"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="zYe-Qv-gPn" firstAttribute="width" secondItem="vcn-MT-0m4" secondAttribute="width" id="2yW-xp-zd2"/>
+                            <constraint firstItem="zYe-Qv-gPn" firstAttribute="centerX" secondItem="VI3-hg-ZHR" secondAttribute="centerX" id="9es-uu-m0f"/>
+                            <constraint firstItem="Rhu-9U-JNt" firstAttribute="centerX" secondItem="VI3-hg-ZHR" secondAttribute="centerX" id="DDH-yX-wQg"/>
+                            <constraint firstItem="Rhu-9U-JNt" firstAttribute="top" secondItem="VI3-hg-ZHR" secondAttribute="top" constant="136" id="HXX-bm-vDR"/>
+                            <constraint firstItem="vcn-MT-0m4" firstAttribute="leading" secondItem="VI3-hg-ZHR" secondAttribute="leading" constant="36" id="Hlz-9z-HLt"/>
+                            <constraint firstItem="zYe-Qv-gPn" firstAttribute="leading" secondItem="VI3-hg-ZHR" secondAttribute="leading" constant="36" id="LMS-PI-v1i"/>
+                            <constraint firstItem="vcn-MT-0m4" firstAttribute="centerX" secondItem="VI3-hg-ZHR" secondAttribute="centerX" id="R1I-du-ztV"/>
+                            <constraint firstItem="Rhu-9U-JNt" firstAttribute="leading" secondItem="VI3-hg-ZHR" secondAttribute="leading" constant="36" id="UdW-AB-gvD"/>
+                            <constraint firstItem="VI3-hg-ZHR" firstAttribute="bottom" secondItem="zYe-Qv-gPn" secondAttribute="bottom" constant="22" id="XJO-uu-z9L"/>
+                            <constraint firstItem="zYe-Qv-gPn" firstAttribute="width" secondItem="Rhu-9U-JNt" secondAttribute="width" id="cwO-96-TVi"/>
+                            <constraint firstItem="zYe-Qv-gPn" firstAttribute="top" secondItem="vcn-MT-0m4" secondAttribute="bottom" constant="12" id="pJ4-gz-1l4"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VI3-hg-ZHR"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IND-fG-tsn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1495.2" y="2463.5467980295566"/>
         </scene>
         <!--Beer Onboarding View Controller-->
         <scene sceneID="f0q-Zp-QgC">
@@ -1413,7 +1465,7 @@ parties and events.</string>
         <image name="tapCircle" width="125" height="123"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sbD-tz-Pid"/>
+        <segue reference="LV4-kS-V9t"/>
         <segue reference="DFr-m5-YDJ"/>
     </inferredMetricsTieBreakers>
 </document>

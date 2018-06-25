@@ -11,20 +11,25 @@ import UIKit
 
 class SoundWave: UIView {
     
-    var waveLayer: CAShapeLayer!
-    
-    init(x: CGFloat, y: CGFloat, width: CGFloat) {
-        super.init(frame: CGRect(x: x, y: y, width: width, height: 150))
-        let path = getPath()
-        
+    private let waveLayer: CAShapeLayer
+
+    init(origin: CGPoint, width: CGFloat) {
         waveLayer = CAShapeLayer()
+        super.init(frame: CGRect(x: origin.x, y: origin.y, width: width, height: 150))
+        
+        let path = getPath()
         waveLayer.path = path.cgPath
         waveLayer.fillColor = UIColor.clear.cgColor
-        waveLayer.strokeColor = UIColor.mixedRed.cgColor
+        waveLayer.strokeColor = UIColor.red.cgColor
         waveLayer.lineWidth = 3.0
         waveLayer.strokeEnd = 0.0
         waveLayer.lineJoin = kCALineJoinRound
-        layer.addSublayer(waveLayer)
+        
+        
+        let gradient = MixedGradient(in: CGRect(origin: .zero, size: CGSize(width: width, height: 175)))
+        gradient.mask = waveLayer
+        layer.addSublayer(gradient)
+        gradient.animate()
     }
     
     required init?(coder aDecoder: NSCoder) {

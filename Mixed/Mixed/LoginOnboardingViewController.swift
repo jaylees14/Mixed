@@ -26,7 +26,7 @@ class LoginOnboardingViewController: MixedViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        let waves = SoundWave(x: 0, y: 0, width: waveView.frame.width)
+        let waves = SoundWave(origin: CGPoint(x: 0, y: 0), width: waveView.frame.width)
         waveView.addSubview(waves)
         waves.animate(duration: 2)
     }

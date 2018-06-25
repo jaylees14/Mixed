@@ -31,7 +31,7 @@ class NameViewController: UIViewController {
         let lineView = LineView(frame: CGRect(x: nameTextField.frame.origin.x, y: nameTextField.frame.origin.y + nameTextField.frame.height - 5, width: nameTextField.frame.width, height: 3))
         view.addSubview(lineView)
         
-        let logo = LogoView(center: CGPoint(x: view.center.x, y: 100), scale: 1, isHidden: false)
+        let logo = LogoView(center: CGPoint(x: view.center.x, y: 100), scale: 1, isInitiallyHidden: false)
         view.addSubview(logo)
     }
     
@@ -46,6 +46,7 @@ class NameViewController: UIViewController {
         }
         
         print("Proceeding with name: \(name)")
+        self.performSegue(withIdentifier: "toMainMenu", sender: self)
     }
     
     

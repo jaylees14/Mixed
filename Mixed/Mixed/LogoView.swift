@@ -15,7 +15,7 @@ class LogoView: UIView {
     private var scaledWidth: CGFloat
     private var logoLayer: CAShapeLayer
     
-    init(center: CGPoint, scale: CGFloat, isHidden: Bool) {
+    init(center: CGPoint, scale: CGFloat, isInitiallyHidden: Bool, backgroundGradient: Bool = false) {
         self.scaledHeight = scale * height
         self.scaledWidth = scale * width
 
@@ -29,7 +29,7 @@ class LogoView: UIView {
         logoLayer = CAShapeLayer()
         logoLayer.path = path.cgPath
         logoLayer.strokeColor = UIColor.white.cgColor
-        logoLayer.strokeEnd = isHidden ? 0.0 : 1.0
+        logoLayer.strokeEnd = isInitiallyHidden ? 0.0 : 1.0
         logoLayer.fillColor = UIColor.clear.cgColor
         logoLayer.lineCap = kCALineCapRound
         logoLayer.lineJoin = kCALineJoinRound
@@ -40,7 +40,15 @@ class LogoView: UIView {
                                  width: scaledWidth,
                                  height: scaledHeight))
 
-        self.layer.addSublayer(logoLayer)
+        if backgroundGradient {
+            let gradient = MixedGradient(in: CGRect(origin: CGPoint(x: -50, y: -50),
+                                                    size: CGSize(width: scaledWidth + 100, height: scaledHeight + 100)))
+            gradient.mask = logoLayer
+            layer.addSublayer(gradient)
+            gradient.animate()
+        } else {
+            self.layer.addSublayer(logoLayer)
+        }
     }
     
     public func animate(duration: Double, then callback: (() -> Void)? = nil) {
