@@ -554,7 +554,7 @@ parties and events.</string>
                                 </constraints>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="oJS-td-CKQ">
-                                <rect key="frame" x="0.0" y="552" width="375" height="260"/>
+                                <rect key="frame" x="0.0" y="544" width="375" height="268"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="65" id="Gqo-fA-rdO" customClass="SongTableViewCell" customModule="Mixed" customModuleProvider="target">
@@ -621,7 +621,7 @@ parties and events.</string>
                             <constraint firstItem="u9l-qT-C9f" firstAttribute="top" secondItem="cnU-DA-LPF" secondAttribute="bottom" constant="32" id="cYU-t7-OMj"/>
                             <constraint firstItem="24G-Vt-gZr" firstAttribute="top" secondItem="uIH-7y-cwW" secondAttribute="top" constant="12" id="f9b-yO-86W"/>
                             <constraint firstItem="b94-zO-7GD" firstAttribute="centerX" secondItem="uIH-7y-cwW" secondAttribute="centerX" id="gam-W9-PNL"/>
-                            <constraint firstItem="oJS-td-CKQ" firstAttribute="top" secondItem="uIH-7y-cwW" secondAttribute="top" constant="508" id="jp0-Kc-9YO"/>
+                            <constraint firstItem="oJS-td-CKQ" firstAttribute="top" secondItem="uIH-7y-cwW" secondAttribute="top" constant="500" id="jp0-Kc-9YO"/>
                             <constraint firstItem="oJS-td-CKQ" firstAttribute="centerX" secondItem="uIH-7y-cwW" secondAttribute="centerX" id="oiM-T2-RuB"/>
                             <constraint firstItem="cnU-DA-LPF" firstAttribute="top" secondItem="uIH-7y-cwW" secondAttribute="top" constant="80" id="pEd-Tp-UCc"/>
                             <constraint firstItem="u9l-qT-C9f" firstAttribute="centerX" secondItem="uIH-7y-cwW" secondAttribute="centerX" id="uoT-yb-r3l"/>
