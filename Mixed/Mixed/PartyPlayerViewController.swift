@@ -8,12 +8,19 @@
 
 import UIKit
 
-public enum PlayerViewState {
-    case full
-    case condensed
-}
+
 
 class PartyPlayerViewController: UIViewController {
+    fileprivate enum PlayerViewState {
+        case full
+        case condensed
+    }
+    
+    fileprivate enum PlayerType {
+        case host
+        case attendee
+    }
+    
     @IBOutlet weak var discView: DiscView!
     @IBOutlet weak var partyTitle: UILabel!
     @IBOutlet weak var nowPlayingSong: UILabel!
@@ -27,12 +34,13 @@ class PartyPlayerViewController: UIViewController {
     private var lastContentOffset: CGFloat = 0
     private var forwardAnimator: UIViewPropertyAnimator?
     private var backwardAnimator: UIViewPropertyAnimator?
+    private var playerType: PlayerType = .host
     private var playerViewState: PlayerViewState! {
         didSet {
             upcomingTableView.isScrollEnabled = playerViewState == .condensed
         }
     }
-    
+
     override func viewDidLoad() {
         partyTitle.text = "Really long name's Party"
         nowPlayingSong.text = "A very long song name by someone"
@@ -44,16 +52,24 @@ class PartyPlayerViewController: UIViewController {
         
         upcomingTableView.dataSource = self
         upcomingTableView.delegate = self
+        upcomingTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         playerViewState = .full
+        
+        if playerType == .host {
+            leftButton.setBackgroundImage(#imageLiteral(resourceName: "add"), for: .normal)
+            centerButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
+            rightButton.setBackgroundImage(#imageLiteral(resourceName: "next"), for: .normal)
+            [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
+        }
         
 
         let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(userDidSwipe))
         self.view.addGestureRecognizer(panGestureRecogniser)
     }
     
-    
-    
     override func viewDidAppear(_ animated: Bool) {
+        // Fix a bug where the disc view would be correctly sized on first load
+        discView.resize(to: discView.frame)
         discView.startRotating()
         Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (_) in
             self.discView.updateArtwork(image: #imageLiteral(resourceName: "gradient"))
@@ -69,8 +85,8 @@ extension PartyPlayerViewController {
         let minToComplete = 200.0
     
         let translation = sender.translation(in: self.view)
-        let verticalPan = abs(Double(translation.y))
-        let percentageComplete = CGFloat((verticalPan - minSwipeDistance) / minToComplete) // convert the amount of "swipe" to a percentage
+        let verticalPan = Double(translation.y)
+        let percentageComplete = CGFloat((abs(verticalPan) - minSwipeDistance) / minToComplete) // convert the amount of "swipe" to a percentage
         
         switch sender.state {
         case .began:
@@ -88,14 +104,15 @@ extension PartyPlayerViewController {
                 forwardAnimator?.addCompletion({ _ in
                     self.playerViewState = .condensed
                 })
+                forwardAnimator?.isUserInteractionEnabled = true
             } else {
                 backwardAnimator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
                     let viewHeight = self.view.frame.height
                     let viewCenterX = self.view.center.x
                     let safeAreaTop: CGFloat = self.view.safeAreaInsets.top
                 
-                    self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 500 + safeAreaTop)
-                    self.upcomingTableView.frame.size = CGSize(width: self.upcomingTableView.frame.width, height: self.view.frame.height - (500 + safeAreaTop))
+                    self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 550 + safeAreaTop)
+                    self.upcomingTableView.frame.size = CGSize(width: self.upcomingTableView.frame.width, height: self.view.frame.height - (550 + safeAreaTop))
                     self.discView.resize(to: CGRect(x: viewCenterX - ((viewHeight * 0.25) / 2) , y: 80 + safeAreaTop, width: viewHeight * 0.25, height: viewHeight * 0.25 ))
                     self.nowPlayingSong.frame.origin = CGPoint(x: viewCenterX - (self.nowPlayingSong.frame.width / 2), y: self.discView.frame.maxY + 32)
                     self.nowPlayingArtist.frame.origin = CGPoint(x:viewCenterX - (self.nowPlayingArtist.frame.width / 2), y: self.nowPlayingSong.frame.maxY + 8)
@@ -106,18 +123,23 @@ extension PartyPlayerViewController {
                 backwardAnimator?.addCompletion({ _ in
                     self.playerViewState = .full
                 })
+                backwardAnimator?.isUserInteractionEnabled = true
             }
         case .changed:
-            if verticalPan >= minSwipeDistance {
-                if playerViewState == .full {
-                    forwardAnimator?.fractionComplete = percentageComplete
-                } else {
-                    backwardAnimator?.fractionComplete = percentageComplete
-                }
+            // Vertical pan is -ve when swiping up, +ve when swiping down
+            let dampeningFactor: CGFloat = 0.5
+            
+            if verticalPan < 0 && verticalPan <= -minSwipeDistance && playerViewState == .full {
+                forwardAnimator?.fractionComplete = percentageComplete * dampeningFactor
+            } else if verticalPan > 0 && verticalPan >= minSwipeDistance && playerViewState == .condensed {
+                backwardAnimator?.fractionComplete = percentageComplete * dampeningFactor
             }
         case .ended, .cancelled:
-            forwardAnimator?.startAnimation()
-            backwardAnimator?.startAnimation()
+            if playerViewState == .full {
+                forwardAnimator?.startAnimation()
+            } else if playerViewState == .condensed {
+                backwardAnimator?.startAnimation()
+            }
         default:
             break
         }
@@ -150,6 +172,9 @@ extension PartyPlayerViewController: UITableViewDataSource, UITableViewDelegate 
         title.font = UIFont.mixedFont(size: 18)
         view.addSubview(title)
         view.backgroundColor = .white
+        view.layer.shadowColor = UIColor.lightGray.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: -5)
+        view.layer.shadowOpacity = 0.3
         
         return view
     }

@@ -26,18 +26,17 @@ class DiscView: UIView {
     
     private func style(){
         self.layer.cornerRadius = self.frame.height / 2
-        self.backgroundColor = UIColor.black
         self.layer.shadowRadius = 20
         self.layer.shadowOffset = CGSize(width: 0, height: 0)
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOpacity = 0.7
+        self.backgroundColor = .clear
         
         // Add image view
         imageView = UIImageView(frame: CGRect(origin: .zero, size: self.frame.size))
         imageView.layer.cornerRadius = self.frame.height / 2
         imageView.clipsToBounds = true
         self.addSubview(imageView)
-        
         
         // Add white circle in middle
         let width = self.frame.width * 0.15
