@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NgI-rj-Kby">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="u3B-7g-kA4">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -644,6 +644,67 @@ parties and events.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mwR-bf-TVe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2309.5999999999999" y="2462.807881773399"/>
+        </scene>
+        <!--Song Search View Controller-->
+        <scene sceneID="vqB-AX-3gb">
+            <objects>
+                <viewController id="u3B-7g-kA4" customClass="SongSearchViewController" customModule="Mixed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AGi-U0-8tS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v5S-bj-wJq">
+                                <rect key="frame" x="16" y="221" width="343" height="537"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recentSearchCell" rowHeight="51" id="PFN-DE-duj" customClass="RecentSearchTableViewCell" customModule="Mixed" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="51"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PFN-DE-duj" id="Qwy-m4-hic">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="50.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Panic! at the Disco" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="New-mb-gmO">
+                                                    <rect key="frame" x="15" y="10.000000000000002" width="313" height="30.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="New-mb-gmO" firstAttribute="centerY" secondItem="Qwy-m4-hic" secondAttribute="centerY" id="BuZ-8P-Jxe"/>
+                                                <constraint firstItem="New-mb-gmO" firstAttribute="leading" secondItem="Qwy-m4-hic" secondAttribute="leading" constant="15" id="arH-ZE-fhi"/>
+                                                <constraint firstItem="New-mb-gmO" firstAttribute="centerX" secondItem="Qwy-m4-hic" secondAttribute="centerX" id="dTc-Jp-eVG"/>
+                                                <constraint firstItem="New-mb-gmO" firstAttribute="top" secondItem="Qwy-m4-hic" secondAttribute="top" constant="10" id="wDL-0z-NYh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="title" destination="New-mb-gmO" id="Cua-3F-ITJ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="blah" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KYn-xe-jd9" customClass="SongSearchField" customModule="Mixed" customModuleProvider="target">
+                                <rect key="frame" x="24" y="107" width="327" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.24625651041666666" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Wsn-gz-AhC"/>
+                    </view>
+                    <connections>
+                        <outlet property="searchField" destination="KYn-xe-jd9" id="3Bp-JQ-TER"/>
+                        <outlet property="tableView" destination="v5S-bj-wJq" id="XIt-76-hcS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v2R-Gp-kTR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3053.5999999999999" y="2472.4137931034484"/>
         </scene>
         <!--Beer Onboarding View Controller-->
         <scene sceneID="f0q-Zp-QgC">
@@ -1609,9 +1670,9 @@ parties and events.</string>
         <image name="beer" width="762" height="879"/>
         <image name="facebook" width="16" height="32"/>
         <image name="hand" width="424" height="394"/>
-        <image name="next" width="47" height="34"/>
+        <image name="next" width="200" height="166"/>
         <image name="phone" width="480" height="628"/>
-        <image name="play" width="34" height="40"/>
+        <image name="play" width="200" height="233"/>
         <image name="speaker" width="713" height="802"/>
         <image name="tapCircle" width="125" height="123"/>
     </resources>

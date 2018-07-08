@@ -56,7 +56,7 @@ class PartyPlayerViewController: UIViewController {
         playerViewState = .full
         
         if playerType == .host {
-            leftButton.setBackgroundImage(#imageLiteral(resourceName: "add"), for: .normal)
+            leftButton.setBackgroundImage(#imageLiteral(resourceName: "plus"), for: .normal)
             centerButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
             rightButton.setBackgroundImage(#imageLiteral(resourceName: "next"), for: .normal)
             [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
