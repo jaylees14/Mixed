@@ -8,6 +8,21 @@
 
 import UIKit
 
+class FadeInPushSegue: UIStoryboardSegue {
+    override func perform() {
+        let sourceViewController = self.source
+        let destinationViewController = self.destination
+            
+        let transition = CATransition()
+            
+        transition.type = kCATransitionFade;
+        transition.duration = 0.75
+        sourceViewController.view.window?.layer.add(transition, forKey: "kCATransition")
+        sourceViewController.present(destinationViewController, animated: false, completion: nil)
+        //sourceViewController.navigationController?.pushViewController(destinationViewController, animated: false)
+    }
+}
+
 class OpeningViewController: UIViewController {
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var mixedLabel: UILabel!
@@ -62,7 +77,15 @@ class OpeningViewController: UIViewController {
     
     // MARK: - Button Actions
     @IBAction func startPartyTapped(_ sender: Any) {
-        self.performSegue(withIdentifier: "toNameInput", sender: self)
+        UIView.animate(withDuration: 1.5, animations: {
+            self.mixedLabel.alpha = 0
+            self.subtitleLabel.alpha = 0
+            self.logo.center.y = 100
+        }, completion: { (_) in
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
+                self.performSegue(withIdentifier: "toNameInput", sender: self)
+            })
+        })
     }
     
     // MARK: - Prepare for Segue
@@ -73,5 +96,6 @@ class OpeningViewController: UIViewController {
             }
             destination.gradient = gradient
         }
+        segue
     }
 }

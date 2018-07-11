@@ -12,16 +12,56 @@ class SongSearchViewController: UIViewController {
 
     @IBOutlet weak var searchField: SongSearchField!
     @IBOutlet weak var tableView: UITableView!
-    let fakeData = ["Panic at the Disco", "Ed Sheeran", "Divide", "Happy", "Birthday"]
+    var recentSearches: [String] = []
+    var suggested: [String] = []
+    var searchResults: [String] = []
+    var shouldDisplaySearchResults = false
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
+        
+        // Demo Data
+        recentSearches = ["Panic at the Disco", "Ed Sheeran", "Divide", "Happy", "Birthday"]
+        suggested = ["ABC", "DEF", "GEH"]
+        searchResults = []
+        
+        searchField.searchDelegate = self
+        
+        let tapRecogniser = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapRecogniser)
+    }
+    
+    @objc private func dismissKeyboard(){
+        self.searchField.resignFirstResponder()
     }
 }
 
+// MARK: - SongSearchDelegate
+extension SongSearchViewController: SongSearchDelegate {
+    func didRequestSearch(with text: String) {
+        print("Did request search \(text)")
+    }
+    
+    func didStartSearching() {
+        shouldDisplaySearchResults = true
+        tableView.reloadData()
+    }
+    
+    func didCancelSearch() {
+        print("CANCEL")
+        shouldDisplaySearchResults = false
+        tableView.reloadData()
+    }
+    
+    
+}
+
+// MARK: - TableView Delegate & Data Source
 extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -43,13 +83,17 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     fileprivate func title(for section: Int) -> String {
-        switch section {
-        case 0:
-            return "Recent Searches"
-        case 1:
-            return "Suggested"
-        default:
-            return ""
+        if shouldDisplaySearchResults {
+            return searchResults.count > 0 ? "Results" : ""
+        } else {
+            switch section {
+            case 0:
+                return "Recent Searches"
+            case 1:
+                return "Suggested"
+            default:
+                return ""
+            }
         }
     }
     
@@ -62,18 +106,40 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        if shouldDisplaySearchResults {
+            return searchResults.count
+        } else if section == 0 {
+            return recentSearches.count
+        } else if section == 1 {
+            return suggested.count
+        }
+        
+        return 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return shouldDisplaySearchResults ? 1 : 2
     }
     
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // TODO: Will probably need to interate on the cell, based on the type of result?
         let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearchCell", for: indexPath) as! RecentSearchTableViewCell
         
-        cell.title.text = fakeData[indexPath.row]
+        let cellText: String
+        if shouldDisplaySearchResults {
+            cellText = searchResults[indexPath.row]
+        } else if indexPath.section == 0 {
+            cellText = recentSearches[indexPath.row]
+        } else if indexPath.section == 1 {
+            cellText = suggested[indexPath.row]
+        } else {
+            cellText = ""
+        }
+        
+        cell.title.text = cellText
+        
         return cell
         
     }

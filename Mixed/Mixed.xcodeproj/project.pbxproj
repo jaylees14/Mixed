@@ -256,9 +256,9 @@
 		6981CEE120F28D6500B4A6D6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6979D99C20CA43C5000F6502 /* OpeningViewController.swift */,
 				6915F08B20D52C590025A072 /* NameViewController.swift */,
 				69181E2520E10E4D00C37FB9 /* MainMenuViewController.swift */,
-				6979D99C20CA43C5000F6502 /* OpeningViewController.swift */,
 				69181E2720E13BA900C37FB9 /* PartyPlayerViewController.swift */,
 				69670CC820E3F19300AC6E06 /* SongSearchViewController.swift */,
 			);

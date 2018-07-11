@@ -25,6 +25,11 @@ class NameViewController: UIViewController {
         let placeholder = NSAttributedString(string: "Add your name...",
                                              attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)])
         self.nameTextField.attributedPlaceholder = placeholder
+        self.nameTextField.returnKeyType = .go
+        self.nameTextField.delegate = self
+        
+        let tapRecogniser = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapRecogniser)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +43,10 @@ class NameViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    @objc private func dismissKeyboard(){
+        self.nameTextField.resignFirstResponder()
+    }
 
     @IBAction func continueTapped(_ sender: Any) {
         guard let name = nameTextField.text, name.count >= 2 else {
@@ -48,6 +57,11 @@ class NameViewController: UIViewController {
         print("Proceeding with name: \(name)")
         self.performSegue(withIdentifier: "toMainMenu", sender: self)
     }
-    
-    
+}
+
+extension NameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.continueTapped(self)
+        return true
+    }
 }

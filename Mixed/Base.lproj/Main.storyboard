@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="u3B-7g-kA4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Bws-5Z-WpY">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -376,7 +376,7 @@ parties and events.</string>
                         <outlet property="mixedLabel" destination="v6A-Ua-zH5" id="u7w-4p-YWA"/>
                         <outlet property="startPartyButton" destination="juS-8C-rvV" id="Ro3-zq-pwK"/>
                         <outlet property="subtitleLabel" destination="I97-Ko-lgK" id="YxD-aT-hMa"/>
-                        <segue destination="3pd-Bd-c8y" kind="show" identifier="toNameInput" id="yA2-Ck-843"/>
+                        <segue destination="3pd-Bd-c8y" kind="custom" identifier="toNameInput" customClass="FadeInPushSegue" customModule="Mixed" customModuleProvider="target" id="yA2-Ck-843"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f6h-5g-p2t" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -403,7 +403,7 @@ parties and events.</string>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="26"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0GA-yt-Jey" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
                                 <rect key="frame" x="91.666666666666686" y="720" width="192" height="50"/>
@@ -693,8 +693,29 @@ parties and events.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HAq-6u-7vj">
+                                <rect key="frame" x="151" y="56" width="73" height="23"/>
+                                <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cyc-2h-4sx">
+                                <rect key="frame" x="16" y="44" width="50" height="50"/>
+                                <color key="backgroundColor" white="0.18519422743055555" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="DIH-GR-bdm"/>
+                                    <constraint firstAttribute="height" constant="50" id="mOm-bs-NWv"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="HAq-6u-7vj" firstAttribute="top" secondItem="Wsn-gz-AhC" secondAttribute="top" constant="12" id="XR1-VY-RGF"/>
+                            <constraint firstItem="cyc-2h-4sx" firstAttribute="top" secondItem="Wsn-gz-AhC" secondAttribute="top" id="dOJ-z9-vWf"/>
+                            <constraint firstItem="HAq-6u-7vj" firstAttribute="centerX" secondItem="Wsn-gz-AhC" secondAttribute="centerX" id="p47-bb-sRc"/>
+                            <constraint firstItem="cyc-2h-4sx" firstAttribute="leading" secondItem="Wsn-gz-AhC" secondAttribute="leading" constant="16" id="v73-MM-8ff"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Wsn-gz-AhC"/>
                     </view>
                     <connections>
