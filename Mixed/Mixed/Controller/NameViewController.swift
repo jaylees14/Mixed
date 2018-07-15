@@ -32,11 +32,12 @@ class NameViewController: UIViewController {
         view.addGestureRecognizer(tapRecogniser)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         let lineView = LineView(frame: CGRect(x: nameTextField.frame.origin.x, y: nameTextField.frame.origin.y + nameTextField.frame.height - 5, width: nameTextField.frame.width, height: 3))
         view.addSubview(lineView)
         
-        let logo = LogoView(center: CGPoint(x: view.center.x, y: 100), scale: 1, isInitiallyHidden: false)
+        let safeAreaTop = view.safeAreaInsets.top
+        let logo = LogoView(center: CGPoint(x: view.center.x, y: safeAreaTop + 65), scale: 1, isInitiallyHidden: false)
         view.addSubview(logo)
     }
     

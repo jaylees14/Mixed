@@ -80,7 +80,7 @@ class OpeningViewController: UIViewController {
         UIView.animate(withDuration: 1.5, animations: {
             self.mixedLabel.alpha = 0
             self.subtitleLabel.alpha = 0
-            self.logo.center.y = 100
+            self.logo.center.y = self.view.safeAreaInsets.top + 65
         }, completion: { (_) in
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
                 self.performSegue(withIdentifier: "toNameInput", sender: self)
@@ -96,6 +96,5 @@ class OpeningViewController: UIViewController {
             }
             destination.gradient = gradient
         }
-        segue
     }
 }
