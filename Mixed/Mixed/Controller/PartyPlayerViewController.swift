@@ -30,16 +30,13 @@ class PartyPlayerViewController: UIViewController {
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var upcomingTableView: UITableView!
     @IBOutlet weak var tableViewToTop: NSLayoutConstraint!
+    @IBOutlet weak var centerButtonHeight: NSLayoutConstraint!
     
     private var lastContentOffset: CGFloat = 0
     private var forwardAnimator: UIViewPropertyAnimator?
     private var backwardAnimator: UIViewPropertyAnimator?
-    private var playerType: PlayerType = .host
-    private var playerViewState: PlayerViewState! {
-        didSet {
-            upcomingTableView.isScrollEnabled = playerViewState == .condensed
-        }
-    }
+    private var playerType: PlayerType = .attendee
+    private var playerViewState: PlayerViewState!
 
     override func viewDidLoad() {
         partyTitle.text = "Really long name's Party"
@@ -53,14 +50,21 @@ class PartyPlayerViewController: UIViewController {
         upcomingTableView.dataSource = self
         upcomingTableView.delegate = self
         upcomingTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        upcomingTableView.isScrollEnabled = false
         playerViewState = .full
         
         if playerType == .host {
             leftButton.setBackgroundImage(#imageLiteral(resourceName: "plus"), for: .normal)
             centerButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
             rightButton.setBackgroundImage(#imageLiteral(resourceName: "next"), for: .normal)
-            [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
+            
+        } else {
+            leftButton.isHidden = true
+            rightButton.isHidden = true
+            centerButton.setBackgroundImage(#imageLiteral(resourceName: "plus"), for: .normal)
+            centerButtonHeight.constant = 45
         }
+        [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
         
 
         let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(userDidSwipe))
@@ -111,8 +115,8 @@ extension PartyPlayerViewController {
                     let viewCenterX = self.view.center.x
                     let safeAreaTop: CGFloat = self.view.safeAreaInsets.top
                 
-                    self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 550 + safeAreaTop)
-                    self.upcomingTableView.frame.size = CGSize(width: self.upcomingTableView.frame.width, height: self.view.frame.height - (550 + safeAreaTop))
+                    self.upcomingTableView.frame.origin = CGPoint(x: 0, y: viewHeight - 130)
+                    self.upcomingTableView.frame.size = CGSize(width: self.upcomingTableView.frame.width, height: 130)
                     self.discView.resize(to: CGRect(x: viewCenterX - ((viewHeight * 0.25) / 2) , y: 80 + safeAreaTop, width: viewHeight * 0.25, height: viewHeight * 0.25 ))
                     self.nowPlayingSong.frame.origin = CGPoint(x: viewCenterX - (self.nowPlayingSong.frame.width / 2), y: self.discView.frame.maxY + 32)
                     self.nowPlayingArtist.frame.origin = CGPoint(x:viewCenterX - (self.nowPlayingArtist.frame.width / 2), y: self.nowPlayingSong.frame.maxY + 8)
