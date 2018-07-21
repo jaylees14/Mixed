@@ -20,12 +20,14 @@ class SongSearchField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.delegate = self
+        self.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         style()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.delegate = self
+        self.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         style()
     }
     
@@ -52,15 +54,12 @@ class SongSearchField: UITextField {
 
 // MARK: - UITextFieldDelegate
 extension SongSearchField: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchDelegate?.didStartSearching()
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = textField.text else {
             return false
         }
         self.searchDelegate?.didRequestSearch(with: text)
+        self.resignFirstResponder()
         return true
     }
     
@@ -68,11 +67,12 @@ extension SongSearchField: UITextFieldDelegate {
         self.searchDelegate?.didCancelSearch()
         return true
     }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.text?.count == 0 {
+
+    @objc func textFieldDidChange() {
+        if self.text?.count == 0 {
             self.searchDelegate?.didCancelSearch()
+        } else {
+            self.searchDelegate?.didStartSearching()
         }
-        return true
     }
 }

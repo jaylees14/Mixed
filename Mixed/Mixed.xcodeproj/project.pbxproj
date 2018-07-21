@@ -21,6 +21,7 @@
 		69275DF820C4D255004C6642 /* MusicPlayerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF720C4D255004C6642 /* MusicPlayerFactory.swift */; };
 		69275DFA20C4D6CD004C6642 /* PlaybackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF920C4D6CD004C6642 /* PlaybackStatus.swift */; };
 		6939A5841F1C082400D20D5E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6939A5831F1C082400D20D5E /* Utils.swift */; };
+		6945A3D220FFE9E700C5A11E /* UIViewController+MixedNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945A3D120FFE9E700C5A11E /* UIViewController+MixedNav.swift */; };
 		694F1EA620C30A9F00EAF042 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694F1EA520C30A9F00EAF042 /* CircleView.swift */; };
 		6954035020C61929001FCAFF /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6954034F20C61929001FCAFF /* PlayerDelegate.swift */; };
 		695B038820D44D6E00946DC2 /* UIBezierPath+drawLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695B038720D44D6E00946DC2 /* UIBezierPath+drawLine.swift */; };
@@ -53,7 +54,6 @@
 		69AF594A1F1800B300402BE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69AF59491F1800B300402BE2 /* GoogleService-Info.plist */; };
 		69AF594E1F18019400402BE2 /* LoginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */; };
 		69AF59521F18047700402BE2 /* UIColor+colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF59501F18047700402BE2 /* UIColor+colors.swift */; };
-		69B1E09F1F2E6369001F1D7F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B1E09E1F2E6369001F1D7F /* LaunchViewController.swift */; };
 		69B9C2F520C4CFEC000DB798 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B9C2F420C4CFEC000DB798 /* MusicPlayer.swift */; };
 		69D9E61C1F2C89EC0012319A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E61B1F2C89EC0012319A /* OnboardingViewController.swift */; };
 		69D9E61F1F2C8AB60012319A /* HomeOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E61E1F2C8AB60012319A /* HomeOnboardingViewController.swift */; };
@@ -85,6 +85,7 @@
 		69275DF720C4D255004C6642 /* MusicPlayerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerFactory.swift; sourceTree = "<group>"; };
 		69275DF920C4D6CD004C6642 /* PlaybackStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackStatus.swift; sourceTree = "<group>"; };
 		6939A5831F1C082400D20D5E /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		6945A3D120FFE9E700C5A11E /* UIViewController+MixedNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+MixedNav.swift"; sourceTree = "<group>"; };
 		694F1EA520C30A9F00EAF042 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		6954034F20C61929001FCAFF /* PlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDelegate.swift; sourceTree = "<group>"; };
 		695B038720D44D6E00946DC2 /* UIBezierPath+drawLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+drawLine.swift"; sourceTree = "<group>"; };
@@ -119,7 +120,6 @@
 		69AF59491F1800B300402BE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginOnboardingViewController.swift; sourceTree = "<group>"; };
 		69AF59501F18047700402BE2 /* UIColor+colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colors.swift"; sourceTree = "<group>"; };
-		69B1E09E1F2E6369001F1D7F /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		69B9C2F420C4CFEC000DB798 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		69D9E61B1F2C89EC0012319A /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		69D9E61E1F2C8AB60012319A /* HomeOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -185,6 +185,7 @@
 		69662A811F1B6CE1003FCB80 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				6945A3D120FFE9E700C5A11E /* UIViewController+MixedNav.swift */,
 				69AF59501F18047700402BE2 /* UIColor+colors.swift */,
 				6939A5831F1C082400D20D5E /* Utils.swift */,
 				69F1F1611F1EBAB300449F28 /* Queue.swift */,
@@ -287,7 +288,6 @@
 				69675FD21F17FF72008A3299 /* AppDelegate.swift */,
 				69675FD91F17FF72008A3299 /* Assets.xcassets */,
 				69675FDB1F17FF72008A3299 /* LaunchScreen.storyboard */,
-				69B1E09E1F2E6369001F1D7F /* LaunchViewController.swift */,
 				69AF59491F1800B300402BE2 /* GoogleService-Info.plist */,
 				69675FDE1F17FF72008A3299 /* Info.plist */,
 			);
@@ -480,6 +480,7 @@
 				69275DF820C4D255004C6642 /* MusicPlayerFactory.swift in Sources */,
 				69675FE71F17FF86008A3299 /* AppleMusic.swift in Sources */,
 				69EE135A1F2936FB008FE4A6 /* UITextField+leftSpacer.swift in Sources */,
+				6945A3D220FFE9E700C5A11E /* UIViewController+MixedNav.swift in Sources */,
 				6939A5841F1C082400D20D5E /* Utils.swift in Sources */,
 				69D9E61C1F2C89EC0012319A /* OnboardingViewController.swift in Sources */,
 				69AF59521F18047700402BE2 /* UIColor+colors.swift in Sources */,
@@ -492,7 +493,6 @@
 				6915F08C20D52C590025A072 /* NameViewController.swift in Sources */,
 				69D9E6291F2C94F60012319A /* SoundWave.swift in Sources */,
 				69D9E6231F2C8AD60012319A /* SpeakerOnboardingViewController.swift in Sources */,
-				69B1E09F1F2E6369001F1D7F /* LaunchViewController.swift in Sources */,
 				69675FD51F17FF72008A3299 /* SearchViewController.swift in Sources */,
 				69662A7C1F1B6727003FCB80 /* JoinExistingViewController.swift in Sources */,
 				69662A7A1F1B6719003FCB80 /* NewPartyViewController.swift in Sources */,

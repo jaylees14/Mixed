@@ -17,8 +17,6 @@ class SongSearchViewController: UIViewController {
     var searchResults: [String] = []
     var shouldDisplaySearchResults = false
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -26,14 +24,16 @@ class SongSearchViewController: UIViewController {
         tableView.separatorStyle = .none
         
         // Demo Data
-        recentSearches = ["Panic at the Disco", "Ed Sheeran", "Divide", "Happy", "Birthday"]
+        recentSearches = ["Panic at the Disco", "Ed Sheeran", "Divide"]
         suggested = ["ABC", "DEF", "GEH"]
         searchResults = []
         
         searchField.searchDelegate = self
         
         let tapRecogniser = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapRecogniser)
+        //view.addGestureRecognizer(tapRecogniser)
+        
+        setupNavigationBar(title: "Search")
     }
     
     @objc private func dismissKeyboard(){
@@ -123,7 +123,6 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         // TODO: Will probably need to interate on the cell, based on the type of result?
         let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearchCell", for: indexPath) as! RecentSearchTableViewCell
         
@@ -141,8 +140,24 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.title.text = cellText
         
         return cell
-        
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let selectedText: String
+        if shouldDisplaySearchResults {
+            selectedText = searchResults[indexPath.row]
+        } else if indexPath.section == 0 {
+            selectedText = recentSearches[indexPath.row]
+        } else if indexPath.section == 1 {
+            selectedText = suggested[indexPath.row]
+        } else {
+            selectedText = "what"
+        }
+        
+        // Update UI and trigger request
+        self.searchField.text = selectedText
+        self.searchField.searchDelegate?.didRequestSearch(with: selectedText)
+    }
     
 }
