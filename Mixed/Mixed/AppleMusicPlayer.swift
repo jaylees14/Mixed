@@ -70,14 +70,14 @@ public class AppleMusicPlayer: MusicPlayer {
         hasSetInitialQueue = false
     }
     
-    public func enqueue(song: String) {
-        if !hasSetInitialQueue {
-            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song]))
-            hasSetInitialQueue = true
-        } else {
-            print("Enqueueing \(song)")
-            self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song]))
-        }
+    public func enqueue(song: Song) {
+//        if !hasSetInitialQueue {
+//            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song]))
+//            hasSetInitialQueue = true
+//        } else {
+//            print("Enqueueing \(song)")
+//            self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song]))
+//        }
     }
     
     public func getCurrentStatus() -> PlaybackStatus {

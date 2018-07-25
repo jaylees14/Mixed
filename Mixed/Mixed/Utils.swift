@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import SystemConfiguration
 
+typealias EmptyCallback = () -> Void
+
 func getCurrentDate() -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
@@ -17,11 +19,25 @@ func getCurrentDate() -> String {
 }
 
 //Standard error function
-func showError(title: String, withMessage: String, fromController: UIViewController){
-    let alertView = UIAlertController(title: title, message: withMessage, preferredStyle: .alert)
+func showError(title: String, message: String, controller: UIViewController){
+    let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let okButton = UIAlertAction(title: "Okay", style: .default)
     alertView.addAction(okButton)
-    fromController.present(alertView, animated: true, completion: nil)
+    controller.present(alertView, animated: true, completion: nil)
+}
+
+func askQuestion(title: String, message: String, controller: UIViewController, acceptCompletion: EmptyCallback? = nil, cancelCompletion: EmptyCallback? = nil){
+    let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let positiveButton = UIAlertAction(title: "Okay", style: .destructive) { (_) in
+        acceptCompletion?()
+    }
+    let cancelButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+        cancelCompletion?()
+    }
+    
+    alertView.addAction(positiveButton)
+    alertView.addAction(cancelButton)
+    controller.present(alertView, animated: true, completion: nil)
 }
 
 //Checks if connected to network

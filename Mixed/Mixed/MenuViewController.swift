@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import FacebookCore
 
 class MenuViewController: MixedViewController {
 
@@ -34,7 +33,7 @@ class MenuViewController: MixedViewController {
         getAppleMusicToken()
        
         guard hasNetworkConnection() else {
-            showError(title: "No Network Connection", withMessage: "In order to use this app fully you need a valid internet connection. Please check your settings and try again", fromController: self)
+            showError(title: "No Network Connection", message: "In order to use this app fully you need a valid internet connection. Please check your settings and try again", controller: self)
             return
         }
         

@@ -22,8 +22,12 @@
 		69275DFA20C4D6CD004C6642 /* PlaybackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275DF920C4D6CD004C6642 /* PlaybackStatus.swift */; };
 		6939A5841F1C082400D20D5E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6939A5831F1C082400D20D5E /* Utils.swift */; };
 		6945A3D220FFE9E700C5A11E /* UIViewController+MixedNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945A3D120FFE9E700C5A11E /* UIViewController+MixedNav.swift */; };
+		694C31F62104BA0D009853A9 /* MusicProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694C31F52104BA0D009853A9 /* MusicProviderFactory.swift */; };
 		694F1EA620C30A9F00EAF042 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694F1EA520C30A9F00EAF042 /* CircleView.swift */; };
 		6954035020C61929001FCAFF /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6954034F20C61929001FCAFF /* PlayerDelegate.swift */; };
+		6955AA3821047C3E003F1548 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955AA3721047C3E003F1548 /* CurrentUser.swift */; };
+		6955AA40210480FF003F1548 /* MixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955AA3F210480FF003F1548 /* MixedTests.swift */; };
+		6955AA4A210489F6003F1548 /* MusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955AA49210489F6003F1548 /* MusicProvider.swift */; };
 		695B038820D44D6E00946DC2 /* UIBezierPath+drawLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695B038720D44D6E00946DC2 /* UIBezierPath+drawLine.swift */; };
 		695B038C20D452D300946DC2 /* Comfortaa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 695B038920D451AA00946DC2 /* Comfortaa-Bold.ttf */; };
 		695B038D20D452D300946DC2 /* Comfortaa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 695B038A20D451AC00946DC2 /* Comfortaa-Light.ttf */; };
@@ -43,7 +47,7 @@
 		69675FDA1F17FF72008A3299 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69675FD91F17FF72008A3299 /* Assets.xcassets */; };
 		69675FDD1F17FF72008A3299 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69675FDB1F17FF72008A3299 /* LaunchScreen.storyboard */; };
 		69675FE71F17FF86008A3299 /* AppleMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69675FE41F17FF86008A3299 /* AppleMusic.swift */; };
-		69675FE81F17FF86008A3299 /* MusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69675FE51F17FF86008A3299 /* MusicProvider.swift */; };
+		69675FE81F17FF86008A3299 /* StreamingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69675FE51F17FF86008A3299 /* StreamingProvider.swift */; };
 		69675FE91F17FF86008A3299 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69675FE61F17FF86008A3299 /* Song.swift */; };
 		696DEEAA1F1A704400BA512B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696DEEA91F1A704400BA512B /* MenuViewController.swift */; };
 		6979D99D20CA43C5000F6502 /* OpeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99C20CA43C5000F6502 /* OpeningViewController.swift */; };
@@ -51,6 +55,8 @@
 		697E8BC01FDE0624009407FA /* AutoLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E8BBF1FDE0624009407FA /* AutoLoginViewController.swift */; };
 		6981CEDE20F28D2000B4A6D6 /* SongSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6981CEDD20F28D2000B4A6D6 /* SongSearchField.swift */; };
 		69846C2D20D479D800889F86 /* MixedGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69846C2C20D479D800889F86 /* MixedGradient.swift */; };
+		698991EF2106804B001C04D1 /* Party.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698991EE2106804B001C04D1 /* Party.swift */; };
+		698991F1210683A3001C04D1 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698991F0210683A3001C04D1 /* Datastore.swift */; };
 		69AF594A1F1800B300402BE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69AF59491F1800B300402BE2 /* GoogleService-Info.plist */; };
 		69AF594E1F18019400402BE2 /* LoginOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */; };
 		69AF59521F18047700402BE2 /* UIColor+colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF59501F18047700402BE2 /* UIColor+colors.swift */; };
@@ -70,6 +76,16 @@
 		69F1F1621F1EBAB300449F28 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F1F1611F1EBAB300449F28 /* Queue.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6955AA42210480FF003F1548 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 69675FC71F17FF72008A3299 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 69675FCE1F17FF72008A3299;
+			remoteInfo = Mixed;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1B160BC61CE6119DA4FDF27B /* Pods-Mixed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mixed.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mixed/Pods-Mixed.release.xcconfig"; sourceTree = "<group>"; };
 		690109E020C74780005183D4 /* NameInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewController.swift; sourceTree = "<group>"; };
@@ -86,8 +102,14 @@
 		69275DF920C4D6CD004C6642 /* PlaybackStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackStatus.swift; sourceTree = "<group>"; };
 		6939A5831F1C082400D20D5E /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		6945A3D120FFE9E700C5A11E /* UIViewController+MixedNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+MixedNav.swift"; sourceTree = "<group>"; };
+		694C31F52104BA0D009853A9 /* MusicProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicProviderFactory.swift; sourceTree = "<group>"; };
 		694F1EA520C30A9F00EAF042 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		6954034F20C61929001FCAFF /* PlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDelegate.swift; sourceTree = "<group>"; };
+		6955AA3721047C3E003F1548 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		6955AA3D210480FF003F1548 /* MixedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MixedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6955AA3F210480FF003F1548 /* MixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedTests.swift; sourceTree = "<group>"; };
+		6955AA41210480FF003F1548 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6955AA49210489F6003F1548 /* MusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicProvider.swift; sourceTree = "<group>"; };
 		695B038720D44D6E00946DC2 /* UIBezierPath+drawLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+drawLine.swift"; sourceTree = "<group>"; };
 		695B038920D451AA00946DC2 /* Comfortaa-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-Bold.ttf"; sourceTree = "<group>"; };
 		695B038A20D451AC00946DC2 /* Comfortaa-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-Light.ttf"; sourceTree = "<group>"; };
@@ -109,7 +131,7 @@
 		69675FDC1F17FF72008A3299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69675FDE1F17FF72008A3299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69675FE41F17FF86008A3299 /* AppleMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMusic.swift; sourceTree = "<group>"; };
-		69675FE51F17FF86008A3299 /* MusicProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicProvider.swift; sourceTree = "<group>"; };
+		69675FE51F17FF86008A3299 /* StreamingProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamingProvider.swift; sourceTree = "<group>"; };
 		69675FE61F17FF86008A3299 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		696DEEA91F1A704400BA512B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		6979D99C20CA43C5000F6502 /* OpeningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +139,8 @@
 		697E8BBF1FDE0624009407FA /* AutoLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoLoginViewController.swift; sourceTree = "<group>"; };
 		6981CEDD20F28D2000B4A6D6 /* SongSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSearchField.swift; sourceTree = "<group>"; };
 		69846C2C20D479D800889F86 /* MixedGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedGradient.swift; sourceTree = "<group>"; };
+		698991EE2106804B001C04D1 /* Party.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Party.swift; sourceTree = "<group>"; };
+		698991F0210683A3001C04D1 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
 		69AF59491F1800B300402BE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		69AF594D1F18019400402BE2 /* LoginOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginOnboardingViewController.swift; sourceTree = "<group>"; };
 		69AF59501F18047700402BE2 /* UIColor+colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colors.swift"; sourceTree = "<group>"; };
@@ -140,6 +164,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6955AA3A210480FF003F1548 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69675FCC1F17FF72008A3299 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -165,10 +196,18 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		6955AA3E210480FF003F1548 /* MixedTests */ = {
+			isa = PBXGroup;
+			children = (
+				6955AA3F210480FF003F1548 /* MixedTests.swift */,
+				6955AA41210480FF003F1548 /* Info.plist */,
+			);
+			path = MixedTests;
+			sourceTree = "<group>";
+		};
 		69662A781F1B66FD003FCB80 /* Old */ = {
 			isa = PBXGroup;
 			children = (
-				697E8BBF1FDE0624009407FA /* AutoLoginViewController.swift */,
 				69D9E61D1F2C8A9C0012319A /* Onboarding */,
 				69662A7F1F1B6A47003FCB80 /* MixedViewController.swift */,
 				69D9E61B1F2C89EC0012319A /* OnboardingViewController.swift */,
@@ -201,6 +240,7 @@
 			children = (
 				69675FD11F17FF72008A3299 /* Mixed */,
 				69675FD61F17FF72008A3299 /* Main.storyboard */,
+				6955AA3E210480FF003F1548 /* MixedTests */,
 				69675FD01F17FF72008A3299 /* Products */,
 				4CA6E6CE8A163777F074583E /* Pods */,
 				C19951A849E78CE670FBB9FC /* Frameworks */,
@@ -211,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				69675FCF1F17FF72008A3299 /* Mixed.app */,
+				6955AA3D210480FF003F1548 /* MixedTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -233,6 +274,10 @@
 			children = (
 				69B9C2F620C4D010000DB798 /* Players */,
 				69AF594B1F18017B00402BE2 /* Providers */,
+				6955AA3721047C3E003F1548 /* CurrentUser.swift */,
+				69675FE61F17FF86008A3299 /* Song.swift */,
+				698991F0210683A3001C04D1 /* Datastore.swift */,
+				698991EE2106804B001C04D1 /* Party.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -257,6 +302,7 @@
 		6981CEE120F28D6500B4A6D6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				697E8BBF1FDE0624009407FA /* AutoLoginViewController.swift */,
 				6979D99C20CA43C5000F6502 /* OpeningViewController.swift */,
 				6915F08B20D52C590025A072 /* NameViewController.swift */,
 				69181E2520E10E4D00C37FB9 /* MainMenuViewController.swift */,
@@ -270,9 +316,10 @@
 			isa = PBXGroup;
 			children = (
 				69675FE41F17FF86008A3299 /* AppleMusic.swift */,
-				69675FE51F17FF86008A3299 /* MusicProvider.swift */,
-				69675FE61F17FF86008A3299 /* Song.swift */,
 				69D9E6351F2D2B980012319A /* Spotify.swift */,
+				69675FE51F17FF86008A3299 /* StreamingProvider.swift */,
+				6955AA49210489F6003F1548 /* MusicProvider.swift */,
+				694C31F52104BA0D009853A9 /* MusicProviderFactory.swift */,
 			);
 			name = Providers;
 			path = ..;
@@ -337,6 +384,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6955AA3C210480FF003F1548 /* MixedTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6955AA44210480FF003F1548 /* Build configuration list for PBXNativeTarget "MixedTests" */;
+			buildPhases = (
+				6955AA39210480FF003F1548 /* Sources */,
+				6955AA3A210480FF003F1548 /* Frameworks */,
+				6955AA3B210480FF003F1548 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6955AA43210480FF003F1548 /* PBXTargetDependency */,
+			);
+			name = MixedTests;
+			productName = MixedTests;
+			productReference = 6955AA3D210480FF003F1548 /* MixedTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		69675FCE1F17FF72008A3299 /* Mixed */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 69675FE11F17FF72008A3299 /* Build configuration list for PBXNativeTarget "Mixed" */;
@@ -346,7 +411,6 @@
 				69675FCC1F17FF72008A3299 /* Frameworks */,
 				69675FCD1F17FF72008A3299 /* Resources */,
 				D4C935BBF4092C8A9B3AC9CF /* [CP] Embed Pods Frameworks */,
-				A77F4000C4739A4F5F021869 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -363,10 +427,16 @@
 		69675FC71F17FF72008A3299 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Jay Lees";
 				TargetAttributes = {
+					6955AA3C210480FF003F1548 = {
+						CreatedOnToolsVersion = 9.4.1;
+						DevelopmentTeam = 95HMAHL2SN;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 69675FCE1F17FF72008A3299;
+					};
 					69675FCE1F17FF72008A3299 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 95HMAHL2SN;
@@ -394,11 +464,19 @@
 			projectRoot = "";
 			targets = (
 				69675FCE1F17FF72008A3299 /* Mixed */,
+				6955AA3C210480FF003F1548 /* MixedTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6955AA3B210480FF003F1548 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69675FCD1F17FF72008A3299 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -422,28 +500,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Mixed-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		A77F4000C4739A4F5F021869 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mixed/Pods-Mixed-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D4C935BBF4092C8A9B3AC9CF /* [CP] Embed Pods Frameworks */ = {
@@ -452,9 +518,24 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Mixed/Pods-Mixed-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/MKTween/MKTween.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MKTween.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -464,6 +545,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6955AA39210480FF003F1548 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6955AA40210480FF003F1548 /* MixedTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69675FCB1F17FF72008A3299 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -474,6 +563,7 @@
 				69AF594E1F18019400402BE2 /* LoginOnboardingViewController.swift in Sources */,
 				69181E2420E10AB600C37FB9 /* MixedButton.swift in Sources */,
 				69EE13581F292BB5008FE4A6 /* UIFont+custom.swift in Sources */,
+				698991EF2106804B001C04D1 /* Party.swift in Sources */,
 				69275DF620C4D090004C6642 /* SpotifyMusicPlayer.swift in Sources */,
 				695B039020D4560800946DC2 /* OnboardingButton.swift in Sources */,
 				69662A831F1BF236003FCB80 /* PlayerViewController.swift in Sources */,
@@ -487,6 +577,7 @@
 				69670CCB20E3F8B900AC6E06 /* RecentSearchTableViewCell.swift in Sources */,
 				696DEEAA1F1A704400BA512B /* MenuViewController.swift in Sources */,
 				6954035020C61929001FCAFF /* PlayerDelegate.swift in Sources */,
+				6955AA3821047C3E003F1548 /* CurrentUser.swift in Sources */,
 				69670CC920E3F19300AC6E06 /* SongSearchViewController.swift in Sources */,
 				695B038820D44D6E00946DC2 /* UIBezierPath+drawLine.swift in Sources */,
 				69181E2620E10E4D00C37FB9 /* MainMenuViewController.swift in Sources */,
@@ -509,8 +600,11 @@
 				69D9E61F1F2C8AB60012319A /* HomeOnboardingViewController.swift in Sources */,
 				69275DFA20C4D6CD004C6642 /* PlaybackStatus.swift in Sources */,
 				69181E2820E13BA900C37FB9 /* PartyPlayerViewController.swift in Sources */,
-				69675FE81F17FF86008A3299 /* MusicProvider.swift in Sources */,
+				6955AA4A210489F6003F1548 /* MusicProvider.swift in Sources */,
+				698991F1210683A3001C04D1 /* Datastore.swift in Sources */,
+				69675FE81F17FF86008A3299 /* StreamingProvider.swift in Sources */,
 				69D9E6361F2D2B980012319A /* Spotify.swift in Sources */,
+				694C31F62104BA0D009853A9 /* MusicProviderFactory.swift in Sources */,
 				69D9E6251F2C8AE00012319A /* BeerOnboardingViewController.swift in Sources */,
 				69181E2C20E14E9E00C37FB9 /* SongTableViewCell.swift in Sources */,
 				69675FD31F17FF72008A3299 /* AppDelegate.swift in Sources */,
@@ -520,6 +614,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6955AA43210480FF003F1548 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 69675FCE1F17FF72008A3299 /* Mixed */;
+			targetProxy = 6955AA42210480FF003F1548 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		69675FD61F17FF72008A3299 /* Main.storyboard */ = {
@@ -541,6 +643,54 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6955AA45210480FF003F1548 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 95HMAHL2SN;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MixedTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jaylees.MixedTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mixed.app/Mixed";
+			};
+			name = Debug;
+		};
+		6955AA46210480FF003F1548 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 95HMAHL2SN;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MixedTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jaylees.MixedTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mixed.app/Mixed";
+			};
+			name = Release;
+		};
 		69675FDF1F17FF72008A3299 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -696,6 +846,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6955AA44210480FF003F1548 /* Build configuration list for PBXNativeTarget "MixedTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6955AA45210480FF003F1548 /* Debug */,
+				6955AA46210480FF003F1548 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		69675FCA1F17FF72008A3299 /* Build configuration list for PBXProject "Mixed" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

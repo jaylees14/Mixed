@@ -8,19 +8,7 @@
 
 import UIKit
 
-
-
 class PartyPlayerViewController: UIViewController {
-    fileprivate enum PlayerViewState {
-        case full
-        case condensed
-    }
-    
-    fileprivate enum PlayerType {
-        case host
-        case attendee
-    }
-    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var discView: DiscView!
     @IBOutlet weak var nowPlayingSong: UILabel!
@@ -31,16 +19,36 @@ class PartyPlayerViewController: UIViewController {
     @IBOutlet weak var upcomingTableView: UITableView!
     @IBOutlet weak var centerButtonHeight: NSLayoutConstraint!
     
+    fileprivate enum PlayerViewState {
+        case full
+        case condensed
+    }
+    
+    public enum PlayerType {
+        case host
+        case attendee
+    }
+    
+    public  var playerType: PlayerType = .host
+    
     private var lastContentOffset: CGFloat = 0
     private var forwardAnimator: UIViewPropertyAnimator?
     private var backwardAnimator: UIViewPropertyAnimator?
-    private var playerType: PlayerType = .host
     private var playerViewState: PlayerViewState!
+    private var musicPlayer: MusicPlayer?
+    private let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
+    private let datastore = Datastore.instance
+    private var songQueue = [Song]()
+    private var currentSong: Song? {
+        didSet {
+            nowPlayingSong.text = currentSong?.songName ?? "Nothing is playing ☹️"
+            nowPlayingArtist.text = currentSong?.artist
+            discView.updateArtwork(image: currentSong?.image)
+        }
+    }
+    
 
     override func viewDidLoad() {
-        nowPlayingSong.text = "A very long song name by someone"
-        nowPlayingArtist.text = "Another very long artist name"
-
         nowPlayingSong.textColor = UIColor.mixedPrimaryBlue
         nowPlayingArtist.textColor = UIColor.mixedSecondaryBlue
         
@@ -53,6 +61,20 @@ class PartyPlayerViewController: UIViewController {
         upcomingTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         upcomingTableView.isScrollEnabled = false
         playerViewState = .full
+        
+        // Note: Set delegate before joining so we can receive all added songs!
+        datastore.delegate = self
+        datastore.joinParty(with: "abcdef") { (party) in
+            guard let party = party else {
+                print("Unable to create party")
+                //TODO: throw
+                return
+            }
+            self.setupNavigationBar(title: "\(party.partyHost)'s Party")
+            self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
+            self.musicPlayer?.setDelegate(self)
+            self.musicPlayer?.validateSession()
+        }
         
         if playerType == .host {
             leftButton.setBackgroundImage(#imageLiteral(resourceName: "plus"), for: .normal)
@@ -67,7 +89,8 @@ class PartyPlayerViewController: UIViewController {
             centerButton.addTarget(self, action: #selector(toSearch), for: .touchUpInside)
         }
         [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
-        setupNavigationBar(title: "Jay's Party")
+        navigationController?.navigationBar.items?.first?.leftBarButtonItem =
+            UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(didTapClose))
     }
     
 
@@ -75,18 +98,21 @@ class PartyPlayerViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         // Fix a bug where the disc view would be correctly sized on first load
         discView.resize(to: discView.frame)
+        discView.isHidden = true
         discView.startRotating()
         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (_) in
+            self.discView.isHidden = false
             self.discView.updateArtwork(image: #imageLiteral(resourceName: "gradient"))
         }
+        
         forwardAnimator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
-            self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 340)
-            self.discView.resize(to: CGRect(x: 32, y: 175, width: 50, height: 50))
-            self.nowPlayingSong.frame.origin = CGPoint(x: 82 + 28, y: 175)
-            self.nowPlayingArtist.frame.origin = CGPoint(x: 82 + 28, y: self.nowPlayingSong.frame.height + 175 + 8)
-            self.leftButton.frame.origin.y = 265
-            self.rightButton.frame.origin.y = 265
-            self.centerButton.frame.origin.y = 250
+            self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 440)
+            self.discView.resize(to: CGRect(x: 32, y: 275, width: 50, height: 50))
+            self.nowPlayingSong.frame.origin = CGPoint(x: 82 + 28, y: 275)
+            self.nowPlayingArtist.frame.origin = CGPoint(x: 82 + 28, y: self.nowPlayingSong.frame.height + 275 + 8)
+            self.leftButton.frame.origin.y = 365
+            self.rightButton.frame.origin.y = 365
+            self.centerButton.frame.origin.y = 350
         }
     }
     
@@ -95,19 +121,33 @@ class PartyPlayerViewController: UIViewController {
     @objc func toSearch(){
         self.performSegue(withIdentifier: "toSearch", sender: self)
     }
+    
+    @objc func didTapClose(){
+        let title = "Close the party"
+        var message = "Are you sure you want to quit? "
+        if playerType == .host {
+            message += "As the host, leaving now will close the party and all of the queued songs will be lost."
+        } else {
+            message += "Leaving now will mean you'll have to request to join the party again in order to add songs."
+        }
+        askQuestion(title: title, message: message, controller: self, acceptCompletion: {
+            self.dismiss(animated: true, completion: nil)
+        }, cancelCompletion: nil)
+    }
 }
 
 // MARK: - Table View Delegate & Data Source
 extension PartyPlayerViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 50
+        return songQueue.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath) as! SongTableViewCell
-        cell.title.text = "Song title"
-        cell.subtitle.text = "Greg James - Added by Jay"
-        cell.albumArtwork.image = #imageLiteral(resourceName: "gradient")
+        let song = songQueue[indexPath.row]
+        cell.title.text = song.songName
+        cell.subtitle.text = "\(song.artist) - Added by \(song.addedBy ?? "someone")."
+        cell.albumArtwork.image = song.image
         return cell
     }
     
@@ -135,13 +175,44 @@ extension PartyPlayerViewController: UITableViewDataSource, UITableViewDelegate 
     }
 }
 
+// MARK: - UIScrollViewDelegate
 extension PartyPlayerViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let maxY: CGFloat = 150.0
-        if scrollView.contentOffset.y >= maxY {
-            //scrollView.contentOffset.y = maxY
-        } else {
+        let maxY: CGFloat = 250.0
+        if scrollView.contentOffset.y < maxY {
             forwardAnimator?.fractionComplete = scrollView.contentOffset.y / maxY
         }
     }
+}
+
+extension PartyPlayerViewController: PlayerDelegate {
+    func playerDidStartPlaying(songID: String?) {
+        
+    }
+    
+    func playerDidChange(to state: PlaybackStatus) {
+        
+    }
+    
+    func requestAuth(to url: URL) {
+        
+    }
+    
+    func didReceiveError(_ error: Error) {
+        
+    }
+}
+
+extension PartyPlayerViewController: DatastoreDelegate {
+    func didAddSong(_ song: Song) {
+        song.downloadImage(on: imageDispatchQueue, for: upcomingTableView)
+        songQueue.append(song)
+        upcomingTableView.reloadData()
+    }
+    
+    func topSongDidChange(to song: Song) {
+        
+    }
+    
+    
 }

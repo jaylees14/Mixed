@@ -12,8 +12,6 @@ target 'Mixed' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
-  pod 'FacebookCore'
-  pod 'FacebookLogin'
   pod 'NVActivityIndicatorView'
   pod 'MKTween', '~> 2.0'
 

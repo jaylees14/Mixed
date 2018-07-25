@@ -8,7 +8,6 @@
 
 import UIKit
 import MKTween
-import FacebookCore
 
 class HomeOnboardingViewController: UIViewController {
     @IBOutlet weak var waveView: UIView!

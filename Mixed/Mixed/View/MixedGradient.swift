@@ -13,7 +13,7 @@ class MixedGradient: CALayer {
     
     init(in frame: CGRect) {
         baseLayer = CAGradientLayer()
-        baseLayer.colors = [UIColor(hex: "#E37B7E").cgColor,  UIColor(hex: "#AEA1FB").cgColor]
+        baseLayer.colors = [UIColor.create(hex: "#E37B7E").cgColor,  UIColor.create(hex: "#AEA1FB").cgColor]
         baseLayer.locations = [0, 0.8]
         baseLayer.startPoint = CGPoint(x: 0, y: 1)
         baseLayer.endPoint = CGPoint(x: 1, y: 0)

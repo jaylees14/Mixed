@@ -34,7 +34,7 @@ class NameInputViewController: UIViewController {
     
     @IBAction func userDidTapSubmit(_ sender: Any) {
         guard let name = nameTextField.text, !name.isEmpty else {
-            showError(title: "Invalid name", withMessage: "Please enter a valid name in the text field", fromController: self)
+            showError(title: "Invalid name", message: "Please enter a valid name in the text field", controller: self)
             return
         }
         

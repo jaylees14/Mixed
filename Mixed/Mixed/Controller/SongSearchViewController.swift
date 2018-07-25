@@ -12,9 +12,19 @@ class SongSearchViewController: UIViewController {
 
     @IBOutlet weak var searchField: SongSearchField!
     @IBOutlet weak var tableView: UITableView!
+    
+    let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
+    
+    // Data Sources
     var recentSearches: [String] = []
     var suggested: [String] = []
-    var searchResults: [String] = []
+    var searchResults: [Song] = []
+    
+    // Party settings
+    var streamingProvider: StreamingProvider! = .appleMusic
+    var provider: MusicProvider!
+    var partyID: String!
+    
     var shouldDisplaySearchResults = false
     
     override func viewDidLoad() {
@@ -26,13 +36,11 @@ class SongSearchViewController: UIViewController {
         // Demo Data
         recentSearches = ["Panic at the Disco", "Ed Sheeran", "Divide"]
         suggested = ["ABC", "DEF", "GEH"]
-        searchResults = []
+
+        provider = MusicProviderFactory.generateMusicProvider(for: streamingProvider)
+        provider.delegate = self
         
         searchField.searchDelegate = self
-        
-        let tapRecogniser = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        //view.addGestureRecognizer(tapRecogniser)
-        
         setupNavigationBar(title: "Search")
     }
     
@@ -41,10 +49,23 @@ class SongSearchViewController: UIViewController {
     }
 }
 
+// MARK: - MusicProviderDelegate
+extension SongSearchViewController: MusicProviderDelegate {
+    func queryDidSucceed(_ songs: [Song]) {
+        self.searchResults = songs
+        self.searchResults.forEach { $0.downloadImage(on: imageDispatchQueue, for: tableView )}
+        tableView.reloadData()
+    }
+    
+    func queryDidFail(_ error: Error) {
+        print("Whooooops!")
+    }
+}
+
 // MARK: - SongSearchDelegate
-extension SongSearchViewController: SongSearchDelegate {
+extension SongSearchViewController: SongSearchViewDelegate {
     func didRequestSearch(with text: String) {
-        print("Did request search \(text)")
+        provider.search(for: text)
     }
     
     func didStartSearching() {
@@ -53,12 +74,10 @@ extension SongSearchViewController: SongSearchDelegate {
     }
     
     func didCancelSearch() {
-        print("CANCEL")
         shouldDisplaySearchResults = false
+        searchResults = []
         tableView.reloadData()
     }
-    
-    
 }
 
 // MARK: - TableView Delegate & Data Source
@@ -121,38 +140,45 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
         return shouldDisplaySearchResults ? 1 : 2
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return shouldDisplaySearchResults ? 65 : 45
+    }
+    
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // TODO: Will probably need to interate on the cell, based on the type of result?
-        let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearchCell", for: indexPath) as! RecentSearchTableViewCell
-        
-        let cellText: String
         if shouldDisplaySearchResults {
-            cellText = searchResults[indexPath.row]
-        } else if indexPath.section == 0 {
-            cellText = recentSearches[indexPath.row]
-        } else if indexPath.section == 1 {
-            cellText = suggested[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath) as! SongTableViewCell
+            let song = searchResults[indexPath.row]
+            cell.title.text = song.songName
+            cell.subtitle.text = song.artist
+            cell.albumArtwork.image = song.image
+            return cell
         } else {
-            cellText = ""
+            let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearchCell", for: indexPath) as! RecentSearchTableViewCell
+            switch indexPath.section {
+            case 0: cell.title.text = recentSearches[indexPath.row]
+            case 1: cell.title.text = suggested[indexPath.row]
+            default: break
+            }
+            return cell
         }
-        
-        cell.title.text = cellText
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let selectedText: String
         if shouldDisplaySearchResults {
-            selectedText = searchResults[indexPath.row]
-        } else if indexPath.section == 0 {
+            Datastore.instance.addSong(song: searchResults[indexPath.row], to: "abcdef")
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        let selectedText: String
+        if indexPath.section == 0 {
             selectedText = recentSearches[indexPath.row]
         } else if indexPath.section == 1 {
             selectedText = suggested[indexPath.row]
         } else {
-            selectedText = "what"
+            return
         }
         
         // Update UI and trigger request

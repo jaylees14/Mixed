@@ -14,7 +14,7 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
     @IBOutlet weak var goButton: UIButton!
     @IBOutlet weak var codeTextField: UITextField!
     @IBOutlet weak var textBackground: UIView!
-    var partyProvider: MusicProvider = .appleMusic
+    var partyProvider: StreamingProvider = .appleMusic
     
     
     override func viewDidLoad() {
@@ -48,12 +48,12 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
     func setupCodeText(){
         codeTextField.layer.cornerRadius = 8
         let customPlaceholder = NSMutableAttributedString(string: "Enter Code", attributes: [:])
-        customPlaceholder.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor(hex: "909090"), range: NSRange(location: 0, length: customPlaceholder.length))
+        customPlaceholder.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.create(hex: "909090"), range: NSRange(location: 0, length: customPlaceholder.length))
         codeTextField.attributedPlaceholder = customPlaceholder
         codeTextField.placeholderRect(forBounds: CGRect(x: 10, y: 0, width: codeTextField.bounds.width - 10, height: codeTextField.bounds.height))
     }
     
-    func extractProvider(from snapshot: DataSnapshot) -> MusicProvider? {
+    func extractProvider(from snapshot: DataSnapshot) -> StreamingProvider? {
         if let snapshotVal = snapshot.value as? [String:Any], let val = snapshotVal[self.codeTextField.text!] as? [String:Any] {
             if let type = val["partyType"] as? String{
                 return type == "AppleMusic" ? .appleMusic : .spotify
@@ -66,7 +66,7 @@ class JoinExistingViewController: MixedViewController, UITextFieldDelegate {
     @IBAction func userTappedGo(_ sender: Any) {
         Database.database().reference().child("parties").observeSingleEvent(of: .value, with: { (snapshot) in
             guard let provider = self.extractProvider(from: snapshot) else {
-                showError(title: "Error whilst finding party", withMessage: "It seems that a party with this ID doesn't exist. Please try again", fromController: self)
+                showError(title: "Error whilst finding party", message: "It seems that a party with this ID doesn't exist. Please try again", controller: self)
                 return
             }
     

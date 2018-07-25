@@ -1,12 +1,12 @@
 # MKTween
 
-Very simple and lightweight tween framework in Swift 3.0.
+Very simple and lightweight tween framework in Swift 4.0.
 No objects/views bindings for a more flexible use.
 Uses CADisplayLink or NSTimer with time interval parameters.
 
 ## Requirements
-- iOS 8.0+
-- Xcode 7.2+
+- iOS 9.0+
+- Xcode 9.2+
 
 ## Usage
 
@@ -48,7 +48,7 @@ MKTweenTiming.SineInOut
 
 ### Example of use:
 ```swift
-let period = MKTweenPeriod(duration: 2, delay: 0, startValue: 0, endValue: 1)
+let period = MKTweenPeriod<CGFloat>(duration: 2.0, delay: 0.0, startValue: 0.0, endValue: 1.0)
 
 let operation = MKTweenOperation(period: period, updateBlock: { (period) -> () in
     
@@ -61,15 +61,6 @@ let operation = MKTweenOperation(period: period, updateBlock: { (period) -> () i
     }, timingFunction: MKTweenTiming.ElasticInOut)
 
 MKTween.shared.addTweenOperation(operation)
-```
-
-The good thing with swift is now you can make attributes optional to reduce unwanted attributes like:
-```swift
-let period = MKTweenPeriod(duration: 2) // This will default delay to 0, startValue to 0 and endValue to 1
-
-let operation = MKTweenOperation(period: period, updateBlock: { (period) -> () in
-    print(period.progress)
-}) // timingFunction will default to MKTweenTiming.Linear
 ```
 
 ### MKTween instances
@@ -99,7 +90,7 @@ public var timerInterval: NSTimeInterval = 1.0/60.0 // Base on a 60 fps rate by 
 
 **Get tween values without using ticks or MKTween**
 ```swift
-let period = MKTweenPeriod(duration:1) // will default to startValue 0 and endValue to 1
+let period = MKTweenPeriod<CGFloat>(duration:1) // will default to startValue 0 and endValue to 1
 let operation = MKTweenOperation(period: period, timingFunction: MKTweenTiming.BackInOut)
 let tweenValues = operation.tweenValues(UInt(count))
 
@@ -121,7 +112,7 @@ operation.reverse() // This will basically exchange startValue and endValue, but
 
 ## Installation
 
-> **Embedded frameworks require a minimum deployment target of iOS 8.**
+> **Embedded frameworks require a minimum deployment target of iOS 9.**
 
 ### CocoaPods
 
@@ -139,10 +130,10 @@ To integrate MKTween into your Xcode project using CocoaPods, specify it in your
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
-pod 'MKTween', '~> 2.0'
+pod 'MKTween', '~> 2.3.1'
 ```
 
 Then, run the following command:

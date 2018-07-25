@@ -95,28 +95,28 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         gotFirstTrack = false
     }
     
-    public func enqueue(song: String) {
-        if !hasStarted {
-            startPlayer()
-        }
-        
-        if !gotFirstTrack {
-            player.playSpotifyURI(song, startingWith: 0, startingWithPosition: 0) { (error) in
-                guard error == nil else {
-                    self.delegate?.didReceiveError(error!)
-                    return
-                }
-                self.pause()
-                self.gotFirstTrack = true
-            }
-            
-        } else {
-            player.queueSpotifyURI(song, callback: { (error) in
-                if error != nil {
-                    self.delegate?.didReceiveError(error!)
-                }
-            })
-        }
+    public func enqueue(song: Song) {
+//        if !hasStarted {
+//            startPlayer()
+//        }
+//
+//        if !gotFirstTrack {
+//            player.playSpotifyURI(song, startingWith: 0, startingWithPosition: 0) { (error) in
+//                guard error == nil else {
+//                    self.delegate?.didReceiveError(error!)
+//                    return
+//                }
+//                self.pause()
+//                self.gotFirstTrack = true
+//            }
+//
+//        } else {
+//            player.queueSpotifyURI(song, callback: { (error) in
+//                if error != nil {
+//                    self.delegate?.didReceiveError(error!)
+//                }
+//            })
+//        }
     }
     
     public func getCurrentStatus() -> PlaybackStatus {

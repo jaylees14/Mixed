@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import FacebookLogin
-import FacebookCore
 import Firebase
 
 class LoginOnboardingViewController: MixedViewController {
@@ -32,24 +30,24 @@ class LoginOnboardingViewController: MixedViewController {
     }
 
     @IBAction func loginWithFacebookTapped(_ sender: Any) {
-        let loginManager = LoginManager()
-        loginManager.logIn([ .publicProfile, .email], viewController: self) { loginResult in
-            switch loginResult {
-            case .failed(let error):
-                print(error)
-            case .cancelled:
-                print("User cancelled login.")
-            case .success(_, _, _):
-                let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
-                Auth.auth().signIn(with: credential) { (user, error) in
-                    if let error = error {
-                        print("Error whilst signing in with Facebook to firebase: ", error)
-                        return
-                    }
-                    print("Firebase login was a success")
-                    self.performSegue(withIdentifier: "toMenu", sender: self)
-                }
-            }
-        }
+//        let loginManager = LoginManager()
+//        loginManager.logIn([ .publicProfile, .email], viewController: self) { loginResult in
+//            switch loginResult {
+//            case .failed(let error):
+//                print(error)
+//            case .cancelled:
+//                print("User cancelled login.")
+//            case .success(_, _, _):
+//                let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
+//                Auth.auth().signIn(with: credential) { (user, error) in
+//                    if let error = error {
+//                        print("Error whilst signing in with Facebook to firebase: ", error)
+//                        return
+//                    }
+//                    print("Firebase login was a success")
+//                    self.performSegue(withIdentifier: "toMenu", sender: self)
+//                }
+//            }
+//        }
     }
 }

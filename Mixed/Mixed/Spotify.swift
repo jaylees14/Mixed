@@ -8,20 +8,14 @@
 
 import Foundation
 
-protocol SpotifyDelegate {
-    func spotifyQueryDidReturn(_ songs: [Song])
-    func spotifyError(code: Int)
+enum SpotifyError: Error {
+    case unknownError(code: Int)
 }
 
-class Spotify {
+class Spotify: MusicProvider {
+    var delegate: MusicProviderDelegate?
     
-    var delegate: SpotifyDelegate?
-    
-    init(delegate: SpotifyDelegate){
-        self.delegate = delegate
-    }
-    
-    public func makeSearchRequest(query: String){
+    public func search(for query: String){
         let formattedQuery = query.replacingOccurrences(of: " ", with: "+").lowercased()
         let url = URL(string: "https://api.spotify.com/v1/search?q=" + formattedQuery + "&type=track")
         var urlRequest = URLRequest(url: url!)
@@ -45,7 +39,7 @@ class Spotify {
                 let json = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 self.processSearchJSON(json)
             } else {
-                self.delegate?.spotifyError(code: response.statusCode)
+                self.delegate?.queryDidFail(SpotifyError.unknownError(code: response.statusCode))
             }
         }
         task.resume()
@@ -73,12 +67,12 @@ class Spotify {
             let imageURL = imageData[0]["url"] as! String
             let imageWidth = imageData[0]["width"] as! Int
             let imageHeight = imageData[0]["height"] as! Int
-            let song = Song(artist: artist, songName: songName, songURL: url, imageURL: imageURL, imageSize: CGSize(width: imageWidth, height: imageHeight), image: nil)
+            let song = Song(artist: artist, songName: songName, songURL: url, imageURL: imageURL, imageSize: CGSize(width: imageWidth, height: imageHeight), image: nil, addedBy: nil)
             songs.append(song)
         }
         
         DispatchQueue.main.async {
-            self.delegate?.spotifyQueryDidReturn(songs)
+            self.delegate?.queryDidSucceed(songs)
         }
         
     }

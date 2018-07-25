@@ -9,7 +9,7 @@
 import Foundation
 
 class MusicPlayerFactory {
-    static func generatePlayer(for provider: MusicProvider) -> MusicPlayer {
+    static func generatePlayer(for provider: StreamingProvider) -> MusicPlayer {
         switch provider {
         case .appleMusic: return AppleMusicPlayer()
         case .spotify: return SpotifyMusicPlayer()

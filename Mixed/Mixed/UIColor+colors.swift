@@ -13,32 +13,31 @@ extension UIColor {
 
     @available(*, deprecated, message: "Use mixedPrimaryBlue instead")
     public class var mixedBlue: UIColor {
-        return self.init(hex: "313357")
+        return self.create(hex: "313357")
     }
     
     @available(*, deprecated, message: "Use new color scheme instead")
     public class var mixedRed: UIColor {
-        return self.init(hex: "D7445C")
+        return self.create(hex: "D7445C")
     }
     
     @available(*, deprecated, message: "Use new color scheme instead")
     public class var mixedDirtyWhite: UIColor {
-        return self.init(hex: "F1F1F1")
+        return self.create(hex: "F1F1F1")
     }
     
-    
     public class var mixedPrimaryBlue: UIColor {
-        return self.init(hex: "#0B132BFF")
+        return self.create(hex: "#0B132BFF")
     }
     
     public class var mixedSecondaryBlue: UIColor {
-        return self.init(hex: "#0B132B99")
+        return self.create(hex: "#0B132B99")
     }
     
     /// Initalise a UIColor from a hex string formatted as RRGGBB or RRGGBBAA, with or without a leading #
     ///
     /// - Parameter hex: A hex string, formatted as above
-    public convenience init(hex: String){
+    public static func create(hex: String) -> UIColor {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
@@ -58,6 +57,6 @@ extension UIColor {
                 alpha = CGFloat((rgb & 0x000000FF)) / 255.0
             }
         }
-        self.init(displayP3Red: red, green: green, blue: blue, alpha: alpha)
+        return UIColor.init(displayP3Red: red, green: green, blue: blue, alpha: alpha)
     }
 }

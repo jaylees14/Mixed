@@ -10,15 +10,15 @@ import UIKit
 import Firebase
 import NVActivityIndicatorView
 
-class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+class SearchViewController: MixedViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var songsTableView: UITableView!
     @IBOutlet weak var searchText: UITextField!
     
     var songs = [Song]()
-    var appleMusic: AppleMusic!
+    var provider: MusicProvider!
     var spotify: Spotify!
-    var currentProvider: MusicProvider = .appleMusic
+    var currentProvider: StreamingProvider = .appleMusic
     var partyID: String!
     var loadingView: NVActivityIndicatorView!
     var fromQueue = false
@@ -30,11 +30,7 @@ class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDele
         searchText.layer.cornerRadius = 10
         searchText.layer.borderWidth = 0
         
-        if currentProvider == .appleMusic {
-            appleMusic = AppleMusic(delegate: self)
-        } else {
-            spotify = Spotify(delegate: self)
-        }
+        provider =  currentProvider == .appleMusic ? AppleMusic() : Spotify()
         
         searchText.delegate = self
     }
@@ -44,7 +40,7 @@ class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDele
         self.songs = songs
         
         DispatchQueue(label: "com.jaylees.mixed.imagedownload").async {
-            for song in self.songs {
+            for var song in self.songs {
                 let formattedURL = song.imageURL.replacingOccurrences(of: "{w}", with: "\(Int(song.imageSize.width))").replacingOccurrences(of: "{h}", with: "\(Int(song.imageSize.height))")
                 
                 do {
@@ -84,7 +80,7 @@ class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDele
     }
     
     func appleMusicError(code: Int){
-        showError(title: "Error", withMessage: "Code \(code): Error whilst trying to get data from Apple Music", fromController: self)
+        showError(title: "Error", message: "Code \(code): Error whilst trying to get data from Apple Music", controller: self)
     }
     
     
@@ -92,7 +88,7 @@ class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDele
     func spotifyQueryDidReturn(_ songs: [Song]) {
         self.songs = songs
         
-        for song in self.songs {
+        for var song in self.songs {
             do {
                 let data = try Data(contentsOf: URL(string: song.imageURL)!)
                 song.image = UIImage(data: data)
@@ -109,16 +105,13 @@ class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDele
     }
     
     func spotifyError(code: Int){
-        showError(title: "Error", withMessage: "Code \(code): Error whilst trying to get data from Spotify", fromController: self)
+        showError(title: "Error", message: "Code \(code): Error whilst trying to get data from Spotify", controller: self)
     }
     
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         showLoadingView()
-        switch currentProvider {
-            case .appleMusic: appleMusic.makeSearchRequest(query: searchText.text!)
-            case .spotify: spotify.makeSearchRequest(query: searchText.text!)
-        }
+        provider.search(for: searchText.text!)
         searchText.resignFirstResponder()
         return true
     }
@@ -207,3 +200,15 @@ class SearchViewController: MixedViewController, AppleMusicDelegate, SpotifyDele
 
 }
 
+
+extension SearchViewController: MusicProviderDelegate {
+    func queryDidSucceed(_ songs: [Song]) {
+        
+    }
+    
+    func queryDidFail(_ error: Error) {
+        
+    }
+    
+    
+}

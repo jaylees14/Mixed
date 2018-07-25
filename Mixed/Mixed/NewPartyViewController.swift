@@ -14,7 +14,7 @@ class NewPartyViewController: MixedViewController {
     @IBOutlet weak var appleMusicButton: UIButton!
     @IBOutlet weak var spotifyButton: UIButton!
     @IBOutlet weak var titleBackground: UIView!
-    var provider: MusicProvider!
+    var provider: StreamingProvider!
     var username: String!
     
     var ref = Database.database().reference()
@@ -60,7 +60,7 @@ class NewPartyViewController: MixedViewController {
        
     @IBAction func appleMusicTapped(_ sender: Any) {
         guard let partyID = partyID else {
-            showError(title: "Whoops", withMessage: "Error while generating party ID. Please try again.", fromController: self)
+            showError(title: "Whoops", message: "Error while generating party ID. Please try again.", controller: self)
             return
         }
         
@@ -68,13 +68,13 @@ class NewPartyViewController: MixedViewController {
         standardRef.child("partyType").setValue("AppleMusic")
         standardRef.child("creationDate").setValue(getCurrentDate())
         standardRef.child("hostName").setValue(username)
-        provider = MusicProvider.appleMusic
+        provider = StreamingProvider.appleMusic
         performSegue(withIdentifier: "toPlayer", sender: self)
     }
     
     @IBAction func spotifyTapped(_ sender: Any) {
         guard let partyID = partyID else {
-            showError(title: "Whoops", withMessage: "Error while generating party ID. Please try again.", fromController: self)
+            showError(title: "Whoops", message: "Error while generating party ID. Please try again.", controller: self)
             return
         }
         
@@ -82,7 +82,7 @@ class NewPartyViewController: MixedViewController {
         standardRef.child("partyType").setValue("Spotify")
         standardRef.child("creationDate").setValue(getCurrentDate())
         standardRef.child("hostName").setValue(username)
-        provider = MusicProvider.spotify
+        provider = StreamingProvider.spotify
         performSegue(withIdentifier: "toPlayer", sender: self)
     }
     

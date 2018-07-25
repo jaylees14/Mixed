@@ -9,10 +9,14 @@
 import Foundation
 
 extension UIViewController {
-    func setupNavigationBar(title: String){
+    public func setupNavigationBar(title: String){
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         label.text = title
         label.font = UIFont.mixedFont(size: 18, weight: .bold)
         navigationItem.titleView = label
+    }
+    
+    @objc private func didTapBack(){
+        self.dismiss(animated: true, completion: nil)
     }
 }

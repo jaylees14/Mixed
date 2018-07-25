@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainMenuViewController: UIViewController {
     
@@ -14,6 +15,8 @@ class MainMenuViewController: UIViewController {
         let soundWave = SoundWave(origin: CGPoint(x: 0, y: (view.frame.height / 2) - 50), width: view.frame.width)
         view.addSubview(soundWave)
         soundWave.animate(duration: 3)
+        
+        getAppleMusicToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -24,11 +27,29 @@ class MainMenuViewController: UIViewController {
             topSpacing = view.safeAreaInsets.top
         }
         
-        print(topSpacing)
-        
-        
         let mixedLogo = LogoView(center: CGPoint(x: view.center.x, y: topSpacing + 50), scale: 1, isInitiallyHidden: false, backgroundGradient: true)
         view.addSubview(mixedLogo)
     }
-
+    
+    
+    //TODO: REFACTOR THIS!!!!
+    func getAppleMusicToken(){
+        Database.database().reference().child("appleMusic").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let snapshotVal = snapshot.value as? [String: String]{
+                let token = snapshotVal["token"]
+                UserDefaults.standard.setValue(token, forKey: "AMTOKEN")
+            }
+        })
+    }
+    
+    @IBAction func didTapJoinParty(_ sender: Any) {
+        
+    }
+    
+    @IBAction func didTapSpotify(_ sender: Any) {
+    }
+    
+    @IBAction func didTapAppleMusic(_ sender: Any) {
+        Datastore.instance.createNewParty()
+    }
 }

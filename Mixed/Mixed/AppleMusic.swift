@@ -11,18 +11,16 @@ import UIKit
 import StoreKit
 import MediaPlayer
 
-protocol AppleMusicDelegate {
-    func queryDidReturn(_ songs: [Song])
-    func permissionDenied()
-    func noSubscription()
-    func appleMusicError(code: Int)
+enum AppleMusicError: Error {
+    case permissionDenied
+    case noSubscription
+    case unknownError(code: Int)
 }
 
-class AppleMusic {
-    var delegate: AppleMusicDelegate?
+class AppleMusic: MusicProvider {
+    var delegate: MusicProviderDelegate?
     
-    init(delegate: AppleMusicDelegate){
-        self.delegate = delegate
+    init(){
         self.determineAuthStatus()
     }
     
@@ -32,11 +30,11 @@ class AppleMusic {
         case .authorized:
             return
         case .denied:
-            delegate?.permissionDenied()
+            delegate?.queryDidFail(AppleMusicError.permissionDenied)
         case .notDetermined:
             requestAuth()
         case .restricted:
-            delegate?.noSubscription()
+            delegate?.queryDidFail(AppleMusicError.noSubscription)
         }
     }
     
@@ -46,17 +44,17 @@ class AppleMusic {
             case .authorized:
                 break
             case .denied:
-                self.delegate?.permissionDenied()
+                self.delegate?.queryDidFail(AppleMusicError.permissionDenied)
                 break
             case .notDetermined:
                 break;
             case .restricted:
-                self.delegate?.noSubscription()
+                self.delegate?.queryDidFail(AppleMusicError.noSubscription)
             }
         }
     }
     
-    public func makeSearchRequest(query: String){
+    public func search(for query: String){
         let formattedQuery = query.replacingOccurrences(of: " ", with: "+").lowercased()
         let url = URL(string: "https://api.music.apple.com/v1/catalog/gb/search?term=" + formattedQuery + "&limit=20")
         var urlRequest = URLRequest(url: url!)
@@ -80,7 +78,7 @@ class AppleMusic {
                 let json = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 self.processSearchJSON(json)
             } else {
-                self.delegate?.appleMusicError(code: response.statusCode)
+                self.delegate?.queryDidFail(AppleMusicError.unknownError(code: response.statusCode))
             }
         }
         task.resume()
@@ -102,13 +100,13 @@ class AppleMusic {
                 let songName = attributes["name"] as! String
                 let songURL = attributes["url"] as! String
 
-                let newSong = Song(artist: artistName, songName: songName, songURL: songURL, imageURL: imageURL, imageSize: size, image: nil)
+                let newSong = Song(artist: artistName, songName: songName, songURL: songURL, imageURL: imageURL, imageSize: size, image: nil, addedBy: nil)
                 songsArray.append(newSong)
             }
         }
         
         DispatchQueue.main.async {
-            self.delegate?.queryDidReturn(songsArray)
+            self.delegate?.queryDidSucceed(songsArray)
         }
     }
 }

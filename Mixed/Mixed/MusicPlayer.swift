@@ -17,6 +17,6 @@ public protocol MusicPlayer {
     func pause()
     func next()
     func clearQueue()
-    func enqueue(song: String)
+    func enqueue(song: Song)
     func getCurrentStatus() -> PlaybackStatus
 }

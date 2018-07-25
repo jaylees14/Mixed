@@ -51,10 +51,11 @@ class NameViewController: UIViewController {
 
     @IBAction func continueTapped(_ sender: Any) {
         guard let name = nameTextField.text, name.count >= 2 else {
-            showError(title: "Enter a valid name", withMessage: "Please enter your name and then tap continue.", fromController: self)
+            showError(title: "Enter a valid name", message: "Please enter your name and then tap continue.", controller: self)
             return
         }
         
+        CurrentUser.shared.setName(name)
         print("Proceeding with name: \(name)")
         self.performSegue(withIdentifier: "toMainMenu", sender: self)
     }

@@ -75,7 +75,7 @@ class DiscView: UIView {
         }
     }
     
-    func updateArtwork(image: UIImage){
+    func updateArtwork(image: UIImage?){
         UIView.animate(withDuration: 0.5, animations: {
             self.imageView.alpha = 0
         }) { _ in

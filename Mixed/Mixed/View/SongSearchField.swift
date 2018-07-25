@@ -8,14 +8,14 @@
 
 import Foundation
 
-public protocol SongSearchDelegate {
+public protocol SongSearchViewDelegate {
     func didRequestSearch(with text: String)
     func didStartSearching()
     func didCancelSearch()
 }
 
 class SongSearchField: UITextField {
-    public var searchDelegate: SongSearchDelegate?
+    public var searchDelegate: SongSearchViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
