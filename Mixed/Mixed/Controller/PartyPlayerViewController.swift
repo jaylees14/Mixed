@@ -43,7 +43,7 @@ class PartyPlayerViewController: UIViewController {
         didSet {
             nowPlayingSong.text = currentSong?.songName ?? "Nothing is playing ☹️"
             nowPlayingArtist.text = currentSong?.artist
-            discView.updateArtwork(image: currentSong?.image)
+            currentSong?.downloadImage(on: imageDispatchQueue, then: discView.updateArtwork)
         }
     }
     
@@ -81,6 +81,7 @@ class PartyPlayerViewController: UIViewController {
             centerButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
             rightButton.setBackgroundImage(#imageLiteral(resourceName: "next"), for: .normal)
             leftButton.addTarget(self, action: #selector(toSearch), for: .touchUpInside)
+            rightButton.addTarget(self, action: #selector(nextSong), for: .touchUpInside)
         } else {
             leftButton.isHidden = true
             rightButton.isHidden = true
@@ -98,12 +99,7 @@ class PartyPlayerViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         // Fix a bug where the disc view would be correctly sized on first load
         discView.resize(to: discView.frame)
-        discView.isHidden = true
         discView.startRotating()
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (_) in
-            self.discView.isHidden = false
-            self.discView.updateArtwork(image: #imageLiteral(resourceName: "gradient"))
-        }
         
         forwardAnimator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
             self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 440)
@@ -120,6 +116,12 @@ class PartyPlayerViewController: UIViewController {
     // MARK: - Button actions
     @objc func toSearch(){
         self.performSegue(withIdentifier: "toSearch", sender: self)
+    }
+    
+    @objc func nextSong() {
+        self.currentSong = songQueue.first
+        self.songQueue = Array(songQueue.dropFirst())
+        self.upcomingTableView.reloadData()
     }
     
     @objc func didTapClose(){
@@ -205,9 +207,12 @@ extension PartyPlayerViewController: PlayerDelegate {
 
 extension PartyPlayerViewController: DatastoreDelegate {
     func didAddSong(_ song: Song) {
-        song.downloadImage(on: imageDispatchQueue, for: upcomingTableView)
-        songQueue.append(song)
-        upcomingTableView.reloadData()
+        if currentSong == nil {
+            currentSong = song
+        } else {
+            songQueue.append(song)
+            song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
+        }
     }
     
     func topSongDidChange(to song: Song) {

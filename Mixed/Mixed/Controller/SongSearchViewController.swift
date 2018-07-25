@@ -53,7 +53,7 @@ class SongSearchViewController: UIViewController {
 extension SongSearchViewController: MusicProviderDelegate {
     func queryDidSucceed(_ songs: [Song]) {
         self.searchResults = songs
-        self.searchResults.forEach { $0.downloadImage(on: imageDispatchQueue, for: tableView )}
+        self.searchResults.forEach { $0.downloadImage(on: imageDispatchQueue, then: { _ in self.tableView.reloadData() } )}
         tableView.reloadData()
     }
     

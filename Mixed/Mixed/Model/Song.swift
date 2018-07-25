@@ -39,7 +39,7 @@ public class Song: Codable {
         self.addedBy = addedBy
     }
     
-    public func downloadImage(on queue: DispatchQueue, for tableView: UITableView) {
+    public func downloadImage(on queue: DispatchQueue, then callback: @escaping (UIImage?) -> Void ) {
         let formattedURL =
             imageURL.replacingOccurrences(of: "{w}", with: "\(200)")
                     .replacingOccurrences(of: "{h}", with: "\(200)")
@@ -49,12 +49,12 @@ public class Song: Codable {
                 let data = try Data(contentsOf: URL(string: formattedURL)!)
                 self.image = UIImage(data: data)
                 DispatchQueue.main.async {
-                    tableView.reloadData()
+                    callback(self.image)
                 }
             } catch let error {
                 print("Error whilst downloading image - \(error)")
             }
         }
-       
     }
+
 }

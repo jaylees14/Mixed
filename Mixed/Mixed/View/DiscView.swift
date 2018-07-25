@@ -31,6 +31,7 @@ class DiscView: UIView {
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOpacity = 0.7
         self.backgroundColor = .clear
+
         
         // Add image view
         imageView = UIImageView(frame: CGRect(origin: .zero, size: self.frame.size))
@@ -45,6 +46,9 @@ class DiscView: UIView {
         centerView.backgroundColor = .white
         centerView.layer.cornerRadius = height / 2
         self.addSubview(centerView)
+        
+        self.imageView.alpha = 0
+        self.centerView.alpha = 0
     }
     
     func resize(to frame: CGRect){
@@ -78,10 +82,12 @@ class DiscView: UIView {
     func updateArtwork(image: UIImage?){
         UIView.animate(withDuration: 0.5, animations: {
             self.imageView.alpha = 0
+            self.centerView.alpha = 0
         }) { _ in
             self.imageView.image = image
             UIView.animate(withDuration: 0.5, animations: {
                 self.imageView.alpha = 1
+                self.centerView.alpha = 1
             })
         }
     }
