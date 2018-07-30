@@ -30,7 +30,7 @@ class SearchViewController: MixedViewController, UITableViewDataSource, UITableV
         searchText.layer.cornerRadius = 10
         searchText.layer.borderWidth = 0
         
-        provider =  currentProvider == .appleMusic ? AppleMusic() : Spotify()
+        //provider =  currentProvider == .appleMusic ? AppleMusic() : Spotify()
         
         searchText.delegate = self
     }

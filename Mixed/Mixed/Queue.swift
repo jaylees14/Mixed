@@ -31,7 +31,7 @@ public struct Queue<T> {
     }
     
     public func peek() -> T? {
-        return list[0]
+        return list.first
     }
     
     public func getAll() -> [T]{

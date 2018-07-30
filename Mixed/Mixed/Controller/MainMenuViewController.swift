@@ -11,6 +11,9 @@ import Firebase
 
 class MainMenuViewController: UIViewController {
     
+    private var partyID: String!
+    private var playerType: PartyPlayerViewController.PlayerType!
+    
     override func viewWillAppear(_ animated: Bool) {
         let soundWave = SoundWave(origin: CGPoint(x: 0, y: (view.frame.height / 2) - 50), width: view.frame.width)
         view.addSubview(soundWave)
@@ -43,13 +46,29 @@ class MainMenuViewController: UIViewController {
     }
     
     @IBAction func didTapJoinParty(_ sender: Any) {
-        
+    
     }
     
     @IBAction func didTapSpotify(_ sender: Any) {
+        partyID = Datastore.instance.createNewParty(with: .spotify)
+        playerType = .host
+        performSegue(withIdentifier: "toPlayer", sender: self)
     }
     
     @IBAction func didTapAppleMusic(_ sender: Any) {
-        Datastore.instance.createNewParty()
+        partyID = Datastore.instance.createNewParty(with: .appleMusic)
+        playerType = .host
+        performSegue(withIdentifier: "toPlayer", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toPlayer" {
+            guard let navigation = segue.destination as? UINavigationController,
+                  let dest = navigation.topViewController as? PartyPlayerViewController else {
+                fatalError("Invalid Segue")
+            }
+            dest.partyID = partyID
+            dest.playerType = playerType
+        }
     }
 }

@@ -20,7 +20,8 @@ enum AppleMusicError: Error {
 class AppleMusic: MusicProvider {
     var delegate: MusicProviderDelegate?
     
-    init(){
+    init(delegate: MusicProviderDelegate){
+        self.delegate = delegate
         self.determineAuthStatus()
     }
     
@@ -57,33 +58,23 @@ class AppleMusic: MusicProvider {
     public func search(for query: String){
         let formattedQuery = query.replacingOccurrences(of: " ", with: "+").lowercased()
         let url = URL(string: "https://api.music.apple.com/v1/catalog/gb/search?term=" + formattedQuery + "&limit=20")
-        var urlRequest = URLRequest(url: url!)
-        urlRequest.httpMethod = "GET"
         let token = UserDefaults.standard.value(forKey: "AMTOKEN") as! String
-        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+
+        NetworkRequest.getRequest(to: url!, bearer: token) { (json, error) in
             guard error == nil else {
-                print("AppleMusic Error: Error from URL request \(error!)")
+                print(error!)
                 return
             }
-            guard let data = data else {
-                print("AppleMusic Error: Error data returned is nil")
+            guard let json = json else {
                 return
             }
             
-            guard let response = response as? HTTPURLResponse else { return }
-            print("Response code: ", response.statusCode)
-            if response.statusCode == 200 {
-                let json = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                self.processSearchJSON(json)
-            } else {
-                self.delegate?.queryDidFail(AppleMusicError.unknownError(code: response.statusCode))
-            }
+            self.processSearchJSON(json)
         }
-        task.resume()
     }
     
+    //TODO: Refactor this to decodable
     private func processSearchJSON(_ json: [String: Any]){
         let results = json["results"] as! [String: Any]
         guard let songs = results["songs"] as? [String: Any] else { return }

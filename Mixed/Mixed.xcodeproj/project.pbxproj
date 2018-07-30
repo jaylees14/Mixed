@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3C093A6FA218CD1D542D75B4 /* Pods_Mixed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADC66332F545A2CD7DDB934 /* Pods_Mixed.framework */; };
 		690109E120C74780005183D4 /* NameInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690109E020C74780005183D4 /* NameInputViewController.swift */; };
+		69029333210E5B6500E2A1EB /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69029332210E5B6500E2A1EB /* NetworkRequest.swift */; };
 		6915F08C20D52C590025A072 /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6915F08B20D52C590025A072 /* NameViewController.swift */; };
 		69181E2220E0FB2700C37FB9 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69181E2120E0FB2700C37FB9 /* LineView.swift */; };
 		69181E2420E10AB600C37FB9 /* MixedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69181E2320E10AB600C37FB9 /* MixedButton.swift */; };
@@ -89,6 +90,7 @@
 /* Begin PBXFileReference section */
 		1B160BC61CE6119DA4FDF27B /* Pods-Mixed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mixed.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mixed/Pods-Mixed.release.xcconfig"; sourceTree = "<group>"; };
 		690109E020C74780005183D4 /* NameInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewController.swift; sourceTree = "<group>"; };
+		69029332210E5B6500E2A1EB /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		6915F08B20D52C590025A072 /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		69181E2120E0FB2700C37FB9 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 		69181E2320E10AB600C37FB9 /* MixedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedButton.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 		69AF594B1F18017B00402BE2 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				69029332210E5B6500E2A1EB /* NetworkRequest.swift */,
 				69675FE41F17FF86008A3299 /* AppleMusic.swift */,
 				69D9E6351F2D2B980012319A /* Spotify.swift */,
 				69675FE51F17FF86008A3299 /* StreamingProvider.swift */,
@@ -609,6 +612,7 @@
 				69181E2C20E14E9E00C37FB9 /* SongTableViewCell.swift in Sources */,
 				69675FD31F17FF72008A3299 /* AppDelegate.swift in Sources */,
 				69675FE91F17FF86008A3299 /* Song.swift in Sources */,
+				69029333210E5B6500E2A1EB /* NetworkRequest.swift in Sources */,
 				6981CEDE20F28D2000B4A6D6 /* SongSearchField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

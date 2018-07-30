@@ -9,10 +9,10 @@
 import Foundation
 
 class MusicProviderFactory {
-    static func generateMusicProvider(for provider: StreamingProvider) -> MusicProvider {
+    static func generateMusicProvider(for provider: StreamingProvider, with delegate: MusicProviderDelegate) -> MusicProvider {
         switch provider {
-        case .appleMusic: return AppleMusic()
-        case .spotify: return Spotify()
+        case .appleMusic: return AppleMusic(delegate: delegate)
+        case .spotify: return Spotify(delegate: delegate)
         }
     }
 }

@@ -9,15 +9,15 @@
 import UIKit
 
 class PartyPlayerViewController: UIViewController {
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var discView: DiscView!
-    @IBOutlet weak var nowPlayingSong: UILabel!
-    @IBOutlet weak var nowPlayingArtist: UILabel!
-    @IBOutlet weak var leftButton: UIButton!
-    @IBOutlet weak var centerButton: UIButton!
-    @IBOutlet weak var rightButton: UIButton!
-    @IBOutlet weak var upcomingTableView: UITableView!
-    @IBOutlet weak var centerButtonHeight: NSLayoutConstraint!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var discView: DiscView!
+    @IBOutlet private weak var nowPlayingSong: UILabel!
+    @IBOutlet private weak var nowPlayingArtist: UILabel!
+    @IBOutlet private weak var leftButton: UIButton!
+    @IBOutlet private weak var centerButton: UIButton!
+    @IBOutlet private weak var rightButton: UIButton!
+    @IBOutlet private weak var upcomingTableView: UITableView!
+    @IBOutlet private weak var centerButtonHeight: NSLayoutConstraint!
     
     fileprivate enum PlayerViewState {
         case full
@@ -29,8 +29,11 @@ class PartyPlayerViewController: UIViewController {
         case attendee
     }
     
-    public  var playerType: PlayerType = .host
+    // Set before segue to view
+    public var playerType: PlayerType!
+    public var partyID: String!
     
+    private var party: Party?
     private var lastContentOffset: CGFloat = 0
     private var forwardAnimator: UIViewPropertyAnimator?
     private var backwardAnimator: UIViewPropertyAnimator?
@@ -64,16 +67,20 @@ class PartyPlayerViewController: UIViewController {
         
         // Note: Set delegate before joining so we can receive all added songs!
         datastore.delegate = self
-        datastore.joinParty(with: "abcdef") { (party) in
+        datastore.joinParty(with: partyID) { (party) in
             guard let party = party else {
                 print("Unable to create party")
                 //TODO: throw
                 return
             }
+        
+            self.party = party
             self.setupNavigationBar(title: "\(party.partyHost)'s Party")
             self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
             self.musicPlayer?.setDelegate(self)
             self.musicPlayer?.validateSession()
+            // We have to do this after we've created the player!
+            self.datastore.subscribeToUpdates(for: party.partyID)
         }
         
         if playerType == .host {
@@ -82,6 +89,7 @@ class PartyPlayerViewController: UIViewController {
             rightButton.setBackgroundImage(#imageLiteral(resourceName: "next"), for: .normal)
             leftButton.addTarget(self, action: #selector(toSearch), for: .touchUpInside)
             rightButton.addTarget(self, action: #selector(nextSong), for: .touchUpInside)
+            centerButton.addTarget(self, action: #selector(playSong), for: .touchUpInside)
         } else {
             leftButton.isHidden = true
             rightButton.isHidden = true
@@ -114,17 +122,23 @@ class PartyPlayerViewController: UIViewController {
     
     
     // MARK: - Button actions
-    @objc func toSearch(){
+    @objc private func toSearch(){
         self.performSegue(withIdentifier: "toSearch", sender: self)
     }
     
-    @objc func nextSong() {
-        self.currentSong = songQueue.first
-        self.songQueue = Array(songQueue.dropFirst())
-        self.upcomingTableView.reloadData()
+    @objc private func playSong() {
+        if musicPlayer?.getCurrentStatus() == .playing {
+            musicPlayer?.pause()
+        } else {
+            musicPlayer?.play()
+        }
     }
     
-    @objc func didTapClose(){
+    @objc private func nextSong() {
+        musicPlayer?.next()
+    }
+    
+    @objc private func didTapClose(){
         let title = "Close the party"
         var message = "Are you sure you want to quit? "
         if playerType == .host {
@@ -135,6 +149,22 @@ class PartyPlayerViewController: UIViewController {
         askQuestion(title: title, message: message, controller: self, acceptCompletion: {
             self.dismiss(animated: true, completion: nil)
         }, cancelCompletion: nil)
+    }
+    
+    
+    // MARK: - Prepare for Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toSearch" {
+            guard let destination = segue.destination as? SongSearchViewController else {
+                fatalError("Invalid segue")
+            }
+            
+            guard let party = party else {
+                //TODO: Throw
+                return
+            }
+            destination.party = party
+        }
     }
 }
 
@@ -189,11 +219,11 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 
 extension PartyPlayerViewController: PlayerDelegate {
     func playerDidStartPlaying(songID: String?) {
-        
+        //TODO: Update state
     }
     
     func playerDidChange(to state: PlaybackStatus) {
-        
+        print(state)
     }
     
     func requestAuth(to url: URL) {
@@ -201,12 +231,13 @@ extension PartyPlayerViewController: PlayerDelegate {
     }
     
     func didReceiveError(_ error: Error) {
-        
+        print(error)
     }
 }
 
 extension PartyPlayerViewController: DatastoreDelegate {
     func didAddSong(_ song: Song) {
+        musicPlayer?.enqueue(song: song)
         if currentSong == nil {
             currentSong = song
         } else {
@@ -216,8 +247,6 @@ extension PartyPlayerViewController: DatastoreDelegate {
     }
     
     func topSongDidChange(to song: Song) {
-        
+
     }
-    
-    
 }

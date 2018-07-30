@@ -15,6 +15,10 @@ enum SpotifyError: Error {
 class Spotify: MusicProvider {
     var delegate: MusicProviderDelegate?
     
+    public init(delegate: MusicProviderDelegate){
+        self.delegate = delegate
+    }
+    
     public func search(for query: String){
         let formattedQuery = query.replacingOccurrences(of: " ", with: "+").lowercased()
         let url = URL(string: "https://api.spotify.com/v1/search?q=" + formattedQuery + "&type=track")

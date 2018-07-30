@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qPQ-qI-zpd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qPQ-qI-zpd">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14278.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -499,7 +500,6 @@ parties and events.</string>
                                 <state key="normal" title="Start Party with Spotify"/>
                                 <connections>
                                     <action selector="didTapSpotify:" destination="qPQ-qI-zpd" eventType="touchUpInside" id="Qpf-Tb-PfJ"/>
-                                    <segue destination="zaz-PX-DiB" kind="show" id="bqt-hy-siO"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYe-Qv-gPn" customClass="MixedButton" customModule="Mixed" customModuleProvider="target">
@@ -525,6 +525,9 @@ parties and events.</string>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VI3-hg-ZHR"/>
                     </view>
+                    <connections>
+                        <segue destination="zaz-PX-DiB" kind="show" identifier="toPlayer" id="Pac-Ad-eUo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IND-fG-tsn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -38,7 +38,7 @@ public class Song: Codable {
         self.image = image
         self.addedBy = addedBy
     }
-    
+ 
     public func downloadImage(on queue: DispatchQueue, then callback: @escaping (UIImage?) -> Void ) {
         let formattedURL =
             imageURL.replacingOccurrences(of: "{w}", with: "\(200)")

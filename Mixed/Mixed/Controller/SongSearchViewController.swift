@@ -10,22 +10,20 @@ import UIKit
 
 class SongSearchViewController: UIViewController {
 
-    @IBOutlet weak var searchField: SongSearchField!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var searchField: SongSearchField!
+    @IBOutlet private weak var tableView: UITableView!
     
-    let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
+    private let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
     
     // Data Sources
-    var recentSearches: [String] = []
-    var suggested: [String] = []
-    var searchResults: [Song] = []
+    private var recentSearches: [String] = []
+    private var suggested: [String] = []
+    private var searchResults: [Song] = []
+    private var shouldDisplaySearchResults = false
     
     // Party settings
-    var streamingProvider: StreamingProvider! = .appleMusic
-    var provider: MusicProvider!
-    var partyID: String!
-    
-    var shouldDisplaySearchResults = false
+    public var party: Party!
+    public var provider: MusicProvider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +35,7 @@ class SongSearchViewController: UIViewController {
         recentSearches = ["Panic at the Disco", "Ed Sheeran", "Divide"]
         suggested = ["ABC", "DEF", "GEH"]
 
-        provider = MusicProviderFactory.generateMusicProvider(for: streamingProvider)
-        provider.delegate = self
+        provider = MusicProviderFactory.generateMusicProvider(for: party.streamingProvider, with: self)
         
         searchField.searchDelegate = self
         setupNavigationBar(title: "Search")
@@ -58,7 +55,7 @@ extension SongSearchViewController: MusicProviderDelegate {
     }
     
     func queryDidFail(_ error: Error) {
-        print("Whooooops!")
+        print(error.localizedDescription)
     }
 }
 

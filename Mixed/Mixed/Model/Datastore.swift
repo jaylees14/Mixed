@@ -44,19 +44,29 @@ class Datastore {
         print("Adding \(song.songName)")
     }
     
-    public func createNewParty() -> String {
+    public func createNewParty(with provider: StreamingProvider) -> String {
         //TODO: Create a UUID for each
         let betaID = "abcdef"
         ref.child(databaseName).child(betaID).child("host").setValue("Jay")
-        ref.child(databaseName).child(betaID).child("streamingService").setValue(StreamingProvider.appleMusic.rawValue)
+        ref.child(databaseName).child(betaID).child("streamingProvider").setValue(provider.rawValue)
+        ref.child(databaseName).child(betaID).child("queue").setValue([])
         return betaID
     }
     
     public func joinParty(with id: String, callback: @escaping (Party?) -> ()) {
         ref.child(databaseName).child(id).observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
-                self.subscribeToDatabase(partyID: id)
-                //TODO: Generate callback
+                guard let value = snapshot.value as? [String: Any],
+                      let partyHost = value["host"] as? String,
+                      let provider = value["streamingService"] as? String else {
+                        callback(nil)
+                        return
+                }
+                
+                let party = Party(partyHost: partyHost,
+                                  partyID: id,
+                                  streamingProvider: StreamingProvider(rawValue: provider)!)
+                callback(party)
             } else {
                 callback(nil)
             }
@@ -68,8 +78,8 @@ class Datastore {
     }
     
     
-    private func subscribeToDatabase(partyID: String){
-        ref.child(databaseName).child(partyID).child("queue").observe(.childAdded) { (snapshot) in
+    public func subscribeToUpdates(for party: String){
+        ref.child(databaseName).child(party).child("queue").observe(.childAdded) { (snapshot) in
             guard let json = snapshot.value as? [String: Any],
                   let data = try? JSONSerialization.data(withJSONObject: json, options: []),
                   let song = try? JSONDecoder().decode(Song.self, from:  data) else {
@@ -79,7 +89,7 @@ class Datastore {
             self.delegate?.didAddSong(song)
         }
         
-        ref.child(databaseName).child(partyID).child("queue").observe(.childChanged) { (snapshot) in
+        ref.child(databaseName).child(party).child("queue").observe(.childChanged) { (snapshot) in
             print(snapshot.value)
         }
         // Call delegate.didAddSong
