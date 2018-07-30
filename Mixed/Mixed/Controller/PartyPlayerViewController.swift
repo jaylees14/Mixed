@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class PartyPlayerViewController: UIViewController {
     @IBOutlet private weak var scrollView: UIScrollView!
@@ -33,14 +34,14 @@ class PartyPlayerViewController: UIViewController {
     public var playerType: PlayerType!
     public var partyID: String!
     
-    private var party: Party?
-    private var lastContentOffset: CGFloat = 0
-    private var forwardAnimator: UIViewPropertyAnimator?
-    private var backwardAnimator: UIViewPropertyAnimator?
-    private var playerViewState: PlayerViewState!
-    private var musicPlayer: MusicPlayer?
     private let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
     private let datastore = Datastore.instance
+    private var safariViewController: SFSafariViewController!
+    private var party: Party?
+    private var lastContentOffset: CGFloat = 0
+    private var animator: UIViewPropertyAnimator?
+    private var playerViewState: PlayerViewState!
+    private var musicPlayer: MusicPlayer?
     private var songQueue = [Song]()
     private var currentSong: Song? {
         didSet {
@@ -83,6 +84,16 @@ class PartyPlayerViewController: UIViewController {
             self.datastore.subscribeToUpdates(for: party.partyID)
         }
         
+        // Notification when Spotify sends callback
+        let callback = { () in
+            
+        }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(spotifySessionUpdated),
+                                               name: NSNotification.Name.init("spotifySessionUpdated"),
+                                               object: nil)
+        
         if playerType == .host {
             leftButton.setBackgroundImage(#imageLiteral(resourceName: "plus"), for: .normal)
             centerButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
@@ -109,7 +120,7 @@ class PartyPlayerViewController: UIViewController {
         discView.resize(to: discView.frame)
         discView.startRotating()
         
-        forwardAnimator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
+        animator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
             self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 440)
             self.discView.resize(to: CGRect(x: 32, y: 275, width: 50, height: 50))
             self.nowPlayingSong.frame.origin = CGPoint(x: 82 + 28, y: 275)
@@ -149,6 +160,12 @@ class PartyPlayerViewController: UIViewController {
         askQuestion(title: title, message: message, controller: self, acceptCompletion: {
             self.dismiss(animated: true, completion: nil)
         }, cancelCompletion: nil)
+    }
+    
+    // MARK: - Spotify Callback
+    @objc private func spotifySessionUpdated(){
+        safariViewController.dismiss(animated: true, completion: nil)
+        musicPlayer?.validateSession()
     }
     
     
@@ -212,7 +229,7 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let maxY: CGFloat = 250.0
         if scrollView.contentOffset.y < maxY {
-            forwardAnimator?.fractionComplete = scrollView.contentOffset.y / maxY
+            animator?.fractionComplete = scrollView.contentOffset.y / maxY
         }
     }
 }
@@ -227,7 +244,8 @@ extension PartyPlayerViewController: PlayerDelegate {
     }
     
     func requestAuth(to url: URL) {
-        
+        safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     func didReceiveError(_ error: Error) {

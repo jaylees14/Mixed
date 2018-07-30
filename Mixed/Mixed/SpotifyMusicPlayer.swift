@@ -61,10 +61,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         
         player.setIsPlaying(true) { (error) in
             guard error == nil else {
-                guard error == nil else {
-                    self.delegate?.didReceiveError(error!)
-                    return
-                }
+                self.delegate?.didReceiveError(error!)
                 return
             }
         }
@@ -73,10 +70,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     public func pause() {
         player.setIsPlaying(false) { (error) in
             guard error == nil else {
-                guard error == nil else {
-                    self.delegate?.didReceiveError(error!)
-                    return
-                }
+                self.delegate?.didReceiveError(error!)
                 return
             }
         }
@@ -96,27 +90,28 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func enqueue(song: Song) {
-//        if !hasStarted {
-//            startPlayer()
-//        }
-//
-//        if !gotFirstTrack {
-//            player.playSpotifyURI(song, startingWith: 0, startingWithPosition: 0) { (error) in
-//                guard error == nil else {
-//                    self.delegate?.didReceiveError(error!)
-//                    return
-//                }
-//                self.pause()
-//                self.gotFirstTrack = true
-//            }
-//
-//        } else {
-//            player.queueSpotifyURI(song, callback: { (error) in
-//                if error != nil {
-//                    self.delegate?.didReceiveError(error!)
-//                }
-//            })
-//        }
+        if !hasStarted {
+            startPlayer()
+        }
+
+        if !gotFirstTrack {
+            player.playSpotifyURI(song.songURL, startingWith: 0, startingWithPosition: 0) { (error) in
+                guard error == nil else {
+                    self.delegate?.didReceiveError(error!)
+                    return
+                }
+                self.pause()
+                self.gotFirstTrack = true
+            }
+
+        } else {
+            player.queueSpotifyURI(song.songURL, callback: { (error) in
+                guard error == nil else {
+                    self.delegate?.didReceiveError(error!)
+                    return
+                }
+            })
+        }
     }
     
     public func getCurrentStatus() -> PlaybackStatus {
