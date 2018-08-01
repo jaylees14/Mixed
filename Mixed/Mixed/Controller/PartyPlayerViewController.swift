@@ -42,7 +42,7 @@ class PartyPlayerViewController: UIViewController {
     private var animator: UIViewPropertyAnimator?
     private var playerViewState: PlayerViewState!
     private var musicPlayer: MusicPlayer?
-    private var songQueue = [Song]()
+    private var songQueue = Queue<Song>()
     private var currentSong: Song? {
         didSet {
             nowPlayingSong.text = currentSong?.songName ?? "Nothing is playing ☹️"
@@ -109,8 +109,12 @@ class PartyPlayerViewController: UIViewController {
             centerButton.addTarget(self, action: #selector(toSearch), for: .touchUpInside)
         }
         [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
+        
+        
         navigationController?.navigationBar.items?.first?.leftBarButtonItem =
             UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(didTapClose))
+        navigationController?.navigationBar.items?.first?.rightBarButtonItem =
+            UIBarButtonItem(title: "QR", style: .plain, target: self, action: #selector(didTapQR))
     }
     
 
@@ -149,6 +153,10 @@ class PartyPlayerViewController: UIViewController {
         musicPlayer?.next()
     }
     
+    @objc private func didTapQR(){
+        self.performSegue(withIdentifier: "toShowCode", sender: self)
+    }
+    
     @objc private func didTapClose(){
         let title = "Close the party"
         var message = "Are you sure you want to quit? "
@@ -176,6 +184,15 @@ class PartyPlayerViewController: UIViewController {
                 fatalError("Invalid segue")
             }
             
+            guard let party = party else {
+                //TODO: Throw
+                return
+            }
+            destination.party = party
+        } else if segue.identifier == "toShowCode"{
+            guard let destination = segue.destination as? PartyCodeViewController else {
+                fatalError("Invalid segue")
+            }
             guard let party = party else {
                 //TODO: Throw
                 return
@@ -222,6 +239,16 @@ extension PartyPlayerViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("woo")
+        }
+    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -236,11 +263,24 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 
 extension PartyPlayerViewController: PlayerDelegate {
     func playerDidStartPlaying(songID: String?) {
-        //TODO: Update state
+        if songID == currentSong?.songURL {
+            return
+        }
+        
+        currentSong = songQueue.dequeue()
+        if currentSong?.songURL != songID {
+            print("Huston, we have a problem! \(songID)")
+        }
+        
+        upcomingTableView.reloadData()
     }
     
     func playerDidChange(to state: PlaybackStatus) {
-        print(state)
+        if state == .playing {
+            discView.startRotating()
+        } else {
+            discView.stopRotating()
+        }
     }
     
     func requestAuth(to url: URL) {
@@ -259,7 +299,7 @@ extension PartyPlayerViewController: DatastoreDelegate {
         if currentSong == nil {
             currentSong = song
         } else {
-            songQueue.append(song)
+            songQueue.enqueue(song)
             song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
         }
     }

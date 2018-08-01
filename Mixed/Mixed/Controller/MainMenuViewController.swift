@@ -46,7 +46,7 @@ class MainMenuViewController: UIViewController {
     }
     
     @IBAction func didTapJoinParty(_ sender: Any) {
-    
+        performSegue(withIdentifier: "toScanCode", sender: self)
     }
     
     @IBAction func didTapSpotify(_ sender: Any) {

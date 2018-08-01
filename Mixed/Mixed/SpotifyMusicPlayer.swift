@@ -103,7 +103,6 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
                 self.pause()
                 self.gotFirstTrack = true
             }
-
         } else {
             player.queueSpotifyURI(song.songURL, callback: { (error) in
                 guard error == nil else {

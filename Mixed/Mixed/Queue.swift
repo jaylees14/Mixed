@@ -15,7 +15,7 @@ public struct Queue<T> {
         return list.isEmpty
     }
     
-    public var size: Int {
+    public var count: Int {
         return list.count
     }
     
@@ -36,5 +36,11 @@ public struct Queue<T> {
     
     public func getAll() -> [T]{
         return list
+    }
+    
+    subscript(index: Int) -> T {
+        get {
+            return list[index]
+        }
     }
 }

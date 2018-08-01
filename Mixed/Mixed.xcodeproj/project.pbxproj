@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3C093A6FA218CD1D542D75B4 /* Pods_Mixed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADC66332F545A2CD7DDB934 /* Pods_Mixed.framework */; };
 		69029333210E5B6500E2A1EB /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69029332210E5B6500E2A1EB /* NetworkRequest.swift */; };
+		69029337210FBB6500E2A1EB /* PartyCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69029336210FBB6500E2A1EB /* PartyCodeViewController.swift */; };
 		6915F08C20D52C590025A072 /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6915F08B20D52C590025A072 /* NameViewController.swift */; };
 		69181E2220E0FB2700C37FB9 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69181E2120E0FB2700C37FB9 /* LineView.swift */; };
 		69181E2420E10AB600C37FB9 /* MixedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69181E2320E10AB600C37FB9 /* MixedButton.swift */; };
@@ -50,6 +51,7 @@
 		69846C2D20D479D800889F86 /* MixedGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69846C2C20D479D800889F86 /* MixedGradient.swift */; };
 		698991EF2106804B001C04D1 /* Party.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698991EE2106804B001C04D1 /* Party.swift */; };
 		698991F1210683A3001C04D1 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698991F0210683A3001C04D1 /* Datastore.swift */; };
+		698D315D211102E200E83579 /* JoinPartyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698D315C211102E200E83579 /* JoinPartyViewController.swift */; };
 		69AF594A1F1800B300402BE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69AF59491F1800B300402BE2 /* GoogleService-Info.plist */; };
 		69AF59521F18047700402BE2 /* UIColor+colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AF59501F18047700402BE2 /* UIColor+colors.swift */; };
 		69B9C2F520C4CFEC000DB798 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B9C2F420C4CFEC000DB798 /* MusicPlayer.swift */; };
@@ -76,6 +78,7 @@
 /* Begin PBXFileReference section */
 		1B160BC61CE6119DA4FDF27B /* Pods-Mixed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mixed.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mixed/Pods-Mixed.release.xcconfig"; sourceTree = "<group>"; };
 		69029332210E5B6500E2A1EB /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		69029336210FBB6500E2A1EB /* PartyCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyCodeViewController.swift; sourceTree = "<group>"; };
 		6915F08B20D52C590025A072 /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		69181E2120E0FB2700C37FB9 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 		69181E2320E10AB600C37FB9 /* MixedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedButton.swift; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 		69846C2C20D479D800889F86 /* MixedGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedGradient.swift; sourceTree = "<group>"; };
 		698991EE2106804B001C04D1 /* Party.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Party.swift; sourceTree = "<group>"; };
 		698991F0210683A3001C04D1 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
+		698D315C211102E200E83579 /* JoinPartyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinPartyViewController.swift; sourceTree = "<group>"; };
 		69AF59491F1800B300402BE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		69AF59501F18047700402BE2 /* UIColor+colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colors.swift"; sourceTree = "<group>"; };
 		69B9C2F420C4CFEC000DB798 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
@@ -265,6 +269,8 @@
 				69181E2520E10E4D00C37FB9 /* MainMenuViewController.swift */,
 				69181E2720E13BA900C37FB9 /* PartyPlayerViewController.swift */,
 				69670CC820E3F19300AC6E06 /* SongSearchViewController.swift */,
+				69029336210FBB6500E2A1EB /* PartyCodeViewController.swift */,
+				698D315C211102E200E83579 /* JoinPartyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -505,6 +511,7 @@
 				69275DF420C4D071004C6642 /* AppleMusicPlayer.swift in Sources */,
 				69181E2420E10AB600C37FB9 /* MixedButton.swift in Sources */,
 				69EE13581F292BB5008FE4A6 /* UIFont+custom.swift in Sources */,
+				69029337210FBB6500E2A1EB /* PartyCodeViewController.swift in Sources */,
 				698991EF2106804B001C04D1 /* Party.swift in Sources */,
 				69275DF620C4D090004C6642 /* SpotifyMusicPlayer.swift in Sources */,
 				695B039020D4560800946DC2 /* OnboardingButton.swift in Sources */,
@@ -530,6 +537,7 @@
 				6979D99F20CA4415000F6502 /* LogoView.swift in Sources */,
 				69846C2D20D479D800889F86 /* MixedGradient.swift in Sources */,
 				69F1F1621F1EBAB300449F28 /* Queue.swift in Sources */,
+				698D315D211102E200E83579 /* JoinPartyViewController.swift in Sources */,
 				69275DFA20C4D6CD004C6642 /* PlaybackStatus.swift in Sources */,
 				69181E2820E13BA900C37FB9 /* PartyPlayerViewController.swift in Sources */,
 				6955AA4A210489F6003F1548 /* MusicProvider.swift in Sources */,
