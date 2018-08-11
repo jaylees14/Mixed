@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qPQ-qI-zpd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jbo-dI-tig">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -528,6 +528,18 @@ parties and events.</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're offline" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQ2-Xw-Xx2">
+                                <rect key="frame" x="71" y="363.33333333333331" width="233" height="39.333333333333314"/>
+                                <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="35"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check your network connection, then try again." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HTj-in-f0V">
+                                <rect key="frame" x="50" y="418.33333333333331" width="275" height="40.333333333333314"/>
+                                <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v5S-bj-wJq">
                                 <rect key="frame" x="16" y="170" width="343" height="648"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -618,8 +630,13 @@ parties and events.</string>
                         <constraints>
                             <constraint firstItem="v5S-bj-wJq" firstAttribute="top" secondItem="KYn-xe-jd9" secondAttribute="bottom" constant="16" id="0Ea-5u-n7c"/>
                             <constraint firstItem="KYn-xe-jd9" firstAttribute="leading" secondItem="Wsn-gz-AhC" secondAttribute="leading" constant="24" id="5D4-Wj-PoH"/>
+                            <constraint firstItem="HTj-in-f0V" firstAttribute="centerX" secondItem="Wsn-gz-AhC" secondAttribute="centerX" id="Ah2-6z-bHw"/>
+                            <constraint firstItem="Wsn-gz-AhC" firstAttribute="leading" secondItem="HTj-in-f0V" secondAttribute="leading" constant="-50" id="CdE-dO-YCI"/>
+                            <constraint firstItem="bQ2-Xw-Xx2" firstAttribute="centerX" secondItem="Wsn-gz-AhC" secondAttribute="centerX" id="Dxd-Y1-KSj"/>
                             <constraint firstItem="v5S-bj-wJq" firstAttribute="centerX" secondItem="Wsn-gz-AhC" secondAttribute="centerX" id="EjE-Sd-hRA"/>
+                            <constraint firstItem="HTj-in-f0V" firstAttribute="firstBaseline" secondItem="bQ2-Xw-Xx2" secondAttribute="baseline" constant="40" id="G5x-YE-2bT"/>
                             <constraint firstItem="Wsn-gz-AhC" firstAttribute="trailing" secondItem="KYn-xe-jd9" secondAttribute="trailing" constant="24" id="WaO-UC-nqL"/>
+                            <constraint firstItem="bQ2-Xw-Xx2" firstAttribute="centerY" secondItem="Wsn-gz-AhC" secondAttribute="centerY" constant="-50" id="bKj-BM-Qlc"/>
                             <constraint firstItem="Wsn-gz-AhC" firstAttribute="bottom" secondItem="v5S-bj-wJq" secondAttribute="bottom" constant="-40" id="hd8-rL-3Gx"/>
                             <constraint firstItem="KYn-xe-jd9" firstAttribute="top" secondItem="Wsn-gz-AhC" secondAttribute="top" constant="16" id="pOm-l1-Usm"/>
                             <constraint firstItem="v5S-bj-wJq" firstAttribute="leading" secondItem="Wsn-gz-AhC" secondAttribute="leading" constant="16" id="yHQ-G3-LnZ"/>
@@ -633,7 +650,7 @@ parties and events.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v2R-Gp-kTR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4085.625" y="2463.3802816901407"/>
+            <point key="canvasLocation" x="4085.5999999999999" y="2462.807881773399"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="syL-sL-BlS">

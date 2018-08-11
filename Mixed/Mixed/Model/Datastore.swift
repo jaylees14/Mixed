@@ -11,7 +11,7 @@ import Firebase
 
 protocol DatastoreDelegate {
     func didAddSong(_ song: Song)
-    func topSongDidChange(to song: Song)
+    func queueDidChange(songs: [Song])
 }
 
 extension Encodable {
@@ -53,6 +53,10 @@ class Datastore {
         return betaID
     }
     
+    public func didFinish(song id: Int, party: String){
+        ref.child(databaseName).child(party).child("queue").child("\(id)").child("played").setValue(true)
+    }
+    
     public func joinParty(with id: String, callback: @escaping (Party?) -> ()) {
         ref.child(databaseName).child(id).observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
@@ -79,6 +83,7 @@ class Datastore {
     
     
     public func subscribeToUpdates(for party: String){
+        // TODO: This should be a single call at initial join. The other observer should be enough.
         ref.child(databaseName).child(party).child("queue").observe(.childAdded) { (snapshot) in
             guard let json = snapshot.value as? [String: Any],
                   let data = try? JSONSerialization.data(withJSONObject: json, options: []),
@@ -89,10 +94,19 @@ class Datastore {
             self.delegate?.didAddSong(song)
         }
         
-        ref.child(databaseName).child(party).child("queue").observe(.childChanged) { (snapshot) in
-            print(snapshot.value)
+        ref.child(databaseName).child(party).observe(.childChanged) { (snapshot) in
+            guard let json = snapshot.value as? [[String: Any]],
+                let data = try? JSONSerialization.data(withJSONObject: json, options: []),
+                let songs = try? JSONDecoder().decode(Array<Song>.self, from:  data) else {
+                    print("Could not decode data :(")
+                    return
+            }
+            self.delegate?.queueDidChange(songs: songs)
         }
-        // Call delegate.didAddSong
+    }
+    
+    public func unsubscribeFromUpdates() {
+        ref.removeAllObservers()
     }
     
     

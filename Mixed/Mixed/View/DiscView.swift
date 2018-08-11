@@ -10,6 +10,7 @@ import Foundation
 
 class DiscView: UIView {
     
+    private let defaultImage = UIImage(named: "logo")
     private let animationKey = "rotation"
     private var imageView: UIImageView!
     private var centerView: UIView!
@@ -80,11 +81,15 @@ class DiscView: UIView {
     }
     
     func updateArtwork(image: UIImage?){
+        if image == nil && self.imageView.image == defaultImage {
+            return
+        }
+        
         UIView.animate(withDuration: 0.5, animations: {
             self.imageView.alpha = 0
             self.centerView.alpha = 0
         }) { _ in
-            self.imageView.image = image ?? UIImage(named: "logo")
+            self.imageView.image = image ?? self.defaultImage
             UIView.animate(withDuration: 0.5, animations: {
                 self.imageView.alpha = 1
                 self.centerView.alpha = 1

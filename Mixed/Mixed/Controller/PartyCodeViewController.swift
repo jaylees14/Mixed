@@ -20,12 +20,23 @@ class PartyCodeViewController: UIViewController {
         super.viewDidLoad()
         self.partyCode.text = party.partyID
         self.joinLabel.text = "Join \(party.partyHost)'s party by scanning the code."
+        
+        setupNavigationBar(title: "Join Party")
+        let resized = UIImage(named: "back")?.resize(to: CGSize(width: 13, height: 22))
+        self.navigationItem.leftBarButtonItem =
+            UIBarButtonItem(image: resized, style: .plain, target: self, action: #selector(didTapBackArrow))
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
 
     override func viewDidAppear(_ animated: Bool) {
         let manager = PartyManager()
         manager.delegate = self
         manager.advertiseParty()
+    }
+    
+    // MARK: - Actions
+    @objc func didTapBackArrow() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

@@ -38,6 +38,14 @@ public struct Queue<T> {
         return list
     }
     
+    public mutating func clear() {
+        list.removeAll()
+    }
+    
+    public mutating func setTo(_ list: [T]){
+        self.list = list
+    }
+    
     subscript(index: Int) -> T {
         get {
             return list[index]

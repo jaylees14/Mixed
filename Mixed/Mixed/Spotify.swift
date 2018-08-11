@@ -52,6 +52,7 @@ class Spotify: MusicProvider {
     private func processSearchJSON(_ json: [String: Any]){
         guard let tracks = json["tracks"] as? [String:Any] else { return }
         guard let items = tracks["items"] as? [[String:Any]] else { return }
+        let username = try? CurrentUser.shared.getShortName()
         
         var songs = [Song]()
         for item in items {
@@ -71,7 +72,8 @@ class Spotify: MusicProvider {
             let imageURL = imageData[0]["url"] as! String
             let imageWidth = imageData[0]["width"] as! Int
             let imageHeight = imageData[0]["height"] as! Int
-            let song = Song(artist: artist, songName: songName, songURL: url, imageURL: imageURL, imageSize: CGSize(width: imageWidth, height: imageHeight), image: nil, addedBy: nil)
+            
+            let song = Song(artist: artist, songName: songName, songURL: url, imageURL: imageURL, imageSize: CGSize(width: imageWidth, height: imageHeight), image: nil, addedBy: username ?? "someone", played: false)
             songs.append(song)
         }
         

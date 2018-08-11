@@ -42,6 +42,7 @@ class PartyPlayerViewController: UIViewController {
     private var playerViewState: PlayerViewState!
     private var musicPlayer: MusicPlayer?
     private var songQueue = Queue<Song>()
+    private var songsPlayed = 0
     private var animator: UIViewPropertyAnimator!
     private var currentSong: Song? {
         didSet {
@@ -100,11 +101,14 @@ class PartyPlayerViewController: UIViewController {
         }
         [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
         
+        navigationController?.navigationBar.tintColor = .black
+        let resized = UIImage(named: "back")?.resize(to: CGSize(width: 13, height: 22))
+        let resizedQR = UIImage(named: "qrcode")?.resize(to: CGSize(width: 20, height: 20))
         
         navigationController?.navigationBar.items?.first?.leftBarButtonItem =
-            UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(didTapClose))
+            UIBarButtonItem(image: resized, style: .plain, target: self, action: #selector(didTapClose))
         navigationController?.navigationBar.items?.first?.rightBarButtonItem =
-            UIBarButtonItem(title: "QR", style: .plain, target: self, action: #selector(didTapQR))
+            UIBarButtonItem(image: resizedQR, style: .plain, target: self, action: #selector(didTapQR))
     }
     
 
@@ -132,7 +136,7 @@ class PartyPlayerViewController: UIViewController {
         if currentSong == nil {
             discView.resize(to: discView.frame)
             discView.updateArtwork(image: nil)
-        } else if musicPlayer?.getCurrentStatus() == .playing {
+        } else if musicPlayer?.getCurrentStatus() == .playing || playerType == .attendee {
             discView.startRotating()
         }
     }
@@ -168,6 +172,8 @@ class PartyPlayerViewController: UIViewController {
             message += "Leaving now will mean you'll have to request to join the party again in order to add songs."
         }
         askQuestion(title: title, message: message, controller: self, acceptCompletion: {
+            self.musicPlayer?.stop()
+            self.datastore.unsubscribeFromUpdates()
             self.dismiss(animated: true, completion: nil)
         }, cancelCompletion: nil)
     }
@@ -265,18 +271,15 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 
 extension PartyPlayerViewController: PlayerDelegate {
     
-    // FIXME: Fix Apple Music songID being a URL
+    // FIXME: Fix Apple Music songID being a URL should be abstracted away
     func playerDidStartPlaying(songID: String?) {
         guard let party = party else { return }
-        var current = currentSong?.songURL
-        if party.streamingProvider == .appleMusic {
-            current = current?.components(separatedBy: "?i=")[1]
-        }
-        
-        if songID == current || songID == "" {
+        if songID == currentSong?.songURL || songID == "" {
             return
         }
         
+        datastore.didFinish(song: songsPlayed, party: party.partyID)
+        songsPlayed += 1
         currentSong = songQueue.dequeue()
         if currentSong == nil {
             discView.updateArtwork(image: nil)
@@ -291,6 +294,10 @@ extension PartyPlayerViewController: PlayerDelegate {
             discView.startRotating()
         } else {
             discView.stopRotating()
+        }
+        
+        if playerType == .host {
+            centerButton.setBackgroundImage(state == .playing ? UIImage(named: "pause") : UIImage(named: "play"), for: .normal)
         }
     }
     
@@ -308,12 +315,27 @@ extension PartyPlayerViewController: PlayerDelegate {
 
 extension PartyPlayerViewController: DatastoreDelegate {
     func didAddSong(_ song: Song) {
-        songQueue.enqueue(song)
+        guard !song.played else { return }
+        if currentSong == nil {
+            currentSong = song
+        } else {
+            songQueue.enqueue(song)
+        }
         musicPlayer?.enqueue(song: song)
         song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
     }
     
-    func topSongDidChange(to song: Song) {
-
+    func queueDidChange(songs: [Song]) {
+        self.songQueue.clear()
+        let toPlay = songs.filter({!$0.played})
+        
+        if currentSong?.songURL != toPlay.first?.songURL {
+            currentSong = toPlay.first
+        }
+        
+        toPlay.forEach({
+            $0.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData()})
+        })
+        self.songQueue.setTo(Array(toPlay.dropFirst()))
     }
 }

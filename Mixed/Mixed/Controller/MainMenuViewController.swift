@@ -46,16 +46,28 @@ class MainMenuViewController: UIViewController {
     }
     
     @IBAction func didTapJoinParty(_ sender: Any) {
+        guard hasNetworkConnection() else {
+            showError(title: "No Network Connection", message: "Please check your connection and try again.", controller: self)
+            return
+        }
         performSegue(withIdentifier: "toScanCode", sender: self)
     }
     
     @IBAction func didTapSpotify(_ sender: Any) {
+        guard hasNetworkConnection() else {
+            showError(title: "No Network Connection", message: "Please check your connection and try again.", controller: self)
+            return
+        }
         partyID = Datastore.instance.createNewParty(with: .spotify)
         playerType = .host
         performSegue(withIdentifier: "toPlayer", sender: self)
     }
     
     @IBAction func didTapAppleMusic(_ sender: Any) {
+        guard hasNetworkConnection() else {
+            showError(title: "No Network Connection", message: "Please check your connection and try again.", controller: self)
+            return
+        }
         partyID = Datastore.instance.createNewParty(with: .appleMusic)
         playerType = .host
         performSegue(withIdentifier: "toPlayer", sender: self)

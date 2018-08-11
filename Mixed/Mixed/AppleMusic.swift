@@ -79,6 +79,7 @@ class AppleMusic: MusicProvider {
         let results = json["results"] as! [String: Any]
         guard let songs = results["songs"] as? [String: Any] else { return }
         guard let songData = songs["data"] as? [Any] else { return }
+        let username = try? CurrentUser.shared.getShortName()
         
         var songsArray = [Song]()
         for song in songData {
@@ -90,8 +91,9 @@ class AppleMusic: MusicProvider {
                 let imageURL = artworkInfo["url"] as! String
                 let songName = attributes["name"] as! String
                 let songURL = attributes["url"] as! String
+                let songID = songURL.components(separatedBy: "?i=")[1]
 
-                let newSong = Song(artist: artistName, songName: songName, songURL: songURL, imageURL: imageURL, imageSize: size, image: nil, addedBy: nil)
+                let newSong = Song(artist: artistName, songName: songName, songURL: songID, imageURL: imageURL, imageSize: size, image: nil, addedBy: username ?? "someone", played: false)
                 songsArray.append(newSong)
             }
         }

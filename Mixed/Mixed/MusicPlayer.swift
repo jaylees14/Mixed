@@ -13,6 +13,7 @@ public protocol MusicPlayer {
     func validateSession()
     func play()
     func pause()
+    func stop()
     func next()
     func clearQueue()
     func enqueue(song: Song)

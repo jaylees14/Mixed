@@ -39,10 +39,22 @@ class SongSearchViewController: UIViewController {
         
         searchField.searchDelegate = self
         setupNavigationBar(title: "Search")
+        let resized = UIImage(named: "back")?.resize(to: CGSize(width: 13, height: 22))
+        self.navigationItem.leftBarButtonItem =
+            UIBarButtonItem(image: resized, style: .plain, target: self, action: #selector(didTapBackArrow))
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        
+        if !hasNetworkConnection() {
+            self.tableView.isHidden = true
+        }
     }
     
     @objc private func dismissKeyboard(){
         self.searchField.resignFirstResponder()
+    }
+    
+    @objc private func didTapBackArrow(){
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

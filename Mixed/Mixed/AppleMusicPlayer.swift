@@ -69,18 +69,21 @@ public class AppleMusicPlayer: MusicPlayer {
         player.skipToNextItem()
     }
     
+    public func stop(){
+        player.stop()
+    }
+    
     public func clearQueue() {
         self.hasSetInitialQueue = false
     }
 
     public func enqueue(song: Song) {
-        let storeID = song.songURL.components(separatedBy: "?i=")[1]
         if !hasSetInitialQueue {
-            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [storeID]))
-            self.delegate?.playerDidStartPlaying(songID: storeID)
+            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
+            self.delegate?.playerDidStartPlaying(songID: song.songURL)
             hasSetInitialQueue = true
         } else {
-            self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [storeID]))
+            self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
         }
     }
     

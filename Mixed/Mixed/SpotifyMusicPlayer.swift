@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MediaPlayer
 
 public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     private let player: SPTAudioStreamingController
@@ -93,6 +94,10 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         }
     }
     
+    public func stop(){
+        try? player.stop()
+    }
+    
     public func clearQueue() {
         self.gotFirstTrack = false
     }
@@ -137,6 +142,14 @@ extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlayba
     //Did switch between playing and not playing
     public func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePlaybackStatus isPlaying: Bool) {
         delegate?.playerDidChange(to: isPlaying ? .playing : .paused)
+        
+        //Allows audio to be played in background
+        if isPlaying {
+            try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try? AVAudioSession.sharedInstance().setActive(true)
+        } else {
+            try? AVAudioSession.sharedInstance().setActive(false)
+        }
     }
     
     
