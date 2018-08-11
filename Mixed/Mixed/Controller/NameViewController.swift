@@ -56,7 +56,6 @@ class NameViewController: UIViewController {
         }
         
         CurrentUser.shared.setName(name)
-        print("Proceeding with name: \(name)")
         self.performSegue(withIdentifier: "toMainMenu", sender: self)
     }
 }

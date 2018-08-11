@@ -21,4 +21,14 @@ class PartyCodeViewController: UIViewController {
         self.partyCode.text = party.partyID
         self.joinLabel.text = "Join \(party.partyHost)'s party by scanning the code."
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        let manager = PartyManager()
+        manager.delegate = self
+        manager.advertiseParty()
+    }
+}
+
+extension PartyCodeViewController: PartyManagerDelegate {
+    
 }

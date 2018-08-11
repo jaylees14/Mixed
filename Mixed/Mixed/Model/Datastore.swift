@@ -58,7 +58,7 @@ class Datastore {
             if snapshot.exists() {
                 guard let value = snapshot.value as? [String: Any],
                       let partyHost = value["host"] as? String,
-                      let provider = value["streamingService"] as? String else {
+                      let provider = value["streamingProvider"] as? String else {
                         callback(nil)
                         return
                 }

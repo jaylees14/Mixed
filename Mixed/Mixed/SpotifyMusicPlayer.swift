@@ -49,13 +49,14 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         }
         
         // Otherwise request auth from spotify
-        self.delegate?.requestAuth(to: SPTAuth.defaultInstance().spotifyWebAuthenticationURL())
+        DispatchQueue.main.async {
+            self.delegate?.requestAuth(to: SPTAuth.defaultInstance().spotifyWebAuthenticationURL())
+        }
     }
     
     
     public func play() {
-        guard player.metadata.currentTrack != nil else {
-            print("No current track")
+        guard player.metadata.currentTrack != nil && gotFirstTrack else {
             return
         }
         
@@ -77,6 +78,13 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func next() {
+        guard player.metadata.nextTrack != nil else {
+            self.pause()
+            self.gotFirstTrack = false
+            self.delegate?.playerDidStartPlaying(songID: nil)
+            return
+        }
+        
         player.skipNext { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
@@ -86,7 +94,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func clearQueue() {
-        gotFirstTrack = false
+        self.gotFirstTrack = false
     }
     
     public func enqueue(song: Song) {

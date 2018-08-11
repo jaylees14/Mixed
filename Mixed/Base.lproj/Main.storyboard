@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qPQ-qI-zpd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qPQ-qI-zpd">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14278.2"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -291,6 +290,7 @@ parties and events.</string>
                     </view>
                     <connections>
                         <outlet property="sceneView" destination="Tie-PH-91Y" id="5R3-3h-Fih"/>
+                        <segue destination="zaz-PX-DiB" kind="show" identifier="toPlayer" id="9V1-Kz-yBd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="of6-Gv-p3E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -312,26 +312,26 @@ parties and events.</string>
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1282"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnU-DA-LPF" customClass="DiscView" customModule="Mixed" customModuleProvider="target">
-                                                <rect key="frame" x="66.333333333333314" y="39.999999999999986" width="243" height="243.66666666666663"/>
+                                                <rect key="frame" x="66.000000000000014" y="40.000000000000014" width="243.33333333333337" height="243.33333333333337"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="cnU-DA-LPF" secondAttribute="height" multiplier="1:1" id="bXY-oe-7AU"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instant Crush" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u9l-qT-C9f">
-                                                <rect key="frame" x="116.66666666666669" y="315.66666666666669" width="142" height="22.333333333333314"/>
+                                                <rect key="frame" x="116.66666666666669" y="315.33333333333331" width="142" height="22.333333333333314"/>
                                                 <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daft Punk" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b94-zO-7GD">
-                                                <rect key="frame" x="142.33333333333334" y="346" width="91" height="20"/>
+                                                <rect key="frame" x="142" y="345.66666666666669" width="91" height="20"/>
                                                 <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="18"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lFf-Nh-sN2">
-                                                <rect key="frame" x="105.33333333333333" y="418" width="27.999999999999986" height="28"/>
+                                                <rect key="frame" x="105" y="418" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="OSY-tz-azd"/>
                                                     <constraint firstAttribute="height" constant="28" id="r9v-KM-DXS"/>
@@ -339,7 +339,7 @@ parties and events.</string>
                                                 <state key="normal" backgroundImage="plus"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYd-Fh-4dy">
-                                                <rect key="frame" x="242.33333333333337" y="419" width="33" height="26"/>
+                                                <rect key="frame" x="242" y="419" width="33" height="26"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="33" id="9rm-pE-H0H"/>
                                                     <constraint firstAttribute="height" constant="26" id="bwI-5d-t79"/>
@@ -347,7 +347,7 @@ parties and events.</string>
                                                 <state key="normal" backgroundImage="next"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ttv-rI-1ut">
-                                                <rect key="frame" x="165.33333333333334" y="406" width="45" height="52"/>
+                                                <rect key="frame" x="165" y="406" width="45" height="52"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="52" id="0c0-Su-QMA"/>
                                                     <constraint firstAttribute="width" constant="45" id="s28-Kg-HfK"/>
@@ -369,7 +369,7 @@ parties and events.</string>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pHt-3P-d2v">
-                                                                    <rect key="frame" x="32" y="12.666666666666664" width="40" height="40"/>
+                                                                    <rect key="frame" x="32" y="12.333333333333336" width="40" height="40"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="40" id="gVu-2c-kAq"/>
                                                                         <constraint firstAttribute="height" constant="40" id="oyz-BV-tYe"/>
@@ -529,7 +529,7 @@ parties and events.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v5S-bj-wJq">
-                                <rect key="frame" x="16" y="170" width="343" height="588"/>
+                                <rect key="frame" x="16" y="170" width="343" height="648"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recentSearchCell" rowHeight="51" id="PFN-DE-duj" customClass="RecentSearchTableViewCell" customModule="Mixed" customModuleProvider="target">
@@ -565,7 +565,7 @@ parties and events.</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hgr-vK-k4a">
-                                                    <rect key="frame" x="16" y="12.666666666666664" width="40" height="40"/>
+                                                    <rect key="frame" x="16" y="12.333333333333336" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="7KI-Yt-dSt"/>
                                                         <constraint firstAttribute="width" constant="40" id="yBI-44-Eej"/>
@@ -620,7 +620,7 @@ parties and events.</string>
                             <constraint firstItem="KYn-xe-jd9" firstAttribute="leading" secondItem="Wsn-gz-AhC" secondAttribute="leading" constant="24" id="5D4-Wj-PoH"/>
                             <constraint firstItem="v5S-bj-wJq" firstAttribute="centerX" secondItem="Wsn-gz-AhC" secondAttribute="centerX" id="EjE-Sd-hRA"/>
                             <constraint firstItem="Wsn-gz-AhC" firstAttribute="trailing" secondItem="KYn-xe-jd9" secondAttribute="trailing" constant="24" id="WaO-UC-nqL"/>
-                            <constraint firstItem="Wsn-gz-AhC" firstAttribute="bottom" secondItem="v5S-bj-wJq" secondAttribute="bottom" constant="20" id="hd8-rL-3Gx"/>
+                            <constraint firstItem="Wsn-gz-AhC" firstAttribute="bottom" secondItem="v5S-bj-wJq" secondAttribute="bottom" constant="-40" id="hd8-rL-3Gx"/>
                             <constraint firstItem="KYn-xe-jd9" firstAttribute="top" secondItem="Wsn-gz-AhC" secondAttribute="top" constant="16" id="pOm-l1-Usm"/>
                             <constraint firstItem="v5S-bj-wJq" firstAttribute="leading" secondItem="Wsn-gz-AhC" secondAttribute="leading" constant="16" id="yHQ-G3-LnZ"/>
                         </constraints>
@@ -661,6 +661,7 @@ parties and events.</string>
         <image name="plus" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="9V1-Kz-yBd"/>
         <segue reference="vx5-yE-c7k"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -84,7 +84,7 @@ class DiscView: UIView {
             self.imageView.alpha = 0
             self.centerView.alpha = 0
         }) { _ in
-            self.imageView.image = image
+            self.imageView.image = image ?? UIImage(named: "logo")
             UIView.animate(withDuration: 0.5, animations: {
                 self.imageView.alpha = 1
                 self.centerView.alpha = 1

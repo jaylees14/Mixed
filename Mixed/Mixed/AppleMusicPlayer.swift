@@ -37,7 +37,6 @@ public class AppleMusicPlayer: MusicPlayer {
 
     
     // MARK: - Music Player
-    
     public func validateSession() {
         // Not needed for AM
     }
@@ -63,21 +62,24 @@ public class AppleMusicPlayer: MusicPlayer {
     
     //TODO: If next on last song, remove has set inital queue
     public func next() {
+        guard hasSetInitialQueue else {
+            return
+        }
+        
         player.skipToNextItem()
     }
     
-    public func clearQueue(){
-        // We mock clearing the queue by forcing the next song in the queue to be "set queue"
-        hasSetInitialQueue = false
+    public func clearQueue() {
+        self.hasSetInitialQueue = false
     }
-    
+
     public func enqueue(song: Song) {
         let storeID = song.songURL.components(separatedBy: "?i=")[1]
         if !hasSetInitialQueue {
             self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [storeID]))
+            self.delegate?.playerDidStartPlaying(songID: storeID)
             hasSetInitialQueue = true
         } else {
-            print("Enqueueing \(song.songName)")
             self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [storeID]))
         }
     }

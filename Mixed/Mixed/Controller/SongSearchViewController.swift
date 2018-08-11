@@ -94,7 +94,7 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         return view
     }
     
@@ -180,7 +180,9 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Update UI and trigger request
         self.searchField.text = selectedText
-        self.searchField.searchDelegate?.didRequestSearch(with: selectedText)
+        self.shouldDisplaySearchResults = true
+        self.searchField.textFieldShouldReturn(searchField)
+        tableView.reloadData()
     }
     
 }

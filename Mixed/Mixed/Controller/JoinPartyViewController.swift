@@ -17,6 +17,9 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
     private var blurView: UIVisualEffectView!
     private var codeTextField: UITextField!
     
+    private var party: Party!
+    private var manager = PartyManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         sceneView.delegate = self
@@ -40,12 +43,13 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
         
         let configuration = ARWorldTrackingConfiguration()
         
+        //TODO: Introduce in later beta
 //        if #available(iOS 11.3, *) {
-//            //setupAR(with: configuration)
+//            setupAR(with: configuration)
 //        } else {
             showPartyCodeEntry()
-            //TODO
 //        }
+        
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
         
         let tapRecogniser = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -84,7 +88,8 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
                 showError(title: "No party found!", message: "No party was found with this ID!", controller: self)
                 return
             }
-            showError(title: "Whoooooo", message: "", controller: self)
+            self.party = party
+            self.performSegue(withIdentifier: "toPlayer", sender: self)
         }
     }
     
@@ -98,73 +103,72 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
         configuration.detectionImages = referenceImages
     }
 
-    
-//    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-//        guard #available(iOS 11.3, *) else {
-//            return
-//        }
-//
-//        guard let imageAnchor = anchor as? ARImageAnchor else { return }
-//        let referenceImage = imageAnchor.referenceImage
-//        DispatchQueue(label: "com.jaylees.mixed_ar").async {
-//
-//            // Create a plane to visualize the initial position of the detected image.
-//            let geometry = SCNCapsule(capRadius: referenceImage.physicalSize.width / 14,
-//                                      height: referenceImage.physicalSize.height / 2.3)
-//
-//            let backPlane = SCNPlane(width: referenceImage.physicalSize.width,
-//                                     height: referenceImage.physicalSize.height)
-//            let planeNode = SCNNode(geometry: backPlane)
-//            planeNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "bg")
-//
-//
-//            let leftCapsule = SCNNode(geometry: geometry)
-//            let leftMidCapsule = SCNNode(geometry: geometry)
-//            let rightMidCapsule = SCNNode(geometry: geometry)
-//            let rightCapsule = SCNNode(geometry: geometry)
-//
-//            // Correct orientation
-//            leftCapsule.eulerAngles.y = -degreesToRadians(25)
-//            leftMidCapsule.eulerAngles.y = degreesToRadians(25)
-//            rightMidCapsule.eulerAngles.y = -degreesToRadians(25)
-//            rightCapsule.eulerAngles.y = degreesToRadians(25)
-//
-//
-//            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule].forEach({ (node) in
-//                node.geometry?.firstMaterial?.diffuse.contents = UIColor.black
-//                node.eulerAngles.z = 0.01
-//            })
-//
-//            //Spacing
-//            leftCapsule.position.x -= 0.02
-//            leftMidCapsule.position.x -= 0.007
-//            rightMidCapsule.position.x += 0.007
-//            rightCapsule.position.x += 0.02
-//
-//            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule, planeNode].forEach { capsule in
-//                capsule.eulerAngles.x = -.pi/2
-//                node.addChildNode(capsule)
-//            }
-//
-//            let changeColor = SCNAction.customAction(duration: 2) { (node, elapsedTime) -> () in
-//                let percentage = elapsedTime
-//                let color = UIColor(red: percentage, green: percentage, blue: percentage, alpha: 1)
-//                node.geometry!.firstMaterial!.diffuse.contents = color
-//            }
-//
-//            let action: SCNAction =
-//                .sequence([
-//                    .wait(duration: 2),
-//                    .group([.moveBy(x: 0, y: 0.2, z: 0, duration: 0.5), changeColor]),
-//                    ])
-//
-//            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule].forEach({ (node) in
-//                node.runAction(action, completionHandler: {
-//
-//                })
-//            })
-//        }
-//    }
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        guard #available(iOS 11.3, *) else {
+            return
+        }
+
+        guard let imageAnchor = anchor as? ARImageAnchor else { return }
+        let referenceImage = imageAnchor.referenceImage
+        DispatchQueue(label: "com.jaylees.mixed_ar").async {
+
+            // Create a plane to visualize the initial position of the detected image.
+            let geometry = SCNCapsule(capRadius: referenceImage.physicalSize.width / 14,
+                                      height: referenceImage.physicalSize.height / 2.3)
+
+            let backPlane = SCNPlane(width: referenceImage.physicalSize.width,
+                                     height: referenceImage.physicalSize.height)
+            let planeNode = SCNNode(geometry: backPlane)
+            planeNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "bg")
+
+
+            let leftCapsule = SCNNode(geometry: geometry)
+            let leftMidCapsule = SCNNode(geometry: geometry)
+            let rightMidCapsule = SCNNode(geometry: geometry)
+            let rightCapsule = SCNNode(geometry: geometry)
+
+            // Correct orientation
+            leftCapsule.eulerAngles.y = -degreesToRadians(25)
+            leftMidCapsule.eulerAngles.y = degreesToRadians(25)
+            rightMidCapsule.eulerAngles.y = -degreesToRadians(25)
+            rightCapsule.eulerAngles.y = degreesToRadians(25)
+
+
+            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule].forEach({ (node) in
+                node.geometry?.firstMaterial?.diffuse.contents = UIColor.black
+                node.eulerAngles.z = 0.01
+            })
+
+            //Spacing
+            leftCapsule.position.x -= 0.02
+            leftMidCapsule.position.x -= 0.007
+            rightMidCapsule.position.x += 0.007
+            rightCapsule.position.x += 0.02
+
+            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule, planeNode].forEach { capsule in
+                capsule.eulerAngles.x = -.pi/2
+                node.addChildNode(capsule)
+            }
+
+            let changeColor = SCNAction.customAction(duration: 2) { (node, elapsedTime) -> () in
+                let percentage = elapsedTime
+                let color = UIColor(red: percentage, green: percentage, blue: percentage, alpha: 1)
+                node.geometry!.firstMaterial!.diffuse.contents = color
+            }
+
+            let action: SCNAction =
+                .sequence([
+                    .wait(duration: 2),
+                    .group([.moveBy(x: 0, y: 0.2, z: 0, duration: 0.5), changeColor]),
+                    ])
+
+            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule].forEach({ (node) in
+                node.runAction(action, completionHandler: {
+
+                })
+            })
+        }
+    }
     
     func showPartyCodeEntry(){
         codeTextField = UITextField(frame: CGRect(x: 30, y: view.frame.height / 2 - 25, width: view.frame.width - 60, height: 50))
@@ -201,6 +205,15 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
             lineView.alpha = 1
             button.alpha = 1
         })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toPlayer" {
+            let nav = segue.destination as! UINavigationController
+            let destination = nav.topViewController as! PartyPlayerViewController
+            destination.partyID = party.partyID
+            destination.playerType = .attendee
+        }
     }
 }
 

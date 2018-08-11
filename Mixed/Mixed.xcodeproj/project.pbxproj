@@ -35,6 +35,8 @@
 		695B039020D4560800946DC2 /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695B038F20D4560800946DC2 /* OnboardingButton.swift */; };
 		69662A851F1BF317003FCB80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69662A841F1BF317003FCB80 /* StoreKit.framework */; };
 		69662A871F1BF320003FCB80 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69662A861F1BF320003FCB80 /* MediaPlayer.framework */; };
+		6966ED402117885000A05460 /* PartyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6966ED3E2117884F00A05460 /* PartyManager.swift */; };
+		6966ED412117885000A05460 /* PartyManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6966ED3F2117885000A05460 /* PartyManagerDelegate.swift */; };
 		69670CC920E3F19300AC6E06 /* SongSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69670CC820E3F19300AC6E06 /* SongSearchViewController.swift */; };
 		69670CCB20E3F8B900AC6E06 /* RecentSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69670CCA20E3F8B900AC6E06 /* RecentSearchTableViewCell.swift */; };
 		69675FD31F17FF72008A3299 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69675FD21F17FF72008A3299 /* AppDelegate.swift */; };
@@ -106,6 +108,8 @@
 		695B038F20D4560800946DC2 /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
 		69662A841F1BF317003FCB80 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		69662A861F1BF320003FCB80 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		6966ED3E2117884F00A05460 /* PartyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartyManager.swift; sourceTree = "<group>"; };
+		6966ED3F2117885000A05460 /* PartyManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartyManagerDelegate.swift; sourceTree = "<group>"; };
 		69670CC820E3F19300AC6E06 /* SongSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSearchViewController.swift; sourceTree = "<group>"; };
 		69670CCA20E3F8B900AC6E06 /* RecentSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchTableViewCell.swift; sourceTree = "<group>"; };
 		69675FCF1F17FF72008A3299 /* Mixed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mixed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,6 +237,8 @@
 		6981CEDF20F28D5B00B4A6D6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6966ED3E2117884F00A05460 /* PartyManager.swift */,
+				6966ED3F2117885000A05460 /* PartyManagerDelegate.swift */,
 				69B9C2F620C4D010000DB798 /* Players */,
 				69AF594B1F18017B00402BE2 /* Providers */,
 				6955AA3721047C3E003F1548 /* CurrentUser.swift */,
@@ -267,10 +273,10 @@
 				6979D99C20CA43C5000F6502 /* OpeningViewController.swift */,
 				6915F08B20D52C590025A072 /* NameViewController.swift */,
 				69181E2520E10E4D00C37FB9 /* MainMenuViewController.swift */,
+				698D315C211102E200E83579 /* JoinPartyViewController.swift */,
 				69181E2720E13BA900C37FB9 /* PartyPlayerViewController.swift */,
 				69670CC820E3F19300AC6E06 /* SongSearchViewController.swift */,
 				69029336210FBB6500E2A1EB /* PartyCodeViewController.swift */,
-				698D315C211102E200E83579 /* JoinPartyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -511,6 +517,7 @@
 				69275DF420C4D071004C6642 /* AppleMusicPlayer.swift in Sources */,
 				69181E2420E10AB600C37FB9 /* MixedButton.swift in Sources */,
 				69EE13581F292BB5008FE4A6 /* UIFont+custom.swift in Sources */,
+				6966ED412117885000A05460 /* PartyManagerDelegate.swift in Sources */,
 				69029337210FBB6500E2A1EB /* PartyCodeViewController.swift in Sources */,
 				698991EF2106804B001C04D1 /* Party.swift in Sources */,
 				69275DF620C4D090004C6642 /* SpotifyMusicPlayer.swift in Sources */,
@@ -522,6 +529,7 @@
 				6939A5841F1C082400D20D5E /* Utils.swift in Sources */,
 				69AF59521F18047700402BE2 /* UIColor+colors.swift in Sources */,
 				69670CCB20E3F8B900AC6E06 /* RecentSearchTableViewCell.swift in Sources */,
+				6966ED402117885000A05460 /* PartyManager.swift in Sources */,
 				6954035020C61929001FCAFF /* PlayerDelegate.swift in Sources */,
 				6955AA3821047C3E003F1548 /* CurrentUser.swift in Sources */,
 				69670CC920E3F19300AC6E06 /* SongSearchViewController.swift in Sources */,

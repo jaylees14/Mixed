@@ -39,20 +39,31 @@ class PartyPlayerViewController: UIViewController {
     private var safariViewController: SFSafariViewController!
     private var party: Party?
     private var lastContentOffset: CGFloat = 0
-    private var animator: UIViewPropertyAnimator?
     private var playerViewState: PlayerViewState!
     private var musicPlayer: MusicPlayer?
     private var songQueue = Queue<Song>()
+    private var animator: UIViewPropertyAnimator!
     private var currentSong: Song? {
         didSet {
             nowPlayingSong.text = currentSong?.songName ?? "Nothing is playing ☹️"
-            nowPlayingArtist.text = currentSong?.artist
+            nowPlayingArtist.text = currentSong?.artist ?? "Add some songs below!"
             currentSong?.downloadImage(on: imageDispatchQueue, then: discView.updateArtwork)
         }
     }
     
+    
 
     override func viewDidLoad() {
+//        animator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
+//            self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 440)
+//            self.discView.resize(to: CGRect(x: 32, y: 275, width: 50, height: 50))
+//            self.nowPlayingSong.frame.origin = CGPoint(x: 82 + 28, y: 275)
+//            self.nowPlayingArtist.frame.origin = CGPoint(x: 82 + 28, y: self.nowPlayingSong.frame.height + 275 + 8)
+//            self.leftButton.frame.origin.y = 365
+//            self.rightButton.frame.origin.y = 365
+//            self.centerButton.frame.origin.y = 350
+//        }
+        
         nowPlayingSong.textColor = UIColor.mixedPrimaryBlue
         nowPlayingArtist.textColor = UIColor.mixedSecondaryBlue
         
@@ -65,29 +76,8 @@ class PartyPlayerViewController: UIViewController {
         upcomingTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         upcomingTableView.isScrollEnabled = false
         playerViewState = .full
-        
-        // Note: Set delegate before joining so we can receive all added songs!
-        datastore.delegate = self
-        datastore.joinParty(with: partyID) { (party) in
-            guard let party = party else {
-                print("Unable to create party")
-                //TODO: throw
-                return
-            }
-        
-            self.party = party
-            self.setupNavigationBar(title: "\(party.partyHost)'s Party")
-            self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
-            self.musicPlayer?.setDelegate(self)
-            self.musicPlayer?.validateSession()
-            // We have to do this after we've created the player!
-            self.datastore.subscribeToUpdates(for: party.partyID)
-        }
-        
-        // Notification when Spotify sends callback
-        let callback = { () in
-            
-        }
+    
+        currentSong = nil
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(spotifySessionUpdated),
@@ -120,18 +110,30 @@ class PartyPlayerViewController: UIViewController {
 
     
     override func viewDidAppear(_ animated: Bool) {
+        if party == nil {
+            // Note: Set delegate before joining so we can receive all added songs!
+            datastore.delegate = self
+            datastore.joinParty(with: partyID) { (party) in
+                guard let party = party else {
+                    //TODO: throw
+                    return
+                }
+                
+                self.party = party
+                self.setupNavigationBar(title: "\(party.partyHost)'s Party")
+                self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
+                self.musicPlayer?.setDelegate(self)
+                self.musicPlayer?.validateSession()
+                // We have to do this after we've created the player!
+                self.datastore.subscribeToUpdates(for: party.partyID)
+            }
+        }
         // Fix a bug where the disc view would be correctly sized on first load
-        discView.resize(to: discView.frame)
-        discView.startRotating()
-        
-        animator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
-            self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 440)
-            self.discView.resize(to: CGRect(x: 32, y: 275, width: 50, height: 50))
-            self.nowPlayingSong.frame.origin = CGPoint(x: 82 + 28, y: 275)
-            self.nowPlayingArtist.frame.origin = CGPoint(x: 82 + 28, y: self.nowPlayingSong.frame.height + 275 + 8)
-            self.leftButton.frame.origin.y = 365
-            self.rightButton.frame.origin.y = 365
-            self.centerButton.frame.origin.y = 350
+        if currentSong == nil {
+            discView.resize(to: discView.frame)
+            discView.updateArtwork(image: nil)
+        } else if musicPlayer?.getCurrentStatus() == .playing {
+            discView.startRotating()
         }
     }
     
@@ -256,20 +258,29 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let maxY: CGFloat = 250.0
         if scrollView.contentOffset.y < maxY {
-            animator?.fractionComplete = scrollView.contentOffset.y / maxY
+            //animator.fractionComplete = scrollView.contentOffset.y / maxY
         }
     }
 }
 
 extension PartyPlayerViewController: PlayerDelegate {
+    
+    // FIXME: Fix Apple Music songID being a URL
     func playerDidStartPlaying(songID: String?) {
-        if songID == currentSong?.songURL {
+        guard let party = party else { return }
+        var current = currentSong?.songURL
+        if party.streamingProvider == .appleMusic {
+            current = current?.components(separatedBy: "?i=")[1]
+        }
+        
+        if songID == current || songID == "" {
             return
         }
         
         currentSong = songQueue.dequeue()
-        if currentSong?.songURL != songID {
-            print("Huston, we have a problem! \(songID)")
+        if currentSong == nil {
+            discView.updateArtwork(image: nil)
+            musicPlayer?.clearQueue()
         }
         
         upcomingTableView.reloadData()
@@ -285,7 +296,9 @@ extension PartyPlayerViewController: PlayerDelegate {
     
     func requestAuth(to url: URL) {
         safariViewController = SFSafariViewController(url: url)
-        present(safariViewController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(self.safariViewController, animated: true, completion: nil)
+        }
     }
     
     func didReceiveError(_ error: Error) {
@@ -295,13 +308,9 @@ extension PartyPlayerViewController: PlayerDelegate {
 
 extension PartyPlayerViewController: DatastoreDelegate {
     func didAddSong(_ song: Song) {
+        songQueue.enqueue(song)
         musicPlayer?.enqueue(song: song)
-        if currentSong == nil {
-            currentSong = song
-        } else {
-            songQueue.enqueue(song)
-            song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
-        }
+        song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
     }
     
     func topSongDidChange(to song: Song) {
