@@ -41,6 +41,10 @@ public class AppleMusicPlayer: MusicPlayer {
         // Not needed for AM
     }
     
+    public func hasValidSession() -> Bool {
+        return true
+    }
+    
     public func play() {
         guard hasSetInitialQueue else {
             //TODO: Throw an error

@@ -9,7 +9,7 @@
 import Foundation
 
 class MixedGradient: CALayer {
-    private let baseLayer: CAGradientLayer
+    private var baseLayer: CAGradientLayer!
     
     init(in frame: CGRect) {
         baseLayer = CAGradientLayer()
@@ -17,15 +17,34 @@ class MixedGradient: CALayer {
         baseLayer.locations = [0, 0.8]
         baseLayer.startPoint = CGPoint(x: 0, y: 1)
         baseLayer.endPoint = CGPoint(x: 1, y: 0)
-        baseLayer.frame = frame
-
+        
         super.init()
+        baseLayer.frame = frame
         self.addSublayer(baseLayer)
     }
     
     required init?(coder aDecoder: NSCoder) {
         baseLayer = CAGradientLayer()
+        baseLayer.colors = [UIColor.create(hex: "#E37B7E").cgColor,  UIColor.create(hex: "#AEA1FB").cgColor]
+        baseLayer.locations = [0, 0.8]
+        baseLayer.startPoint = CGPoint(x: 0, y: 1)
+        baseLayer.endPoint = CGPoint(x: 1, y: 0)
+        
         super.init(coder: aDecoder)
+        baseLayer.frame = frame
+        self.addSublayer(baseLayer)
+    }
+    
+    override init(layer: Any) {
+        baseLayer = CAGradientLayer()
+        baseLayer.colors = [UIColor.create(hex: "#E37B7E").cgColor,  UIColor.create(hex: "#AEA1FB").cgColor]
+        baseLayer.locations = [0, 0.8]
+        baseLayer.startPoint = CGPoint(x: 0, y: 1)
+        baseLayer.endPoint = CGPoint(x: 1, y: 0)
+        
+        super.init(layer: layer)
+        baseLayer.frame = frame
+        self.addSublayer(baseLayer)
     }
     
     public func animate() {

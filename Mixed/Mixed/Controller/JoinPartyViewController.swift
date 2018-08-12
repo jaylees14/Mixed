@@ -11,20 +11,12 @@ import SceneKit
 import ARKit
 
 class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
-
-    @IBOutlet weak var sceneView: ARSCNView!
     
     private var blurView: UIVisualEffectView!
     private var codeTextField: UITextField!
     
     private var party: Party!
     private var manager = PartyManager()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        sceneView.delegate = self
-        sceneView.showsStatistics = true
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,18 +32,8 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
         blurView = UIVisualEffectView()
         blurView.frame = view.frame
         view.addSubview(blurView)
-        
-        let configuration = ARWorldTrackingConfiguration()
-        
-        //TODO: Introduce in later beta
-//        if #available(iOS 11.3, *) {
-//            setupAR(with: configuration)
-//        } else {
-            showPartyCodeEntry()
-//        }
-        
-        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        
+    
+        showPartyCodeEntry()
         let tapRecogniser = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapRecogniser)
     }
@@ -81,6 +63,12 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
         self.joinParty(with: codeTextField.text!)
     }
     
+    @objc
+    private func cancelTapped(){
+        dismissKeyboard()
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Join Party
     fileprivate func joinParty(with id: String){
         Datastore.instance.joinParty(with: id) { (party) in
@@ -90,83 +78,6 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
             }
             self.party = party
             self.performSegue(withIdentifier: "toPlayer", sender: self)
-        }
-    }
-    
-    
-    // MARK: - iOS 11.3+ AR Tracking
-    @available(iOS 11.3, *)
-    fileprivate func setupAR(with configuration: ARWorldTrackingConfiguration){
-        guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else {
-            fatalError("Missing expected asset catalog resources.")
-        }
-        configuration.detectionImages = referenceImages
-    }
-
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        guard #available(iOS 11.3, *) else {
-            return
-        }
-
-        guard let imageAnchor = anchor as? ARImageAnchor else { return }
-        let referenceImage = imageAnchor.referenceImage
-        DispatchQueue(label: "com.jaylees.mixed_ar").async {
-
-            // Create a plane to visualize the initial position of the detected image.
-            let geometry = SCNCapsule(capRadius: referenceImage.physicalSize.width / 14,
-                                      height: referenceImage.physicalSize.height / 2.3)
-
-            let backPlane = SCNPlane(width: referenceImage.physicalSize.width,
-                                     height: referenceImage.physicalSize.height)
-            let planeNode = SCNNode(geometry: backPlane)
-            planeNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "bg")
-
-
-            let leftCapsule = SCNNode(geometry: geometry)
-            let leftMidCapsule = SCNNode(geometry: geometry)
-            let rightMidCapsule = SCNNode(geometry: geometry)
-            let rightCapsule = SCNNode(geometry: geometry)
-
-            // Correct orientation
-            leftCapsule.eulerAngles.y = -degreesToRadians(25)
-            leftMidCapsule.eulerAngles.y = degreesToRadians(25)
-            rightMidCapsule.eulerAngles.y = -degreesToRadians(25)
-            rightCapsule.eulerAngles.y = degreesToRadians(25)
-
-
-            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule].forEach({ (node) in
-                node.geometry?.firstMaterial?.diffuse.contents = UIColor.black
-                node.eulerAngles.z = 0.01
-            })
-
-            //Spacing
-            leftCapsule.position.x -= 0.02
-            leftMidCapsule.position.x -= 0.007
-            rightMidCapsule.position.x += 0.007
-            rightCapsule.position.x += 0.02
-
-            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule, planeNode].forEach { capsule in
-                capsule.eulerAngles.x = -.pi/2
-                node.addChildNode(capsule)
-            }
-
-            let changeColor = SCNAction.customAction(duration: 2) { (node, elapsedTime) -> () in
-                let percentage = elapsedTime
-                let color = UIColor(red: percentage, green: percentage, blue: percentage, alpha: 1)
-                node.geometry!.firstMaterial!.diffuse.contents = color
-            }
-
-            let action: SCNAction =
-                .sequence([
-                    .wait(duration: 2),
-                    .group([.moveBy(x: 0, y: 0.2, z: 0, duration: 0.5), changeColor]),
-                    ])
-
-            [leftCapsule, leftMidCapsule, rightMidCapsule, rightCapsule].forEach({ (node) in
-                node.runAction(action, completionHandler: {
-
-                })
-            })
         }
     }
     
@@ -180,6 +91,10 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
         button.setTitle("CONTINUE", for: .normal)
         button.addTarget(self, action: #selector(continueTapped), for: .touchUpInside)
         
+        let cancel = UIButton(frame: CGRect(x: 24, y: 75, width: 18, height: 30))
+        cancel.setBackgroundImage(UIImage(named: "back")?.tint(color: .white), for: .normal)
+        cancel.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
+        
         style(title, size: 24)
         title.text = "Enter code to join party"
         title.numberOfLines = 2
@@ -192,19 +107,21 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
         codeTextField.autocorrectionType = .no
         codeTextField.autocapitalizationType = .none
         
-        [codeTextField, lineView, title, button].forEach { v in
-            v!.alpha = 0
+        self.blurView.effect = UIBlurEffect(style: .dark)
+        
+        [codeTextField, lineView, title, button, cancel].forEach { v in
+            v?.alpha = 1
             view.addSubview(v!)
         }
         
-        UIView.animate(withDuration: 2, animations: {
-            self.blurView.effect = UIBlurEffect(style: .dark)
-            self.codeTextField.alpha = 1
-            title.alpha = 1
-            
-            lineView.alpha = 1
-            button.alpha = 1
-        })
+//        UIView.animate(withDuration: 2, animations: {
+//            self.blurView.effect = UIBlurEffect(style: .dark)
+//            self.codeTextField.alpha = 1
+//            title.alpha = 1
+//
+//            lineView.alpha = 1
+//            button.alpha = 1
+//        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

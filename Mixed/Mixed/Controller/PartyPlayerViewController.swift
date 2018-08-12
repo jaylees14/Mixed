@@ -17,13 +17,9 @@ class PartyPlayerViewController: UIViewController {
     @IBOutlet private weak var leftButton: UIButton!
     @IBOutlet private weak var centerButton: UIButton!
     @IBOutlet private weak var rightButton: UIButton!
+    @IBOutlet private weak var authenticateButton: OnboardingButton!
     @IBOutlet private weak var upcomingTableView: UITableView!
     @IBOutlet private weak var centerButtonHeight: NSLayoutConstraint!
-    
-    fileprivate enum PlayerViewState {
-        case full
-        case condensed
-    }
     
     public enum PlayerType {
         case host
@@ -39,7 +35,6 @@ class PartyPlayerViewController: UIViewController {
     private var safariViewController: SFSafariViewController!
     private var party: Party?
     private var lastContentOffset: CGFloat = 0
-    private var playerViewState: PlayerViewState!
     private var musicPlayer: MusicPlayer?
     private var songQueue = Queue<Song>()
     private var songsPlayed = 0
@@ -52,19 +47,7 @@ class PartyPlayerViewController: UIViewController {
         }
     }
     
-    
-
     override func viewDidLoad() {
-//        animator = UIViewPropertyAnimator(duration: 1, curve: .easeInOut) {
-//            self.upcomingTableView.frame.origin = CGPoint(x: 0, y: 440)
-//            self.discView.resize(to: CGRect(x: 32, y: 275, width: 50, height: 50))
-//            self.nowPlayingSong.frame.origin = CGPoint(x: 82 + 28, y: 275)
-//            self.nowPlayingArtist.frame.origin = CGPoint(x: 82 + 28, y: self.nowPlayingSong.frame.height + 275 + 8)
-//            self.leftButton.frame.origin.y = 365
-//            self.rightButton.frame.origin.y = 365
-//            self.centerButton.frame.origin.y = 350
-//        }
-        
         nowPlayingSong.textColor = UIColor.mixedPrimaryBlue
         nowPlayingArtist.textColor = UIColor.mixedSecondaryBlue
         
@@ -76,7 +59,6 @@ class PartyPlayerViewController: UIViewController {
         upcomingTableView.delegate = self
         upcomingTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         upcomingTableView.isScrollEnabled = false
-        playerViewState = .full
     
         currentSong = nil
         
@@ -101,6 +83,11 @@ class PartyPlayerViewController: UIViewController {
         }
         [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
         
+        authenticateButton.isHidden = true
+        authenticateButton.addTarget(self, action: #selector(didTapAuth), for: .touchUpInside)
+        authenticateButton.setTitleColor(.black, for: .normal)
+        authenticateButton.layer.borderColor = UIColor.black.cgColor
+        
         navigationController?.navigationBar.tintColor = .black
         let resized = UIImage(named: "back")?.resize(to: CGSize(width: 13, height: 22))
         let resizedQR = UIImage(named: "qrcode")?.resize(to: CGSize(width: 20, height: 20))
@@ -111,11 +98,9 @@ class PartyPlayerViewController: UIViewController {
             UIBarButtonItem(image: resizedQR, style: .plain, target: self, action: #selector(didTapQR))
     }
     
-
-    
     override func viewDidAppear(_ animated: Bool) {
         if party == nil {
-            // Note: Set delegate before joining so we can receive all added songs!
+            // Set delegate before joining so we can receive all added songs
             datastore.delegate = self
             datastore.joinParty(with: partyID) { (party) in
                 guard let party = party else {
@@ -178,9 +163,17 @@ class PartyPlayerViewController: UIViewController {
         }, cancelCompletion: nil)
     }
     
+    @objc private func didTapAuth(){
+        self.musicPlayer?.validateSession()
+    }
+    
     // MARK: - Spotify Callback
     @objc private func spotifySessionUpdated(){
         safariViewController.dismiss(animated: true, completion: nil)
+        [self.leftButton, self.centerButton, self.rightButton].forEach({ (button) in
+            button?.isHidden = false
+        })
+        self.authenticateButton.isHidden = true
         musicPlayer?.validateSession()
     }
     
@@ -248,20 +241,22 @@ extension PartyPlayerViewController: UITableViewDataSource, UITableViewDelegate 
         return 50
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            print("woo")
-        }
-    }
+    //TODO: Support in a later release
+//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+//
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            print("woo")
+//        }
+//    }
 }
 
 // MARK: - UIScrollViewDelegate
 extension PartyPlayerViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //TODO: Support in a later release
         let maxY: CGFloat = 250.0
         if scrollView.contentOffset.y < maxY {
             //animator.fractionComplete = scrollView.contentOffset.y / maxY
@@ -303,6 +298,7 @@ extension PartyPlayerViewController: PlayerDelegate {
     
     func requestAuth(to url: URL) {
         safariViewController = SFSafariViewController(url: url)
+        safariViewController.delegate = self
         DispatchQueue.main.async {
             self.present(self.safariViewController, animated: true, completion: nil)
         }
@@ -337,5 +333,20 @@ extension PartyPlayerViewController: DatastoreDelegate {
             $0.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData()})
         })
         self.songQueue.setTo(Array(toPlay.dropFirst()))
+    }
+}
+
+extension PartyPlayerViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        guard let musicPlayer = musicPlayer else { return }
+        if !musicPlayer.hasValidSession(){
+            DispatchQueue.main.async {
+                showError(title: "Authentication Error", message: "You are required to sign in to use Spotify, even if you're a party guest.", controller: self)
+                [self.leftButton, self.centerButton, self.rightButton].forEach({ (button) in
+                    button?.isHidden = true
+                })
+                self.authenticateButton.isHidden = false
+            }
+        }
     }
 }

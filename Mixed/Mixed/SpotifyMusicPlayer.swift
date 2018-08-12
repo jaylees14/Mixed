@@ -55,6 +55,13 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         }
     }
     
+    public func hasValidSession() -> Bool {
+        if let session = SPTAuth.defaultInstance().session {
+            return session.isValid()
+        }
+        return false
+    }
+    
     
     public func play() {
         guard player.metadata.currentTrack != nil && gotFirstTrack else {

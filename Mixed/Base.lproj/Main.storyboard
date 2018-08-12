@@ -46,7 +46,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FLa-iO-4RD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1087" y="3205"/>
+            <point key="canvasLocation" x="-1324" y="3195"/>
         </scene>
         <!--Opening View Controller-->
         <scene sceneID="PfF-fz-Dqf">
@@ -128,7 +128,7 @@ parties and events.</string>
                                 <rect key="frame" x="0.0" y="-36" width="375" height="932"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First things first" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3l-Tl-VFo">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's get started..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3l-Tl-VFo">
                                 <rect key="frame" x="48" y="169" width="279" height="62"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="62" id="0MA-N8-ZpD"/>
@@ -154,7 +154,7 @@ parties and events.</string>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="26"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" textContentType="given-name"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0GA-yt-Jey" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
                                 <rect key="frame" x="91.666666666666686" y="712" width="192" height="50"/>
@@ -275,21 +275,20 @@ parties and events.</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tie-PH-91Y">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                            </arscnView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="p6m-QU-HvV">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="822"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Tie-PH-91Y" firstAttribute="leading" secondItem="L3c-qE-BCV" secondAttribute="leading" id="3bF-6p-SW6"/>
-                            <constraint firstItem="L3c-qE-BCV" firstAttribute="top" secondItem="Tie-PH-91Y" secondAttribute="top" constant="44" id="99H-Vk-cHg"/>
-                            <constraint firstItem="Tie-PH-91Y" firstAttribute="height" secondItem="4b9-lz-eEb" secondAttribute="height" id="RaX-T9-PT4"/>
-                            <constraint firstItem="Tie-PH-91Y" firstAttribute="width" secondItem="4b9-lz-eEb" secondAttribute="width" id="h5M-7z-4ux"/>
+                            <constraint firstItem="p6m-QU-HvV" firstAttribute="leading" secondItem="L3c-qE-BCV" secondAttribute="leading" id="LBw-ey-nxo"/>
+                            <constraint firstItem="L3c-qE-BCV" firstAttribute="top" secondItem="p6m-QU-HvV" secondAttribute="top" constant="44" id="PjS-9T-n0o"/>
+                            <constraint firstItem="p6m-QU-HvV" firstAttribute="centerY" secondItem="L3c-qE-BCV" secondAttribute="centerY" id="Zmz-SN-ULL"/>
+                            <constraint firstItem="p6m-QU-HvV" firstAttribute="centerX" secondItem="L3c-qE-BCV" secondAttribute="centerX" id="uB5-3n-6t0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="L3c-qE-BCV"/>
                     </view>
                     <connections>
-                        <outlet property="sceneView" destination="Tie-PH-91Y" id="5R3-3h-Fih"/>
                         <segue destination="zaz-PX-DiB" kind="show" identifier="toPlayer" id="9V1-Kz-yBd"/>
                     </connections>
                 </viewController>
@@ -407,6 +406,10 @@ parties and events.</string>
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztu-O9-WcA" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
+                                                <rect key="frame" x="81" y="405.66666666666669" width="213" height="36.333333333333314"/>
+                                                <state key="normal" title="AUTHENTICATE"/>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -416,16 +419,20 @@ parties and events.</string>
                                             <constraint firstItem="b94-zO-7GD" firstAttribute="centerX" secondItem="7pE-nr-ob2" secondAttribute="centerX" id="BZp-Jh-lnQ"/>
                                             <constraint firstItem="u9l-qT-C9f" firstAttribute="centerX" secondItem="7pE-nr-ob2" secondAttribute="centerX" id="FFs-cx-ajb"/>
                                             <constraint firstItem="oJS-td-CKQ" firstAttribute="top" secondItem="ttv-rI-1ut" secondAttribute="bottom" constant="24" id="G1B-Db-cW0"/>
+                                            <constraint firstItem="ztu-O9-WcA" firstAttribute="centerX" secondItem="7pE-nr-ob2" secondAttribute="centerX" id="KOx-rE-gHg"/>
                                             <constraint firstItem="oJS-td-CKQ" firstAttribute="width" secondItem="7pE-nr-ob2" secondAttribute="width" id="Nz7-Gu-LFA"/>
                                             <constraint firstItem="oYd-Fh-4dy" firstAttribute="leading" secondItem="ttv-rI-1ut" secondAttribute="trailing" constant="32" id="Ou0-sH-Jpa"/>
                                             <constraint firstItem="u9l-qT-C9f" firstAttribute="top" secondItem="cnU-DA-LPF" secondAttribute="bottom" constant="32" id="VbA-Tj-ijQ"/>
+                                            <constraint firstItem="oJS-td-CKQ" firstAttribute="top" secondItem="ztu-O9-WcA" secondAttribute="bottom" constant="40" id="ZtZ-a8-3IL"/>
                                             <constraint firstItem="ttv-rI-1ut" firstAttribute="centerX" secondItem="7pE-nr-ob2" secondAttribute="centerX" id="a2x-hh-doq"/>
                                             <constraint firstItem="cnU-DA-LPF" firstAttribute="top" secondItem="7pE-nr-ob2" secondAttribute="top" constant="40" id="cz0-tV-gzk"/>
                                             <constraint firstItem="ttv-rI-1ut" firstAttribute="top" secondItem="b94-zO-7GD" secondAttribute="bottom" constant="40.329999999999998" id="eZE-J4-ChQ"/>
                                             <constraint firstItem="lFf-Nh-sN2" firstAttribute="centerY" secondItem="ttv-rI-1ut" secondAttribute="centerY" id="h7x-Ez-HDP"/>
+                                            <constraint firstItem="ztu-O9-WcA" firstAttribute="top" secondItem="b94-zO-7GD" secondAttribute="bottom" constant="40" id="lXM-K9-9zE"/>
                                             <constraint firstItem="ttv-rI-1ut" firstAttribute="leading" secondItem="lFf-Nh-sN2" secondAttribute="trailing" constant="32" id="lZm-9c-1Ca"/>
                                             <constraint firstItem="b94-zO-7GD" firstAttribute="top" secondItem="u9l-qT-C9f" secondAttribute="bottom" constant="8" id="oAh-PZ-rja"/>
                                             <constraint firstItem="oJS-td-CKQ" firstAttribute="centerX" secondItem="7pE-nr-ob2" secondAttribute="centerX" id="u43-fR-InI"/>
+                                            <constraint firstItem="ztu-O9-WcA" firstAttribute="leading" secondItem="7pE-nr-ob2" secondAttribute="leading" constant="81" id="zPS-pM-yTz"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -450,6 +457,7 @@ parties and events.</string>
                     </view>
                     <navigationItem key="navigationItem" id="FmK-wy-MEU"/>
                     <connections>
+                        <outlet property="authenticateButton" destination="ztu-O9-WcA" id="zPL-w0-47f"/>
                         <outlet property="centerButton" destination="ttv-rI-1ut" id="hm6-V6-5aM"/>
                         <outlet property="centerButtonHeight" destination="0c0-Su-QMA" id="H4S-Bh-V3j"/>
                         <outlet property="discView" destination="cnU-DA-LPF" id="iWe-C8-7eZ"/>
@@ -529,13 +537,13 @@ parties and events.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're offline" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQ2-Xw-Xx2">
-                                <rect key="frame" x="71" y="363.33333333333331" width="233" height="39.333333333333314"/>
+                                <rect key="frame" x="86.666666666666686" y="362.66666666666669" width="202" height="41"/>
                                 <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check your network connection, then try again." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HTj-in-f0V">
-                                <rect key="frame" x="50" y="418.33333333333331" width="275" height="40.333333333333314"/>
+                                <rect key="frame" x="50" y="419" width="275" height="42"/>
                                 <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -584,13 +592,13 @@ parties and events.</string>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Another Great Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drK-Xz-mO5">
-                                                    <rect key="frame" x="71.999999999999986" y="12" width="188.66666666666663" height="21"/>
+                                                    <rect key="frame" x="72.000000000000014" y="12" width="160.33333333333337" height="21"/>
                                                     <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ro-ba-NHS">
-                                                    <rect key="frame" x="72" y="38" width="72" height="14"/>
+                                                    <rect key="frame" x="72" y="38" width="63" height="14"/>
                                                     <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -662,6 +670,9 @@ parties and events.</string>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="NgI-rj-Kby" kind="relationship" relationship="rootViewController" id="fq7-d0-RAQ"/>
                     </connections>
@@ -672,7 +683,7 @@ parties and events.</string>
         </scene>
     </scenes>
     <resources>
-        <image name="gradient" width="907" height="600"/>
+        <image name="gradient" width="1536" height="1535"/>
         <image name="next" width="200" height="166"/>
         <image name="play" width="200" height="233"/>
         <image name="plus" width="200" height="200"/>
