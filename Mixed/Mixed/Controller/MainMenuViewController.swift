@@ -11,18 +11,30 @@ import Firebase
 
 class MainMenuViewController: UIViewController {
     
+    @IBOutlet weak var joinPartyButton: MixedButton!
+    @IBOutlet weak var spotifyButton: MixedButton!
+    @IBOutlet weak var appleMusicButton: MixedButton!
+    
     private var partyID: String!
     private var playerType: PartyPlayerViewController.PlayerType!
     
+    public var isFirstLogin = false
+    
+    override func viewDidLoad() {
+        [joinPartyButton, spotifyButton, appleMusicButton].forEach { (button) in
+            button?.alpha = 0
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-        let soundWave = SoundWave(origin: CGPoint(x: 0, y: (view.frame.height / 2) - 50), width: view.frame.width)
-        view.addSubview(soundWave)
-        soundWave.animate(duration: 3)
-        
         getAppleMusicToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        startAnimation()
+    }
+    
+    private func startAnimation(){
         // Account for top spacing - devices with different safe areas run > iOS 11
         // This is only available once the view has loaded r
         var topSpacing: CGFloat = 0.0
@@ -30,8 +42,31 @@ class MainMenuViewController: UIViewController {
             topSpacing = view.safeAreaInsets.top
         }
         
+        let soundWave = SoundWave(origin: CGPoint(x: 0, y: (view.frame.height / 2) - 50), width: view.frame.width)
+        view.addSubview(soundWave)
+        soundWave.animate(duration: 3)
+        
         let mixedLogo = LogoView(center: CGPoint(x: view.center.x, y: topSpacing + 50), scale: 1, isInitiallyHidden: false, backgroundGradient: true)
         view.addSubview(mixedLogo)
+        
+        if !isFirstLogin {
+            mixedLogo.alpha = 0
+            UIView.animate(withDuration: 1, delay: 3, options: .curveEaseInOut, animations: {
+                mixedLogo.alpha = 1
+            }, completion: nil)
+        } else {
+            mixedLogo.alpha = 1
+        }
+        
+        UIView.animate(withDuration: 1, delay: 3.2, options: .curveEaseInOut, animations: {
+            self.joinPartyButton.alpha = 1
+        }, completion:  nil)
+        UIView.animate(withDuration: 1, delay: 3.4, options: .curveEaseInOut, animations: {
+            self.spotifyButton.alpha = 1
+        }, completion:  nil)
+        UIView.animate(withDuration: 1, delay: 3.6, options: .curveEaseInOut, animations: {
+            self.appleMusicButton.alpha = 1
+        }, completion:  nil)
     }
     
     

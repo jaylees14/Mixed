@@ -46,8 +46,8 @@ class SongSearchField: UITextField {
         self.clearButtonMode = .whileEditing
         
         // Add the magnifying glass
-        let searchImage = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: self.frame.height, height: self.frame.height)))
-        searchImage.backgroundColor = UIColor.blue
+        let searchImage = UIImageView(frame: CGRect(x: self.frame.height / 2 - self.frame.height / 4 , y: self.frame.height / 2 - self.frame.height / 4 , width: self.frame.height/2, height: self.frame.height/2))
+        searchImage.image = UIImage(named: "search")
         self.addSubview(searchImage)
     }
 }

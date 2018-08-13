@@ -15,6 +15,7 @@ class NameViewController: UIViewController {
     
     // Gradient shared between view controllers
     public var gradient: MixedGradient!
+    public var logo: LogoView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,7 @@ class NameViewController: UIViewController {
         view.addSubview(lineView)
         
         let safeAreaTop = view.safeAreaInsets.top
-        let logo = LogoView(center: CGPoint(x: view.center.x, y: safeAreaTop + 65), scale: 1, isInitiallyHidden: false)
+        logo = LogoView(center: CGPoint(x: view.center.x, y: safeAreaTop + 50), scale: 1, isInitiallyHidden: false)
         view.addSubview(logo)
     }
     
@@ -55,14 +56,26 @@ class NameViewController: UIViewController {
             return
         }
         
-        CurrentUser.shared.setName(name)
-        self.performSegue(withIdentifier: "toMainMenu", sender: self)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.logo.showGradient()
+            self.view.backgroundColor = .white
+            self.backgroundView.alpha = 0
+        }, completion: { _ in
+            CurrentUser.shared.setName(name)
+            self.performSegue(withIdentifier: "toMainMenu", sender: self)
+        })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toMainMenu" {
+            let destination = segue.destination as! MainMenuViewController
+            destination.isFirstLogin = true
+        }
     }
 }
 
 extension NameViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.continueTapped(self)
         return true
     }
 }

@@ -46,6 +46,8 @@ class DiscView: UIView {
         centerView = UIView(frame: CGRect(x: self.frame.width/2 - width/2 , y: self.frame.height/2 - height/2, width: width, height: height))
         centerView.backgroundColor = .white
         centerView.layer.cornerRadius = height / 2
+        
+        
         self.addSubview(centerView)
         
         self.imageView.alpha = 0

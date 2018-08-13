@@ -53,8 +53,6 @@ class MixedGradient: CALayer {
             // We want a random number between about 0.4 and 0.9
             let location = arc4random_uniform(50) + 40
             let newLocations = [0, NSNumber(value: Double(location)/100.0)]
-            
-            
             let animation = CABasicAnimation(keyPath: "locations")
             animation.fromValue = self.baseLayer.locations
             animation.toValue = newLocations

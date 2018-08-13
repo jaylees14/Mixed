@@ -14,6 +14,7 @@ class LogoView: UIView {
     private var scaledHeight: CGFloat
     private var scaledWidth: CGFloat
     private var logoLayer: CAShapeLayer
+    private var gradient: MixedGradient
     
     init(center: CGPoint, scale: CGFloat, isInitiallyHidden: Bool, backgroundGradient: Bool = false) {
         self.scaledHeight = scale * height
@@ -35,15 +36,17 @@ class LogoView: UIView {
         logoLayer.lineJoin = kCALineJoinRound
         logoLayer.lineWidth = 27.0
         
+        gradient = MixedGradient(in: CGRect(origin: CGPoint(x: -50, y: -50),
+                                            size: CGSize(width: scaledWidth + 100, height: scaledHeight + 100)))
+        gradient.mask = logoLayer
+        
         super.init(frame: CGRect(x: center.x - scaledWidth / 2,
                                  y: center.y - scaledHeight / 2,
                                  width: scaledWidth,
                                  height: scaledHeight))
 
+        
         if backgroundGradient {
-            let gradient = MixedGradient(in: CGRect(origin: CGPoint(x: -50, y: -50),
-                                                    size: CGSize(width: scaledWidth + 100, height: scaledHeight + 100)))
-            gradient.mask = logoLayer
             layer.addSublayer(gradient)
             gradient.animate()
         } else {
@@ -64,6 +67,11 @@ class LogoView: UIView {
         Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { _ in
             callback?()
         }
+    }
+    
+    public func showGradient(){
+        layer.addSublayer(gradient)
+        gradient.mask = logoLayer
     }
     
     required init?(coder aDecoder: NSCoder) {

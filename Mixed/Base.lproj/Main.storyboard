@@ -198,7 +198,7 @@ parties and events.</string>
                     <connections>
                         <outlet property="backgroundView" destination="l3X-he-YS5" id="vDJ-7W-ggC"/>
                         <outlet property="nameTextField" destination="LAt-9l-VFg" id="sHa-3o-tI3"/>
-                        <segue destination="qPQ-qI-zpd" kind="show" identifier="toMainMenu" id="x8h-xB-9ri"/>
+                        <segue destination="qPQ-qI-zpd" kind="custom" identifier="toMainMenu" customClass="FadeInPushSegue" customModule="Mixed" customModuleProvider="target" id="x8h-xB-9ri"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bma-P9-NY9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -259,6 +259,9 @@ parties and events.</string>
                         <viewLayoutGuide key="safeArea" id="VI3-hg-ZHR"/>
                     </view>
                     <connections>
+                        <outlet property="appleMusicButton" destination="zYe-Qv-gPn" id="2V8-tI-gwW"/>
+                        <outlet property="joinPartyButton" destination="Rhu-9U-JNt" id="m4v-iF-TAy"/>
+                        <outlet property="spotifyButton" destination="vcn-MT-0m4" id="KQY-p4-Pek"/>
                         <segue destination="zaz-PX-DiB" kind="show" identifier="toPlayer" id="Pac-Ad-eUo"/>
                         <segue destination="ES1-hP-V7X" kind="show" identifier="toScanCode" id="DA7-Rq-FHS"/>
                     </connections>
@@ -483,7 +486,7 @@ parties and events.</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="via-Rp-Z5v">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="via-Rp-Z5v">
                                 <rect key="frame" x="69" y="125" width="237" height="237"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="via-Rp-Z5v" secondAttribute="height" multiplier="1:1" id="Xcu-VX-f3E"/>
@@ -537,13 +540,13 @@ parties and events.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're offline" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQ2-Xw-Xx2">
-                                <rect key="frame" x="86.666666666666686" y="362.66666666666669" width="202" height="41"/>
+                                <rect key="frame" x="71" y="363.33333333333331" width="233" height="39.333333333333314"/>
                                 <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check your network connection, then try again." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HTj-in-f0V">
-                                <rect key="frame" x="50" y="419" width="275" height="42"/>
+                                <rect key="frame" x="50" y="418.33333333333331" width="275" height="40.333333333333314"/>
                                 <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -592,13 +595,13 @@ parties and events.</string>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Another Great Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drK-Xz-mO5">
-                                                    <rect key="frame" x="72.000000000000014" y="12" width="160.33333333333337" height="21"/>
+                                                    <rect key="frame" x="72.000000000000014" y="12" width="188.33333333333337" height="21"/>
                                                     <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ro-ba-NHS">
-                                                    <rect key="frame" x="72" y="38" width="63" height="14"/>
+                                                    <rect key="frame" x="72" y="38" width="72" height="14"/>
                                                     <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -684,12 +687,13 @@ parties and events.</string>
     </scenes>
     <resources>
         <image name="gradient" width="1536" height="1535"/>
+        <image name="logo" width="500" height="500"/>
         <image name="next" width="200" height="166"/>
         <image name="play" width="200" height="233"/>
         <image name="plus" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9V1-Kz-yBd"/>
-        <segue reference="vx5-yE-c7k"/>
+        <segue reference="Pac-Ad-eUo"/>
+        <segue reference="x8h-xB-9ri"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -31,6 +31,7 @@ class OpeningViewController: UIViewController {
     
     private var logo: LogoView!
     private var gradient: MixedGradient!
+    private var hasStartedAnimation = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,10 +78,12 @@ class OpeningViewController: UIViewController {
     
     // MARK: - Button Actions
     @IBAction func startPartyTapped(_ sender: Any) {
+        if hasStartedAnimation { return }
+        hasStartedAnimation = true
         UIView.animate(withDuration: 1.5, animations: {
             self.mixedLabel.alpha = 0
             self.subtitleLabel.alpha = 0
-            self.logo.center.y = self.view.safeAreaInsets.top + 65
+            self.logo.center.y = self.view.safeAreaInsets.top + 50
         }, completion: { (_) in
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
                 self.performSegue(withIdentifier: "toNameInput", sender: self)

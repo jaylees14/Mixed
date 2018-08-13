@@ -21,28 +21,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome" translatesAutoresizingMaskIntoConstraints="NO" id="GeH-Un-wgc">
-                                <rect key="frame" x="-42.666666666666657" y="-6" width="460.33333333333326" height="824"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="xe1-Aj-8VW">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="m" translatesAutoresizingMaskIntoConstraints="NO" id="XFZ-gm-vs2">
+                                <rect key="frame" x="87.666666666666686" y="342" width="200" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="GeH-Un-wgc" secondAttribute="height" multiplier="455:814" id="GZQ-6N-NWR"/>
+                                    <constraint firstAttribute="width" constant="200" id="18Z-XQ-WHR"/>
+                                    <constraint firstAttribute="height" constant="128" id="1W2-f9-Kxi"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         <constraints>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="GeH-Un-wgc" secondAttribute="bottom" constant="-40" id="6oS-9m-ebA"/>
-                            <constraint firstItem="GeH-Un-wgc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="cW0-BF-2HG"/>
-                            <constraint firstItem="GeH-Un-wgc" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="-50" id="ffb-T5-xGB"/>
+                            <constraint firstItem="xe1-Aj-8VW" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="1li-uF-l5t"/>
+                            <constraint firstItem="xe1-Aj-8VW" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="COf-Rl-x8Q"/>
+                            <constraint firstItem="XFZ-gm-vs2" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="M8s-YT-d33"/>
+                            <constraint firstItem="xe1-Aj-8VW" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="q8n-Sf-vL4"/>
+                            <constraint firstItem="xe1-Aj-8VW" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="v0v-Wi-WdI"/>
+                            <constraint firstItem="XFZ-gm-vs2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ycU-kc-Utx"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+            <point key="canvasLocation" x="52" y="374.6305418719212"/>
         </scene>
     </scenes>
     <resources>
-        <image name="welcome" width="856" height="1522"/>
+        <image name="gradient" width="1536" height="1535"/>
+        <image name="m" width="746" height="494"/>
     </resources>
 </document>
