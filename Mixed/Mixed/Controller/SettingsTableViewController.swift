@@ -14,11 +14,22 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
+        if indexPath.section == 0 && indexPath.row == 0 {
             self.performSegue(withIdentifier: "toFeedback", sender: self)
         }
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0: return "Settings"
+        case 1: return "Mixed v\(UIApplication.shared.appVersion) (\(UIApplication.shared.appBuild))"
+        default: return ""
+        }
+    }
+    
     @IBAction func didTapClose(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+
 }

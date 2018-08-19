@@ -71,6 +71,7 @@
 		69EDD01E212A1BDC0089309A /* UIColor+colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D3CC6212A1220003E5D06 /* UIColor+colors.swift */; };
 		69EDD01F212A1BDC0089309A /* UIFont+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D3CC9212A1220003E5D06 /* UIFont+custom.swift */; };
 		69EDD020212A1BDC0089309A /* UITextField+leftSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D3CC7212A1220003E5D06 /* UITextField+leftSpacer.swift */; };
+		69EDD022212A25300089309A /* UIApplication+version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDD021212A25300089309A /* UIApplication+version.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +154,7 @@
 		69EDD012212A1B920089309A /* StreamingProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamingProvider.swift; path = Model/Providers/StreamingProvider.swift; sourceTree = "<group>"; };
 		69EDD013212A1B920089309A /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkRequest.swift; path = Model/Providers/NetworkRequest.swift; sourceTree = "<group>"; };
 		69EDD014212A1B920089309A /* SearchCacher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCacher.swift; path = Model/Providers/SearchCacher.swift; sourceTree = "<group>"; };
+		69EDD021212A25300089309A /* UIApplication+version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIApplication+version.swift"; path = "Extensions/UIApplication+version.swift"; sourceTree = "<group>"; };
 		7ADC66332F545A2CD7DDB934 /* Pods_Mixed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mixed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC86E5E3C1DE841E2AC0B5F7 /* Pods-Mixed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mixed.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mixed/Pods-Mixed.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -210,6 +212,7 @@
 				69EDCFFD212A12870089309A /* UIViewController+MixedNav.swift */,
 				69EDCFF9212A12780089309A /* Queue.swift */,
 				69EDCFFF212A128C0089309A /* Utils.swift */,
+				69EDD021212A25300089309A /* UIApplication+version.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				69EDD00B212A1ACD0089309A /* PlayerDelegate.swift in Sources */,
 				69181E2220E0FB2700C37FB9 /* LineView.swift in Sources */,
 				69181E2A20E13C2500C37FB9 /* DiscView.swift in Sources */,
+				69EDD022212A25300089309A /* UIApplication+version.swift in Sources */,
 				6979D99F20CA4415000F6502 /* LogoView.swift in Sources */,
 				69EDCFFA212A12780089309A /* Queue.swift in Sources */,
 				69846C2D20D479D800889F86 /* MixedGradient.swift in Sources */,

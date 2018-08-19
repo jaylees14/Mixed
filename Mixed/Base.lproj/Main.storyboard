@@ -294,6 +294,9 @@ parties and events.</string>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Settings" id="qJ8-sh-RVR">
+                                <cells/>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="3bJ-5c-68P" id="qvg-C6-ius"/>
