@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.3</string>
+	<string>2.0</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -52,13 +52,15 @@
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Please allow access to your Apple Music library so that we can play songs</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow access to your camera to scan party invites</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Please allow photo access so that we can save photos</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>opensans-bold.ttf</string>
-		<string>opensans-light.ttf</string>
-		<string>opensans-regular.ttf</string>
+		<string>comfortaa-bold.ttf</string>
+		<string>comfortaa-light.ttf</string>
+		<string>comfortaa-regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

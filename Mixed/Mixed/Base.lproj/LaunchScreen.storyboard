@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G18a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14278.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,30 +18,39 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="squiggle" translatesAutoresizingMaskIntoConstraints="NO" id="05V-9R-jrv">
-                                <rect key="frame" x="0.0" y="266" width="375" height="134"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="xe1-Aj-8VW">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="m" translatesAutoresizingMaskIntoConstraints="NO" id="XFZ-gm-vs2">
+                                <rect key="frame" x="87.666666666666686" y="342" width="200" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="05V-9R-jrv" secondAttribute="height" multiplier="375:134" id="AjL-yp-nQU"/>
+                                    <constraint firstAttribute="width" constant="200" id="18Z-XQ-WHR"/>
+                                    <constraint firstAttribute="height" constant="128" id="1W2-f9-Kxi"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.19215686274509802" green="0.20000000000000001" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         <constraints>
-                            <constraint firstItem="05V-9R-jrv" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="E29-W1-yE4"/>
-                            <constraint firstItem="05V-9R-jrv" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Er9-d5-BUG"/>
-                            <constraint firstItem="05V-9R-jrv" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UFE-0h-TUo"/>
+                            <constraint firstItem="xe1-Aj-8VW" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="1li-uF-l5t"/>
+                            <constraint firstItem="xe1-Aj-8VW" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="COf-Rl-x8Q"/>
+                            <constraint firstItem="XFZ-gm-vs2" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="M8s-YT-d33"/>
+                            <constraint firstItem="xe1-Aj-8VW" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="q8n-Sf-vL4"/>
+                            <constraint firstItem="xe1-Aj-8VW" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="v0v-Wi-WdI"/>
+                            <constraint firstItem="XFZ-gm-vs2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ycU-kc-Utx"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedTopBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+            <point key="canvasLocation" x="52" y="374.6305418719212"/>
         </scene>
     </scenes>
     <resources>
-        <image name="squiggle" width="970" height="268"/>
+        <image name="gradient" width="1536" height="1535"/>
+        <image name="m" width="746" height="494"/>
     </resources>
 </document>

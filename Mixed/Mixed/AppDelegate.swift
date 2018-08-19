@@ -8,8 +8,6 @@
 
 import UIKit
 import Firebase
-import FacebookCore
-import FacebookLogin
 
 
 @UIApplicationMain
@@ -36,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SPTAuth.defaultInstance().requestedScopes = [SPTAuthStreamingScope]
         SPTAuth.defaultInstance().sessionUserDefaultsKey = kSessionUserDefaultsKey
         
-        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        //SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
     
@@ -52,15 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "spotifySessionUpdated"), object: self)
                 }
             }
-            return true
-        } else {
-        return SDKApplicationDelegate.shared.application(app, open: url, options: options)
         }
+        return true
     }
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         if shortcutItem.type == "com.jaylees.mixed.startParty" {
-            guard AccessToken.current != nil else { return }
+            //guard AccessToken.current != nil else { return }
             let storyboard = UIStoryboard(name: "Main", bundle:nil)
             let navigationController = storyboard.instantiateViewController(withIdentifier: "MainNavigationController") as! UINavigationController
             let startPartyViewController = storyboard.instantiateViewController(withIdentifier: "StartParty")
@@ -70,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             completionHandler(true)
         } else if shortcutItem.type == "com.jaylees.mixed.joinParty"{
-            guard AccessToken.current != nil else { return }
+            //guard AccessToken.current != nil else { return }
             let storyboard = UIStoryboard(name: "Main", bundle:nil)
             let navigationController = storyboard.instantiateViewController(withIdentifier: "MainNavigationController") as! UINavigationController
             let startPartyViewController = storyboard.instantiateViewController(withIdentifier: "JoinParty")
