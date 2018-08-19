@@ -20,6 +20,7 @@ class PartyPlayerViewController: UIViewController {
     @IBOutlet private weak var authenticateButton: OnboardingButton!
     @IBOutlet private weak var upcomingTableView: UITableView!
     @IBOutlet private weak var centerButtonHeight: NSLayoutConstraint!
+    @IBOutlet private weak var tableViewHeight: NSLayoutConstraint!
     
     public enum PlayerType {
         case host
@@ -36,7 +37,7 @@ class PartyPlayerViewController: UIViewController {
     private var party: Party?
     private var lastContentOffset: CGFloat = 0
     private var musicPlayer: MusicPlayer?
-    private var songQueue = Queue<Song>()
+    private var songQueue: Queue<Song>!
     private var songsPlayed = 0
     private var animator: UIViewPropertyAnimator!
     private var currentSong: Song? {
@@ -48,6 +49,7 @@ class PartyPlayerViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        songQueue = Queue()
         nowPlayingSong.textColor = UIColor.mixedPrimaryBlue
         nowPlayingArtist.textColor = UIColor.mixedSecondaryBlue
         
@@ -61,6 +63,7 @@ class PartyPlayerViewController: UIViewController {
         upcomingTableView.isScrollEnabled = false
     
         currentSong = nil
+        tableViewHeight.constant = CGFloat(songQueue.count >= 3 ? (songQueue.count + 1) * 60 : 200)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(spotifySessionUpdated),
@@ -241,6 +244,10 @@ extension PartyPlayerViewController: UITableViewDataSource, UITableViewDelegate 
         return 50
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     //TODO: Support in a later release
 //    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 //        return true
@@ -305,7 +312,16 @@ extension PartyPlayerViewController: PlayerDelegate {
     }
     
     func didReceiveError(_ error: Error) {
-        print(error)
+        if error is AppleMusicPlayerError {
+            showError(title: "Not able to use Apple Music.", message: "Please ensure you have a valid Apple Music subscription and Mixed is allowed access to your music library in settings.", controller: self)
+                [self.leftButton, self.centerButton, self.rightButton].forEach({ (button) in
+                    button?.isHidden = true
+                })
+                self.authenticateButton.isHidden = false
+        } else {
+            print(error)
+        }
+        
     }
 }
 
@@ -333,6 +349,8 @@ extension PartyPlayerViewController: DatastoreDelegate {
             $0.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData()})
         })
         self.songQueue.setTo(Array(toPlay.dropFirst()))
+        
+        tableViewHeight.constant = CGFloat(songQueue.count >= 3 ? (songQueue.count + 1) * 60 : 200)
     }
 }
 

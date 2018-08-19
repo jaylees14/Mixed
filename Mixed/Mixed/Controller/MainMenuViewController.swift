@@ -14,6 +14,7 @@ class MainMenuViewController: UIViewController {
     @IBOutlet weak var joinPartyButton: MixedButton!
     @IBOutlet weak var spotifyButton: MixedButton!
     @IBOutlet weak var appleMusicButton: MixedButton!
+    @IBOutlet weak var settingsButton: UIButton!
     
     private var partyID: String!
     private var playerType: PartyPlayerViewController.PlayerType!
@@ -21,16 +22,13 @@ class MainMenuViewController: UIViewController {
     public var isFirstLogin = false
     
     override func viewDidLoad() {
-        [joinPartyButton, spotifyButton, appleMusicButton].forEach { (button) in
+        [joinPartyButton, spotifyButton, appleMusicButton, settingsButton].forEach { (button) in
             button?.alpha = 0
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        getAppleMusicToken()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
+        ConfigurationManager.shared.configure()
         startAnimation()
     }
     
@@ -59,6 +57,7 @@ class MainMenuViewController: UIViewController {
         }
         
         UIView.animate(withDuration: 1, delay: 3.2, options: .curveEaseInOut, animations: {
+            self.settingsButton.alpha = 1
             self.joinPartyButton.alpha = 1
         }, completion:  nil)
         UIView.animate(withDuration: 1, delay: 3.4, options: .curveEaseInOut, animations: {
@@ -68,17 +67,7 @@ class MainMenuViewController: UIViewController {
             self.appleMusicButton.alpha = 1
         }, completion:  nil)
     }
-    
-    
-    //TODO: REFACTOR THIS!!!!
-    func getAppleMusicToken(){
-        Database.database().reference().child("appleMusic").observeSingleEvent(of: .value, with: { (snapshot) in
-            if let snapshotVal = snapshot.value as? [String: String]{
-                let token = snapshotVal["token"]
-                UserDefaults.standard.setValue(token, forKey: "AMTOKEN")
-            }
-        })
-    }
+
     
     @IBAction func didTapJoinParty(_ sender: Any) {
         guard hasNetworkConnection() else {
@@ -93,9 +82,11 @@ class MainMenuViewController: UIViewController {
             showError(title: "No Network Connection", message: "Please check your connection and try again.", controller: self)
             return
         }
-        partyID = Datastore.instance.createNewParty(with: .spotify)
-        playerType = .host
-        performSegue(withIdentifier: "toPlayer", sender: self)
+        Datastore.instance.createNewParty(with: .spotify, callback: { id in
+            self.partyID = id
+            self.playerType = .host
+            self.performSegue(withIdentifier: "toPlayer", sender: self)
+        })
     }
     
     @IBAction func didTapAppleMusic(_ sender: Any) {
@@ -103,9 +94,11 @@ class MainMenuViewController: UIViewController {
             showError(title: "No Network Connection", message: "Please check your connection and try again.", controller: self)
             return
         }
-        partyID = Datastore.instance.createNewParty(with: .appleMusic)
-        playerType = .host
-        performSegue(withIdentifier: "toPlayer", sender: self)
+        Datastore.instance.createNewParty(with: .appleMusic, callback: { id in
+            self.partyID = id
+            self.playerType = .host
+            self.performSegue(withIdentifier: "toPlayer", sender: self)
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -45,7 +45,6 @@ PODS:
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GTMSessionFetcher/Core (1.1.15)
-  - Hero (1.2.0)
   - leveldb-library (1.20)
   - MKTween (2.3.1)
   - nanopb (0.3.8):
@@ -57,6 +56,7 @@ PODS:
     - NVActivityIndicatorView/Presenter (= 4.3.0)
   - NVActivityIndicatorView/Presenter (4.3.0)
   - Protobuf (3.6.0)
+  - SystemServices (2.0.1)
 
 DEPENDENCIES:
   - Firebase/Auth
@@ -64,9 +64,9 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/Storage
-  - Hero
   - MKTween (~> 2.0)
   - NVActivityIndicatorView
+  - SystemServices
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -80,12 +80,12 @@ SPEC REPOS:
     - FirebaseStorage
     - GoogleToolboxForMac
     - GTMSessionFetcher
-    - Hero
     - leveldb-library
     - MKTween
     - nanopb
     - NVActivityIndicatorView
     - Protobuf
+    - SystemServices
 
 SPEC CHECKSUMS:
   Firebase: 355bd535bfdacaa82a7fe8d9784115edefd6fc03
@@ -98,13 +98,13 @@ SPEC CHECKSUMS:
   FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
-  Hero: 33dadf2cd1c98af71e213dcbc2902e6e03622a4e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   MKTween: 8a299e10470ac908859437d62301f9e1373dceb6
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NVActivityIndicatorView: 963f62bf9f993fcf23218e55958e5b1761b9504c
   Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
+  SystemServices: 7af348493ece8951449b476c41532df72569b181
 
-PODFILE CHECKSUM: 76382bf49fd62d1ca36e6fd3c6d7368925e629ff
+PODFILE CHECKSUM: 20431232dcfdf63b9a27af3ff695863be3143534
 
 COCOAPODS: 1.5.3

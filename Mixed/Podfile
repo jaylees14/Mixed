@@ -14,6 +14,6 @@ target 'Mixed' do
   pod 'Firebase/Messaging'
   pod 'NVActivityIndicatorView'
   pod 'MKTween', '~> 2.0'
-  pod 'Hero'
+  pod 'SystemServices'
   
 end

@@ -19,7 +19,7 @@ class PartyCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.partyCode.text = party.partyID
-        self.joinLabel.text = "Join \(party.partyHost)'s party by enter the code above."
+        self.joinLabel.text = "Join \(party.partyHost)'s party by entering the code above."
         
         setupNavigationBar(title: "Join Party")
         let resized = UIImage(named: "back")?.resize(to: CGSize(width: 13, height: 22))

@@ -9,6 +9,12 @@
 import UIKit
 
 class SongSearchViewController: UIViewController {
+    
+    private enum SearchState {
+        case standard
+        case autocomplete
+        case results
+    }
 
     @IBOutlet private weak var searchField: SongSearchField!
     @IBOutlet private weak var tableView: UITableView!
@@ -18,8 +24,9 @@ class SongSearchViewController: UIViewController {
     // Data Sources
     private var recentSearches: [String] = []
     private var suggested: [String] = []
+    private var autocomplete: [String] = []
     private var searchResults: [Song] = []
-    private var shouldDisplaySearchResults = false
+    private var state: SearchState = .standard
     
     // Party settings
     public var party: Party!
@@ -31,9 +38,8 @@ class SongSearchViewController: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         
-        // Demo Data
-        recentSearches = ["Panic at the Disco", "Ed Sheeran", "Divide"]
-        suggested = ["ABC", "DEF", "GEH"]
+        recentSearches = SearchCacher.getLastThree()
+        suggested = ["Panic at the Disco", "Ed Sheeran", "Divide"]
 
         provider = MusicProviderFactory.generateMusicProvider(for: party.streamingProvider, with: self)
         
@@ -69,22 +75,38 @@ extension SongSearchViewController: MusicProviderDelegate {
     func queryDidFail(_ error: Error) {
         print(error.localizedDescription)
     }
+    
+    func searchHints(_ hints: [String]) {
+        print(hints)
+    }
 }
 
 // MARK: - SongSearchDelegate
 extension SongSearchViewController: SongSearchViewDelegate {
+    func currentSearchQuery(_ text: String?) {
+        Autocompleter.getSearchHints(for: text!) { (results) in
+            self.autocomplete = results
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     func didRequestSearch(with text: String) {
+        state = .results
+        SearchCacher.cache(song: text)
         provider.search(for: text)
     }
     
     func didStartSearching() {
-        shouldDisplaySearchResults = true
+        state = .autocomplete
         tableView.reloadData()
     }
     
     func didCancelSearch() {
-        shouldDisplaySearchResults = false
+        state = .standard
         searchResults = []
+        recentSearches = SearchCacher.getLastThree()
         tableView.reloadData()
     }
 }
@@ -111,9 +133,12 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     fileprivate func title(for section: Int) -> String {
-        if shouldDisplaySearchResults {
+        switch state {
+        case .autocomplete:
+            return "How about..."
+        case .results:
             return searchResults.count > 0 ? "Results" : ""
-        } else {
+        case .standard:
             switch section {
             case 0:
                 return "Recent Searches"
@@ -134,35 +159,47 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if shouldDisplaySearchResults {
+        switch state {
+        case .autocomplete:
+            return autocomplete.count
+        case .results:
             return searchResults.count
-        } else if section == 0 {
-            return recentSearches.count
-        } else if section == 1 {
-            return suggested.count
+        case .standard:
+            switch section {
+            case 0: return recentSearches.count
+            case 1: return suggested.count
+            default: return 0
+            }
         }
-        
-        return 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return shouldDisplaySearchResults ? 1 : 2
+        return state == .standard ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return shouldDisplaySearchResults ? 65 : 45
+        switch state {
+        case .standard: return 45
+        case .results: return 65
+        case .autocomplete: return 40
+        }
     }
     
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if shouldDisplaySearchResults {
+        switch state {
+        case .autocomplete:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearchCell", for: indexPath) as! RecentSearchTableViewCell
+            cell.title.text = autocomplete[indexPath.row]
+            return cell
+        case .results:
             let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath) as! SongTableViewCell
             let song = searchResults[indexPath.row]
             cell.title.text = song.songName
             cell.subtitle.text = song.artist
             cell.albumArtwork.image = song.image
             return cell
-        } else {
+        case .standard:
             let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearchCell", for: indexPath) as! RecentSearchTableViewCell
             switch indexPath.section {
             case 0: cell.title.text = recentSearches[indexPath.row]
@@ -174,26 +211,29 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if shouldDisplaySearchResults {
-            Datastore.instance.addSong(song: searchResults[indexPath.row], to: "abcdef")
+        switch state {
+        case .results:
+            Datastore.instance.addSong(song: searchResults[indexPath.row], to: party.partyID)
             self.navigationController?.popViewController(animated: true)
             return
+        case .standard:
+            let selectedText: String
+            if indexPath.section == 0 {
+                selectedText = recentSearches[indexPath.row]
+            } else if indexPath.section == 1 {
+                selectedText = suggested[indexPath.row]
+            } else {
+                selectedText = ""
+            }
+            
+            // Update UI and trigger request
+            self.searchField.text = selectedText
+        case .autocomplete:
+            let selectedText = autocomplete[indexPath.row]
+            self.searchField.text = selectedText
         }
-        
-        let selectedText: String
-        if indexPath.section == 0 {
-            selectedText = recentSearches[indexPath.row]
-        } else if indexPath.section == 1 {
-            selectedText = suggested[indexPath.row]
-        } else {
-            return
-        }
-        
-        // Update UI and trigger request
-        self.searchField.text = selectedText
-        self.shouldDisplaySearchResults = true
-        self.searchField.textFieldShouldReturn(searchField)
+    
+        let _ = self.searchField.textFieldShouldReturn(searchField)
         tableView.reloadData()
     }
     

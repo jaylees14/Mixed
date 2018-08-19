@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol SongSearchViewDelegate {
+    func currentSearchQuery(_ text: String?)
     func didRequestSearch(with text: String)
     func didStartSearching()
     func didCancelSearch()
@@ -73,6 +74,7 @@ extension SongSearchField: UITextFieldDelegate {
             self.searchDelegate?.didCancelSearch()
         } else {
             self.searchDelegate?.didStartSearching()
+            self.searchDelegate?.currentSearchQuery(self.text)
         }
     }
 }

@@ -36,21 +36,30 @@ class Datastore {
             let currentQueueSize: Int = (snapshot.value as? Array<Any>)?.count ?? 0
             if let data = song.asDictionary {
                 partyQueue.child("\(currentQueueSize)").setValue(data)
-            } else {
-                // TODO: Notify of failure
             }
-            
         }
-        print("Adding \(song.songName)")
     }
     
-    public func createNewParty(with provider: StreamingProvider) -> String {
-        //TODO: Create a UUID for each
-        let betaID = "abcdef"
-        ref.child(databaseName).child(betaID).child("host").setValue("Jay")
-        ref.child(databaseName).child(betaID).child("streamingProvider").setValue(provider.rawValue)
-        ref.child(databaseName).child(betaID).child("queue").setValue([])
-        return betaID
+    // Recursively generates a new party ID
+    private func generatePartyID(callback: @escaping (String) -> Void){
+        let id = randomString(length: 6)
+        ref.child(databaseName).child(id).observeSingleEvent(of: .value, with: { snapshot in
+            if snapshot.exists() {
+                self.generatePartyID(callback: callback)
+            } else {
+                callback(id)
+            }
+        })
+    }
+    
+    public func createNewParty(with provider: StreamingProvider, callback: @escaping (String) -> Void) {
+        generatePartyID { (id) in
+            let username = (try? CurrentUser.shared.getShortName()) ?? "Someone"
+            self.ref.child(self.databaseName).child(id).child("host").setValue(username)
+            self.ref.child(self.databaseName).child(id).child("streamingProvider").setValue(provider.rawValue)
+            self.ref.child(self.databaseName).child(id).child("queue").setValue([])
+            callback(id)
+        }
     }
     
     public func didFinish(song id: Int, party: String){
@@ -78,9 +87,22 @@ class Datastore {
     }
     
     public func remove(song: Song){
-        
+        //TODO
     }
     
+    public func submitFeedback(_ feedback: String, systemConfig: [String: Any]){
+        ref.child("feedback").observeSingleEvent(of: .value) { (snapshot) in
+            var modifiedConfig = systemConfig
+            modifiedConfig["feedback"] = feedback
+            if snapshot.exists() {
+                var currentFeedback = snapshot.value as? [[String: Any]]
+                currentFeedback?.append(modifiedConfig)
+                self.ref.child("feedback").setValue(currentFeedback)
+            } else {
+                self.ref.child("feedback").setValue([modifiedConfig])
+            }
+        }
+    }
     
     public func subscribeToUpdates(for party: String){
         // TODO: This should be a single call at initial join. The other observer should be enough.
