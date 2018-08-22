@@ -71,6 +71,12 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
     
     // MARK: - Join Party
     fileprivate func joinParty(with id: String){
+        let invalidCharacters: Set<Character> = [".", "#", "$", "[", "]"]
+        guard invalidCharacters.isDisjoint(with: id) && id != "" else {
+            showError(title: "Invalid party ID", message: "Please enter a valid party ID and try again", controller: self)
+            return
+        }
+        
         Datastore.instance.joinParty(with: id) { (party) in
             guard let party = party else {
                 showError(title: "No party found!", message: "No party was found with this ID!", controller: self)
@@ -110,8 +116,8 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
         self.blurView.effect = UIBlurEffect(style: .dark)
         
         [codeTextField, lineView, title, button, cancel].forEach { v in
-            v?.alpha = 1
-            view.addSubview(v!)
+            v.alpha = 1
+            view.addSubview(v)
         }
         
 //        UIView.animate(withDuration: 2, animations: {
