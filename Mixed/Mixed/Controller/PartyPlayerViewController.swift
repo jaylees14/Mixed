@@ -160,8 +160,10 @@ class PartyPlayerViewController: UIViewController {
             message += "Leaving now will mean you'll have to request to join the party again in order to add songs."
         }
         askQuestion(title: title, message: message, controller: self, acceptCompletion: {
-            self.musicPlayer?.stop()
-            self.datastore.unsubscribeFromUpdates()
+            if self.musicPlayer?.hasValidSession() ?? false {
+                self.musicPlayer?.stop()
+                self.datastore.unsubscribeFromUpdates()
+            }
             self.dismiss(animated: true, completion: nil)
         }, cancelCompletion: nil)
     }
