@@ -45,10 +45,10 @@
 		698991F1210683A3001C04D1 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698991F0210683A3001C04D1 /* Datastore.swift */; };
 		698D315D211102E200E83579 /* JoinPartyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698D315C211102E200E83579 /* JoinPartyViewController.swift */; };
 		69AF594A1F1800B300402BE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69AF59491F1800B300402BE2 /* GoogleService-Info.plist */; };
+		69B45945212F498600B76CA1 /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45942212F498600B76CA1 /* SpotifyAudioPlayback.framework */; };
+		69B45946212F498600B76CA1 /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45943212F498600B76CA1 /* SpotifyMetadata.framework */; };
+		69B45947212F498600B76CA1 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45944212F498600B76CA1 /* SpotifyAuthentication.framework */; };
 		69D9E6291F2C94F60012319A /* SoundWave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E6281F2C94F60012319A /* SoundWave.swift */; };
-		69D9E62F1F2D23E30012319A /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D9E62C1F2D23E30012319A /* SpotifyAudioPlayback.framework */; };
-		69D9E6301F2D23E30012319A /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D9E62D1F2D23E30012319A /* SpotifyAuthentication.framework */; };
-		69D9E6311F2D23E30012319A /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D9E62E1F2D23E30012319A /* SpotifyMetadata.framework */; };
 		69EDCFFA212A12780089309A /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFF9212A12780089309A /* Queue.swift */; };
 		69EDCFFC212A12810089309A /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFFB212A12810089309A /* UIImage+resize.swift */; };
 		69EDCFFE212A12870089309A /* UIViewController+MixedNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFFD212A12870089309A /* UIViewController+MixedNav.swift */; };
@@ -131,10 +131,10 @@
 		698991F0210683A3001C04D1 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
 		698D315C211102E200E83579 /* JoinPartyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinPartyViewController.swift; sourceTree = "<group>"; };
 		69AF59491F1800B300402BE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		69B45942212F498600B76CA1 /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyAudioPlayback.framework; path = "Mixed/spotify-ios-sdk-master/SpotifyAudioPlayback.framework"; sourceTree = "<group>"; };
+		69B45943212F498600B76CA1 /* SpotifyMetadata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyMetadata.framework; path = "Mixed/spotify-ios-sdk-master/SpotifyMetadata.framework"; sourceTree = "<group>"; };
+		69B45944212F498600B76CA1 /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyAuthentication.framework; path = "Mixed/spotify-ios-sdk-master/SpotifyAuthentication.framework"; sourceTree = "<group>"; };
 		69D9E6281F2C94F60012319A /* SoundWave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundWave.swift; sourceTree = "<group>"; };
-		69D9E62C1F2D23E30012319A /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyAudioPlayback.framework; path = "ios-sdk-master/SpotifyAudioPlayback.framework"; sourceTree = "<group>"; };
-		69D9E62D1F2D23E30012319A /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyAuthentication.framework; path = "ios-sdk-master/SpotifyAuthentication.framework"; sourceTree = "<group>"; };
-		69D9E62E1F2D23E30012319A /* SpotifyMetadata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyMetadata.framework; path = "ios-sdk-master/SpotifyMetadata.framework"; sourceTree = "<group>"; };
 		69D9E6321F2D24DC0012319A /* Mixed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mixed-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		69EDCFF9212A12780089309A /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Queue.swift; path = Extensions/Queue.swift; sourceTree = "<group>"; };
 		69EDCFFB212A12810089309A /* UIImage+resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+resize.swift"; path = "Extensions/UIImage+resize.swift"; sourceTree = "<group>"; };
@@ -171,11 +171,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69D9E6301F2D23E30012319A /* SpotifyAuthentication.framework in Frameworks */,
+				69B45946212F498600B76CA1 /* SpotifyMetadata.framework in Frameworks */,
+				69B45947212F498600B76CA1 /* SpotifyAuthentication.framework in Frameworks */,
 				69662A871F1BF320003FCB80 /* MediaPlayer.framework in Frameworks */,
-				69D9E62F1F2D23E30012319A /* SpotifyAudioPlayback.framework in Frameworks */,
+				69B45945212F498600B76CA1 /* SpotifyAudioPlayback.framework in Frameworks */,
 				69662A851F1BF317003FCB80 /* StoreKit.framework in Frameworks */,
-				69D9E6311F2D23E30012319A /* SpotifyMetadata.framework in Frameworks */,
 				3C093A6FA218CD1D542D75B4 /* Pods_Mixed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,9 +349,9 @@
 		C19951A849E78CE670FBB9FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				69D9E62C1F2D23E30012319A /* SpotifyAudioPlayback.framework */,
-				69D9E62D1F2D23E30012319A /* SpotifyAuthentication.framework */,
-				69D9E62E1F2D23E30012319A /* SpotifyMetadata.framework */,
+				69B45942212F498600B76CA1 /* SpotifyAudioPlayback.framework */,
+				69B45944212F498600B76CA1 /* SpotifyAuthentication.framework */,
+				69B45943212F498600B76CA1 /* SpotifyMetadata.framework */,
 				69662A861F1BF320003FCB80 /* MediaPlayer.framework */,
 				69662A841F1BF317003FCB80 /* StoreKit.framework */,
 				7ADC66332F545A2CD7DDB934 /* Pods_Mixed.framework */,
@@ -786,6 +786,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ios-sdk-master",
+					"$(PROJECT_DIR)/Mixed/spotify-ios-sdk-master",
 				);
 				INFOPLIST_FILE = Mixed/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -809,6 +810,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ios-sdk-master",
+					"$(PROJECT_DIR)/Mixed/spotify-ios-sdk-master",
 				);
 				INFOPLIST_FILE = Mixed/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
