@@ -53,30 +53,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-    
-    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        if shortcutItem.type == "com.jaylees.mixed.startParty" {
-            //guard AccessToken.current != nil else { return }
-            let storyboard = UIStoryboard(name: "Main", bundle:nil)
-            let navigationController = storyboard.instantiateViewController(withIdentifier: "MainNavigationController") as! UINavigationController
-            let startPartyViewController = storyboard.instantiateViewController(withIdentifier: "StartParty")
-            navigationController.pushViewController(startPartyViewController, animated: false)
-            self.window?.rootViewController = navigationController
-            
-            
-            completionHandler(true)
-        } else if shortcutItem.type == "com.jaylees.mixed.joinParty"{
-            //guard AccessToken.current != nil else { return }
-            let storyboard = UIStoryboard(name: "Main", bundle:nil)
-            let navigationController = storyboard.instantiateViewController(withIdentifier: "MainNavigationController") as! UINavigationController
-            let startPartyViewController = storyboard.instantiateViewController(withIdentifier: "JoinParty")
-            navigationController.pushViewController(startPartyViewController, animated: false)
-            self.window?.rootViewController = navigationController
-            completionHandler(true)
-        }
-        
-        completionHandler(false)
-    }
-
 }
 
