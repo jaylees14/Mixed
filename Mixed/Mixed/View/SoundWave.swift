@@ -16,7 +16,7 @@ class SoundWave: UIView {
     init(origin: CGPoint, width: CGFloat) {
         waveLayer = CAShapeLayer()
         super.init(frame: CGRect(x: origin.x, y: origin.y, width: width, height: 150))
-        
+    
         let path = getPath()
         waveLayer.path = path.cgPath
         waveLayer.fillColor = UIColor.clear.cgColor
@@ -59,7 +59,7 @@ class SoundWave: UIView {
         path.addLine(dx: width*0.024, dy: 36)
         path.addLine(dx: width*0.044, dy: -24)
         path.addLine(dx: width*0.022, dy: 15)
-        path.addLine(dx: width*0.04, dy: -86)
+        path.addLine(dx: width*0.05, dy: -76)
         path.addLine(dx: width*0.06, dy: 115)
         path.addLine(dx: width*0.03, dy: -56)
         path.addLine(dx: width*0.024, dy: 24)
@@ -76,7 +76,7 @@ class SoundWave: UIView {
         path.addLine(dx: width*0.026, dy: -16)
         path.addLine(dx: width*0.026, dy: 15)
         path.addLine(dx: width*0.044, dy: -31)
-        
+
         path.addLine(dx: width*0.034, dy: 31)
         path.addLine(dx: width*0.022, dy: -19)
         path.addLine(dx: width*0.022, dy: 18)
