@@ -46,7 +46,7 @@ class DiscView: UIView {
         centerView = UIView(frame: CGRect(x: self.frame.width/2 - width/2 , y: self.frame.height/2 - height/2, width: width, height: height))
         centerView.backgroundColor = .white
         centerView.layer.cornerRadius = height / 2
-        centerView.addInnerShadow(color: UIColor.darkGray, size: 6, cornerRadius: height / 2, opacity: 0.6)
+        centerView.addInnerShadow(color: UIColor.darkGray, size: 6, cornerRadius: width / 2, opacity: 0.6)
         
         self.addSubview(centerView)
         
