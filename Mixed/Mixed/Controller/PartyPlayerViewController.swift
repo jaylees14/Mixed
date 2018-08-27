@@ -253,17 +253,6 @@ extension PartyPlayerViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    //TODO: Support in a later release
-//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-//
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            print("woo")
-//        }
-//    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -325,7 +314,8 @@ extension PartyPlayerViewController: PlayerDelegate {
                 })
                 self.authenticateButton.isHidden = false
         } else {
-            print(error)
+            Logger.log(error, type: .error)
+            showError(title: "Whoops", message: "Looks like we encountered an error. Please try again.", controller: self)
         }
         
     }

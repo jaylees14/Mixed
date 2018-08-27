@@ -166,8 +166,7 @@ extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlayba
     }
 
     public func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
-        print("Login did finish")
-        // TODO: FILL THIS IN!!!!!
+        Logger.log("Spotify login succeeded", type: .debug)
     }
 
     //If recieve error, show error

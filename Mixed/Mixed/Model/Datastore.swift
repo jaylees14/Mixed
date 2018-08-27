@@ -110,7 +110,7 @@ class Datastore {
             guard let json = snapshot.value as? [String: Any],
                   let data = try? JSONSerialization.data(withJSONObject: json, options: []),
                   let song = try? JSONDecoder().decode(Song.self, from:  data) else {
-                    print("Could not decode data :(")
+                   Logger.log("Failed to decode response", type: .error)
                 return
             }
             self.delegate?.didAddSong(song)
@@ -120,7 +120,7 @@ class Datastore {
             guard let json = snapshot.value as? [[String: Any]],
                 let data = try? JSONSerialization.data(withJSONObject: json, options: []),
                 let songs = try? JSONDecoder().decode(Array<Song>.self, from:  data) else {
-                    print("Could not decode data :(")
+                    Logger.log("Failed to decode response", type: .error)
                     return
             }
             self.delegate?.queueDidChange(songs: songs)
@@ -130,7 +130,4 @@ class Datastore {
     public func unsubscribeFromUpdates() {
         ref.removeAllObservers()
     }
-    
-    
-    
 }

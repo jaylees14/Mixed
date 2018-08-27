@@ -7,6 +7,10 @@
 //
 
 import Foundation
+public enum NetworkError: Error {
+    case invalidResponse
+    case unknownResponse(code: Int)
+}
 
 public class NetworkRequest {
     public static func getRequest(to url: URL, bearer: String, callback: @escaping ([String: Any]?, Error?) -> Void) {
@@ -20,14 +24,14 @@ public class NetworkRequest {
                 return
             }
             guard let data = data, let response = response as? HTTPURLResponse else {
-                // TODO: Pass to callback
-                print("Data returned is nil?")
+                Logger.log("Invalid response", type: .error)
+                callback(nil, NetworkError.invalidResponse)
                 return
             }
             
             guard response.statusCode == 200 else {
-                //TODO: Pass to callback
-                print("Unknown error")
+                Logger.log("Unknown response code: \(response.statusCode)", type: .error)
+                callback(nil, NetworkError.unknownResponse(code: response.statusCode))
                 return
             }
 
