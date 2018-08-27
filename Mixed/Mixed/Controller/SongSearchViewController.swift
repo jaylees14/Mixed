@@ -73,11 +73,8 @@ extension SongSearchViewController: MusicProviderDelegate {
     }
     
     func queryDidFail(_ error: Error) {
-        print(error.localizedDescription)
-    }
-    
-    func searchHints(_ hints: [String]) {
-        print(hints)
+        Logger.log(error, type: .error)
+        showError(title: "Whoops", message: "Looks like we had a problem trying to connect to our service. Please check your connection and try again.", controller: self)
     }
 }
 

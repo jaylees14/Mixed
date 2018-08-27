@@ -63,7 +63,7 @@ class AppleMusic: MusicProvider {
 
         NetworkRequest.getRequest(to: url!, bearer: token) { (json, error) in
             guard error == nil else {
-                print(error!)
+                Logger.log(error!, type: .error)
                 return
             }
             guard let json = json else {

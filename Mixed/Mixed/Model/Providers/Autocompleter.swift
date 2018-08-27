@@ -18,7 +18,7 @@ class Autocompleter {
         
         NetworkRequest.getRequest(to: url!, bearer: token) { (results, error) in
             guard error == nil, let results = results else {
-                print("Error getting search suggestions")
+                Logger.log(error!, type: .error)
                 callback([])
                 return
             }

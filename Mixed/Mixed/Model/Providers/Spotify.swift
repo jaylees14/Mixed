@@ -10,6 +10,7 @@ import Foundation
 
 enum SpotifyError: Error {
     case unknownError(code: Int)
+    case invalidResponse
 }
 
 class Spotify: MusicProvider {
@@ -34,11 +35,13 @@ class Spotify: MusicProvider {
     
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
-                print("Spotify Error: Error from URL request \(error!)")
+                Logger.log("Error: \(error!)", type: .error)
+                self.delegate?.queryDidFail(error!)
                 return
             }
             guard let data = data else {
-                print("Spotify Error: Error data returned is nil")
+                Logger.log("No data available", type: .error)
+                self.delegate?.queryDidFail(SpotifyError.invalidResponse)
                 return
             }
             

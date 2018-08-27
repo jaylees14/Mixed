@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
         FirebaseApp.configure()
         SPTAuth.defaultInstance().clientID = kClientId
         SPTAuth.defaultInstance().redirectURL = URL(string:kCallbackURL)
@@ -42,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if SPTAuth.defaultInstance().canHandle(url) {
             SPTAuth.defaultInstance().handleAuthCallback(withTriggeredAuthURL: url) { error, session in
                 if let error = error {
-                    print("*** Auth error: \(error)")
+                    Logger.log(error, type: .error)
                     return
                 } else {
                     SPTAuth.defaultInstance().session = session

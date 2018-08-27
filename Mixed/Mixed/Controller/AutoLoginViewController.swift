@@ -16,6 +16,7 @@ class AutoLoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         let destination =  CurrentUser.shared.isLoggedIn() ? "toMenu" : "toLogin"
+        Logger.log("Performing segue \(destination)", type: .debug)
         performSegue(withIdentifier: destination, sender: nil)
     }
 }

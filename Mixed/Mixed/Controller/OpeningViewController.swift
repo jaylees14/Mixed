@@ -19,7 +19,6 @@ class FadeInPushSegue: UIStoryboardSegue {
         transition.duration = 0.75
         sourceViewController.view.window?.layer.add(transition, forKey: "kCATransition")
         sourceViewController.present(destinationViewController, animated: false, completion: nil)
-        //sourceViewController.navigationController?.pushViewController(destinationViewController, animated: false)
     }
 }
 

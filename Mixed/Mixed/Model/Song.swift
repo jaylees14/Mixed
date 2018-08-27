@@ -55,7 +55,7 @@ public class Song: Codable {
                     callback(self.image)
                 }
             } catch let error {
-                print("Error whilst downloading image - \(error)")
+                Logger.log("Error downloading image - \(error)", type: .error)
             }
         }
     }
