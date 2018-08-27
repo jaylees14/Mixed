@@ -124,7 +124,7 @@ class PartyPlayerViewController: UIViewController {
         if currentSong == nil {
             discView.resize(to: discView.frame)
             discView.updateArtwork(image: nil)
-        } else if musicPlayer?.getCurrentStatus() == .playing || playerType == .attendee {
+        } else if playerType == .attendee || musicPlayer?.getCurrentStatus() == .playing {
             discView.startRotating()
         }
     }

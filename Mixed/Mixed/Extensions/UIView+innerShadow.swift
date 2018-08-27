@@ -9,7 +9,6 @@
 import Foundation
 
 extension UIView {
-    
     public func addInnerShadow(color: UIColor, size: CGFloat, cornerRadius: CGFloat = 0.0, opacity: Float) {
         let shadowLayer = CAShapeLayer()
         shadowLayer.frame = bounds
@@ -22,7 +21,7 @@ extension UIView {
         
         let shadowPath = CGMutablePath()
         let insetRect = bounds.insetBy(dx: -size * 2.0, dy: -size * 2.0)
-        let innerFrame = CGRect(x: 0.0, y: 0.0, width: frame.size.width, height: frame.size.height)
+        let innerFrame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
         shadowPath.addEllipse(in: insetRect)
         shadowPath.addEllipse(in: innerFrame)
         shadowLayer.path = shadowPath
