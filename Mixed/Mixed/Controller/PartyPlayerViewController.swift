@@ -222,7 +222,7 @@ extension PartyPlayerViewController: UITableViewDataSource, UITableViewDelegate 
         let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath) as! SongTableViewCell
         let song = songQueue[indexPath.row]
         cell.title.text = song.songName
-        cell.subtitle.text = "\(song.artist) - Added by \(song.addedBy ?? "someone")."
+        cell.subtitle.text = "\(song.artist) - Added by \(song.addedBy ?? "someone")"
         cell.albumArtwork.image = song.image
         return cell
     }
