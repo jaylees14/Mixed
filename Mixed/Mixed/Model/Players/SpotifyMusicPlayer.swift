@@ -40,7 +40,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     
     // MARK: - Music Player
     
-    public func validateSession() {
+    public func validateSession(for: PlayerType) {
         // If a valid session already exists, start player
         if let session = SPTAuth.defaultInstance().session {
             if session.isValid() {

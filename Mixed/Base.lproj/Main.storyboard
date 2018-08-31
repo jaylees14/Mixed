@@ -669,7 +669,7 @@ parties and events.</string>
                                 <rect key="frame" x="16" y="146" width="802" height="1006"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recentSearchCell" rowHeight="51" id="PFN-DE-duj" customClass="RecentSearchTableViewCell" customModule="Mixed" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recentSearchCell" rowHeight="51" id="PFN-DE-duj" customClass="RecentSearchTableViewCell" customModule="Mixed" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="802" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PFN-DE-duj" id="Qwy-m4-hic">
@@ -694,7 +694,7 @@ parties and events.</string>
                                             <outlet property="title" destination="New-mb-gmO" id="Cua-3F-ITJ"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="65" id="kI3-1R-FNJ" customClass="SongTableViewCell" customModule="Mixed" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="65" id="kI3-1R-FNJ" customClass="SongTableViewCell" customModule="Mixed" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="79" width="802" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kI3-1R-FNJ" id="Igw-9X-2PD">

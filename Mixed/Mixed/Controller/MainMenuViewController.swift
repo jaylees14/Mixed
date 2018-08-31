@@ -17,7 +17,7 @@ class MainMenuViewController: UIViewController {
     @IBOutlet weak var settingsButton: UIButton!
     
     private var partyID: String!
-    private var playerType: PartyPlayerViewController.PlayerType!
+    private var playerType: PlayerType!
     
     public var isFirstLogin = false
     
