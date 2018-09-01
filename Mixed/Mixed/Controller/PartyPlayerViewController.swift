@@ -16,7 +16,7 @@ public enum PlayerType {
 
 class PartyPlayerViewController: UIViewController {
     @IBOutlet private weak var scrollView: UIScrollView!
-    @IBOutlet private weak var discView: DiscView!
+    @IBOutlet private weak var discBackgroundView: UIView!
     @IBOutlet private weak var nowPlayingSong: UILabel!
     @IBOutlet private weak var nowPlayingArtist: UILabel!
     @IBOutlet private weak var leftButton: UIButton!
@@ -31,6 +31,7 @@ class PartyPlayerViewController: UIViewController {
     public var playerType: PlayerType!
     public var partyID: String!
     
+    private var discView: DiscView?
     private let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
     private let datastore = Datastore.instance
     private var safariViewController: SFSafariViewController!
@@ -44,11 +45,12 @@ class PartyPlayerViewController: UIViewController {
         didSet {
             nowPlayingSong.text = currentSong?.songName ?? "Nothing is playing ☹️"
             nowPlayingArtist.text = currentSong?.artist ?? "Add some songs below!"
-            currentSong?.downloadImage(on: imageDispatchQueue, then: discView.updateArtwork)
+            currentSong?.downloadImage(on: imageDispatchQueue, then: discView?.updateArtwork ?? nil)
         }
     }
     
     override func viewDidLoad() {
+        discBackgroundView.backgroundColor = .clear
         songQueue = Queue()
         nowPlayingSong.textColor = UIColor.mixedPrimaryBlue
         nowPlayingArtist.textColor = UIColor.mixedSecondaryBlue
@@ -102,6 +104,11 @@ class PartyPlayerViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        if discView == nil {
+            discView = DiscView(frame: CGRect(origin: .zero, size: discBackgroundView.frame.size))
+            discBackgroundView.addSubview(discView!)
+        }
+        
         if party == nil {
             // Set delegate before joining so we can receive all added songs
             datastore.delegate = self
@@ -121,11 +128,11 @@ class PartyPlayerViewController: UIViewController {
             }
         }
         // Fix a bug where the disc view would be correctly sized on first load
-        if currentSong == nil {
-            discView.resize(to: discView.frame)
-            discView.updateArtwork(image: nil)
+        if currentSong == nil && discView != nil {
+            discView!.resize(to: discView!.frame)
+            discView!.updateArtwork(image: nil)
         } else if playerType == .attendee || musicPlayer?.getCurrentStatus() == .playing {
-            discView.startRotating()
+            discView?.startRotating()
         }
     }
     
@@ -279,7 +286,7 @@ extension PartyPlayerViewController: PlayerDelegate {
         songsPlayed += 1
         currentSong = songQueue.dequeue()
         if currentSong == nil {
-            discView.updateArtwork(image: nil)
+            discView?.updateArtwork(image: nil)
             musicPlayer?.clearQueue()
         }
         
@@ -288,9 +295,9 @@ extension PartyPlayerViewController: PlayerDelegate {
     
     func playerDidChange(to state: PlaybackStatus) {
         if state == .playing {
-            discView.startRotating()
+            discView?.startRotating()
         } else {
-            discView.stopRotating()
+            discView?.stopRotating()
         }
         
         if playerType == .host {
