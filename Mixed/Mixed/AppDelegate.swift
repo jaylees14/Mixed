@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         SPTAuth.defaultInstance().clientID = kClientId
         SPTAuth.defaultInstance().redirectURL = URL(string:kCallbackURL)
-        SPTAuth.defaultInstance().requestedScopes = [SPTAuthStreamingScope]
+        SPTAuth.defaultInstance().requestedScopes = [SPTAuthStreamingScope, SPTAuthUserReadPrivateScope]
         SPTAuth.defaultInstance().sessionUserDefaultsKey = kSessionUserDefaultsKey
         
         //SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)

@@ -307,18 +307,28 @@ extension PartyPlayerViewController: PlayerDelegate {
     }
     
     func didReceiveError(_ error: Error) {
-        if error is AppleMusicPlayerError {
-            showError(title: "Not able to use Apple Music.", message: "Please ensure you have a valid Apple Music subscription and Mixed is allowed access to your music library in settings.", controller: self, completion: {
-                [self.leftButton, self.centerButton, self.rightButton].forEach({ (button) in
-                    button?.isHidden = true
-                })
-                self.authenticateButton.isHidden = false
+        func hidePlayerShowAuth(){
+            [self.leftButton, self.centerButton, self.rightButton].forEach({ (button) in
+                button?.isHidden = true
             })
-        } else {
+            self.authenticateButton.isHidden = false
+        }
+        
+        switch error {
+        case AppleMusicPlayerError.noSubscription, AppleMusicPlayerError.notSignedIn:
+            showError(title: "Not able to use Apple Music.", message: "Please ensure you have a valid Apple Music subscription and Mixed is allowed access to your music library in settings.", controller: self, completion: hidePlayerShowAuth)
+        case SpotifyPlayerError.invalidSignIn:
+        showError(title: "Unable to sign in to Spotify", message: "Please try logging in with Spotify again.", controller: self, completion: hidePlayerShowAuth)
+        case SpotifyPlayerError.noSubscription:
+            // Should extract this away
+            showError(title: "Premium subscription required", message: "You must have a premium Spotify account in order to be a party host.", controller: self, completion: {
+                hidePlayerShowAuth()
+                self.requestAuth(to: SPTAuth.defaultInstance().spotifyWebAuthenticationURL())
+            })
+        default:
             Logger.log(error, type: .error)
             showError(title: "Whoops", message: "Looks like we encountered an error. Please try again.", controller: self)
         }
-        
     }
 }
 

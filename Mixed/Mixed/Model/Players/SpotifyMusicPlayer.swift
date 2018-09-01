@@ -9,6 +9,11 @@
 import Foundation
 import MediaPlayer
 
+public enum SpotifyPlayerError: Error {
+    case noSubscription
+    case invalidSignIn
+}
+
 public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     private let player: SPTAudioStreamingController
     private var delegate: PlayerDelegate?
@@ -40,11 +45,28 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     
     // MARK: - Music Player
     
-    public func validateSession(for: PlayerType) {
+    public func validateSession(for player: PlayerType) {
         // If a valid session already exists, start player
         if let session = SPTAuth.defaultInstance().session {
             if session.isValid() {
-                startPlayer()
+                // request current user to make sure they have premium
+                SPTUser.requestCurrentUser(withAccessToken: session.accessToken) { (error, data) in
+                    guard error == nil else {
+                        Logger.log(error!, type: .debug)
+                        self.delegate?.didReceiveError(SpotifyPlayerError.invalidSignIn)
+                        return
+                    }
+        
+                    if let user = data as? SPTUser {
+                        // Either have to have preimum, or be an attendee
+                        guard user.product == SPTProduct.premium || player == PlayerType.attendee else {
+                            self.delegate?.didReceiveError(SpotifyPlayerError.noSubscription)
+                            return
+                        }
+                        self.startPlayer()
+                    }
+                }
+                
                 return
             }
         }
@@ -143,7 +165,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
 extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     //If an error was formed from the server, display it to the user in an altert conroller
     public func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didReceiveMessage message: String) {
-        // TODO: Process Message/Error?
+        Logger.log(message, type: .warning)
     }
 
     //Did switch between playing and not playing
