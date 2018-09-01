@@ -19,11 +19,11 @@ func getCurrentDate() -> String {
 }
 
 //Standard error function
-func showError(title: String, message: String, controller: UIViewController){
+func showError(title: String, message: String, controller: UIViewController, completion: (() -> Void)? = nil){
     let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let okButton = UIAlertAction(title: "Okay", style: .default)
     alertView.addAction(okButton)
-    controller.present(alertView, animated: true, completion: nil)
+    controller.present(alertView, animated: true, completion: completion)
 }
 
 func askQuestion(title: String, message: String, controller: UIViewController, acceptCompletion: EmptyCallback? = nil, cancelCompletion: EmptyCallback? = nil){

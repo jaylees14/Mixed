@@ -11,6 +11,7 @@ import MediaPlayer
 
 public enum AppleMusicPlayerError: Error {
     case notSignedIn
+    case noSubscription
 }
 
 public class AppleMusicPlayer: MusicPlayer {
@@ -41,10 +42,26 @@ public class AppleMusicPlayer: MusicPlayer {
 
     
     // MARK: - Music Player
-    public func validateSession() {
+    public func validateSession(for player: PlayerType) {
+        if player == .attendee { return }
         SKCloudServiceController.requestAuthorization { status in
             switch status {
             case .authorized:
+                SKCloudServiceController().requestCapabilities(completionHandler: { (capability, error) in
+                    guard error == nil else {
+                        Logger.log(error!, type: .error)
+                        self.delegate?.didReceiveError(error!)
+                        return
+                    }
+                    if capability.contains(SKCloudServiceCapability.musicCatalogPlayback) {
+                        Logger.log("Has an AM subscription and can playback music!", type: .debug)
+                    } else if  capability.contains(SKCloudServiceCapability.addToCloudMusicLibrary) {
+                        Logger.log("Has an AM subscription, can playback music AND can add to the Cloud Music Library", type: .debug)
+                    } else {
+                        Logger.log("Has no AM subscription", type: .debug)
+                        self.delegate?.didReceiveError(AppleMusicPlayerError.noSubscription)
+                    }
+                })
                 break
             default:
                 self.delegate?.didReceiveError(AppleMusicPlayerError.notSignedIn)

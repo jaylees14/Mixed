@@ -10,7 +10,7 @@ import Foundation
 
 public protocol MusicPlayer {
     func setDelegate(_ delegate: PlayerDelegate)
-    func validateSession()
+    func validateSession(for: PlayerType)
     func hasValidSession() -> Bool
     func play()
     func pause()

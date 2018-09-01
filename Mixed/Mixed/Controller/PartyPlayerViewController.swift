@@ -9,6 +9,11 @@
 import UIKit
 import SafariServices
 
+public enum PlayerType {
+    case host
+    case attendee
+}
+
 class PartyPlayerViewController: UIViewController {
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var discView: DiscView!
@@ -21,11 +26,6 @@ class PartyPlayerViewController: UIViewController {
     @IBOutlet private weak var upcomingTableView: UITableView!
     @IBOutlet private weak var centerButtonHeight: NSLayoutConstraint!
     @IBOutlet private weak var tableViewHeight: NSLayoutConstraint!
-    
-    public enum PlayerType {
-        case host
-        case attendee
-    }
     
     // Set before segue to view
     public var playerType: PlayerType!
@@ -115,7 +115,7 @@ class PartyPlayerViewController: UIViewController {
                 self.setupNavigationBar(title: "\(party.partyHost)'s Party")
                 self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
                 self.musicPlayer?.setDelegate(self)
-                self.musicPlayer?.validateSession()
+                self.musicPlayer?.validateSession(for: self.playerType)
                 // We have to do this after we've created the player!
                 self.datastore.subscribeToUpdates(for: party.partyID)
             }
@@ -169,7 +169,7 @@ class PartyPlayerViewController: UIViewController {
     }
     
     @objc private func didTapAuth(){
-        self.musicPlayer?.validateSession()
+        self.musicPlayer?.validateSession(for: playerType)
     }
     
     // MARK: - Spotify Callback
@@ -183,7 +183,7 @@ class PartyPlayerViewController: UIViewController {
             self.centerButton.isHidden = false
         }
         self.authenticateButton.isHidden = true
-        musicPlayer?.validateSession()
+        musicPlayer?.validateSession(for: playerType)
     }
     
     
@@ -308,11 +308,12 @@ extension PartyPlayerViewController: PlayerDelegate {
     
     func didReceiveError(_ error: Error) {
         if error is AppleMusicPlayerError {
-            showError(title: "Not able to use Apple Music.", message: "Please ensure you have a valid Apple Music subscription and Mixed is allowed access to your music library in settings.", controller: self)
+            showError(title: "Not able to use Apple Music.", message: "Please ensure you have a valid Apple Music subscription and Mixed is allowed access to your music library in settings.", controller: self, completion: {
                 [self.leftButton, self.centerButton, self.rightButton].forEach({ (button) in
                     button?.isHidden = true
                 })
                 self.authenticateButton.isHidden = false
+            })
         } else {
             Logger.log(error, type: .error)
             showError(title: "Whoops", message: "Looks like we encountered an error. Please try again.", controller: self)
