@@ -21,20 +21,22 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     private var gotFirstTrack: Bool = false
     
     public override init() {
-        player = SPTAudioStreamingController.sharedInstance()
+        self.player = SPTAudioStreamingController.sharedInstance()
         super.init()
         player.playbackDelegate = self
     }
     
     private func startPlayer(){
-        do {
-            try self.player.start(withClientId: SPTAuth.defaultInstance().clientID)
-        } catch let error {
-            delegate?.didReceiveError(error)
-            return
+        if !self.player.loggedIn {
+            do {
+                try self.player.start(withClientId: SPTAuth.defaultInstance().clientID)
+                self.player.login(withAccessToken: SPTAuth.defaultInstance().session.accessToken)
+            } catch let error {
+                delegate?.didReceiveError(error)
+                return
+            }
         }
         
-        self.player.login(withAccessToken: SPTAuth.defaultInstance().session.accessToken)
         self.hasStarted = true
     }
     
