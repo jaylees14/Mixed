@@ -83,6 +83,7 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
                 return
             }
             self.party = party
+            SessionManager.shared.setActiveSession(Session(partyID: party.partyID, type: .attendee))
             self.performSegue(withIdentifier: "toPlayer", sender: self)
         }
     }

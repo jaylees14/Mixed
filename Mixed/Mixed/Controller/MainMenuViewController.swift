@@ -29,6 +29,12 @@ class MainMenuViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         ConfigurationManager.shared.configure()
+        if SessionManager.shared.hasActiveSession() {
+            let session = SessionManager.shared.getActiveSession()
+            self.partyID = session.partyID
+            self.playerType = session.type
+            self.performSegue(withIdentifier: "toPlayer", sender: self)
+        }
         startAnimation()
     }
     
@@ -85,6 +91,7 @@ class MainMenuViewController: UIViewController {
         Datastore.instance.createNewParty(with: .spotify, callback: { id in
             self.partyID = id
             self.playerType = .host
+            SessionManager.shared.setActiveSession(Session(partyID: self.partyID, type: .host))
             self.performSegue(withIdentifier: "toPlayer", sender: self)
         })
     }
@@ -97,6 +104,7 @@ class MainMenuViewController: UIViewController {
         Datastore.instance.createNewParty(with: .appleMusic, callback: { id in
             self.partyID = id
             self.playerType = .host
+            SessionManager.shared.setActiveSession(Session(partyID: self.partyID, type: .host))
             self.performSegue(withIdentifier: "toPlayer", sender: self)
         })
     }

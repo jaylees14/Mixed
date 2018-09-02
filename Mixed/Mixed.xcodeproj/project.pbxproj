@@ -43,6 +43,7 @@
 		69846C2D20D479D800889F86 /* MixedGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69846C2C20D479D800889F86 /* MixedGradient.swift */; };
 		698991EF2106804B001C04D1 /* Party.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698991EE2106804B001C04D1 /* Party.swift */; };
 		698991F1210683A3001C04D1 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698991F0210683A3001C04D1 /* Datastore.swift */; };
+		698BBE44213BF7E40073E4A8 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698BBE43213BF7E40073E4A8 /* SessionManager.swift */; };
 		698D315D211102E200E83579 /* JoinPartyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698D315C211102E200E83579 /* JoinPartyViewController.swift */; };
 		69A1EB952130981C00CDABB6 /* UIView+innerShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A1EB942130981C00CDABB6 /* UIView+innerShadow.swift */; };
 		69A22DE121345F5C004EEC45 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A22DE021345F5C004EEC45 /* Logger.swift */; };
@@ -131,6 +132,7 @@
 		69846C2C20D479D800889F86 /* MixedGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedGradient.swift; sourceTree = "<group>"; };
 		698991EE2106804B001C04D1 /* Party.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Party.swift; sourceTree = "<group>"; };
 		698991F0210683A3001C04D1 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
+		698BBE43213BF7E40073E4A8 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		698D315C211102E200E83579 /* JoinPartyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinPartyViewController.swift; sourceTree = "<group>"; };
 		69A1EB942130981C00CDABB6 /* UIView+innerShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIView+innerShadow.swift"; path = "Extensions/UIView+innerShadow.swift"; sourceTree = "<group>"; };
 		69A22DE021345F5C004EEC45 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -268,7 +270,7 @@
 				69675FE61F17FF86008A3299 /* Song.swift */,
 				698991F0210683A3001C04D1 /* Datastore.swift */,
 				698991EE2106804B001C04D1 /* Party.swift */,
-				697D3CB42129F354003E5D06 /* ConfigurationManager.swift */,
+				698BBE45213BF8AA0073E4A8 /* PartyConfiguration */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -305,6 +307,15 @@
 				697D3CB6212A04E0003E5D06 /* FeedbackTableViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		698BBE45213BF8AA0073E4A8 /* PartyConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				697D3CB42129F354003E5D06 /* ConfigurationManager.swift */,
+				698BBE43213BF7E40073E4A8 /* SessionManager.swift */,
+			);
+			path = PartyConfiguration;
 			sourceTree = "<group>";
 		};
 		69AF594B1F18017B00402BE2 /* Providers */ = {
@@ -577,6 +588,7 @@
 				69181E2220E0FB2700C37FB9 /* LineView.swift in Sources */,
 				69181E2A20E13C2500C37FB9 /* DiscView.swift in Sources */,
 				69EDD022212A25300089309A /* UIApplication+version.swift in Sources */,
+				698BBE44213BF7E40073E4A8 /* SessionManager.swift in Sources */,
 				6979D99F20CA4415000F6502 /* LogoView.swift in Sources */,
 				69EDCFFA212A12780089309A /* Queue.swift in Sources */,
 				69846C2D20D479D800889F86 /* MixedGradient.swift in Sources */,
