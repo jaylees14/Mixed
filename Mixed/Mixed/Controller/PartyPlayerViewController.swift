@@ -9,9 +9,9 @@
 import UIKit
 import SafariServices
 
-public enum PlayerType {
-    case host
-    case attendee
+public enum PlayerType: Int {
+    case host = 0
+    case attendee = 1
 }
 
 class PartyPlayerViewController: UIViewController {
@@ -174,6 +174,7 @@ class PartyPlayerViewController: UIViewController {
             if self.musicPlayer?.hasValidSession() ?? false {
                 self.musicPlayer?.stop()
                 self.datastore.unsubscribeFromUpdates()
+                SessionManager.shared.clearActiveSession()
             }
             self.dismiss(animated: true, completion: nil)
         }, cancelCompletion: nil)
