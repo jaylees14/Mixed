@@ -45,7 +45,11 @@ class PartyPlayerViewController: UIViewController {
         didSet {
             nowPlayingSong.text = currentSong?.songName ?? "Nothing is playing ☹️"
             nowPlayingArtist.text = currentSong?.artist ?? "Add some songs below!"
-            currentSong?.downloadImage(on: imageDispatchQueue, then: discView?.updateArtwork ?? nil)
+            if let song = currentSong {
+                song.downloadImage(on: imageDispatchQueue, then: discView?.updateArtwork ?? nil)
+            } else {
+                discView?.updateArtwork(image: nil)
+            }
         }
     }
     
@@ -340,7 +344,12 @@ extension PartyPlayerViewController: PlayerDelegate {
 }
 
 extension PartyPlayerViewController: DatastoreDelegate {
+    func duplicateSongAdded(_ song: Song) {
+        showError(title: "Whoops.", message: "Looks like that song is already queued. Please try again.", controller: self)
+    }
+    
     func didAddSong(_ song: Song) {
+        Logger.log("Did add \(song.songName)", type: .debug)
         guard !song.played else { return }
         if currentSong == nil {
             currentSong = song
@@ -352,6 +361,7 @@ extension PartyPlayerViewController: DatastoreDelegate {
     }
     
     func queueDidChange(songs: [Song]) {
+        Logger.log("Did change to \(songs)", type: .debug)
         self.songQueue.clear()
         let toPlay = songs.filter({!$0.played})
         

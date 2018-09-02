@@ -11,6 +11,7 @@ import Firebase
 
 protocol DatastoreDelegate {
     func didAddSong(_ song: Song)
+    func duplicateSongAdded(_ song: Song)
     func queueDidChange(songs: [Song])
 }
 
@@ -34,6 +35,16 @@ class Datastore {
         let partyQueue = ref.child(databaseName).child(party).child("queue")
         partyQueue.observeSingleEvent(of: .value) { (snapshot) in
             let currentQueueSize: Int = (snapshot.value as? Array<Any>)?.count ?? 0
+            if currentQueueSize > 0 {
+                let lastSongAdded = (snapshot.value as! Array<[String:Any]>)[currentQueueSize - 1]
+                let url = lastSongAdded["songURL"] as! String
+                if url == song.songURL {
+                    // We don't allow the same song to be added directly after each other
+                    self.delegate?.duplicateSongAdded(song)
+                    return
+                }
+            }
+            
             if let data = song.asDictionary {
                 partyQueue.child("\(currentQueueSize)").setValue(data)
             }

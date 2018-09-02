@@ -11,6 +11,7 @@ import UIKit
 
 public class Song: Codable {
     
+    
     // Ignore image from encoding
     enum CodingKeys: String, CodingKey {
         case artist = "artist"
@@ -30,6 +31,7 @@ public class Song: Codable {
     public let played: Bool
     public var image: UIImage?
     public var addedBy: String?
+
     
     public init (artist: String, songName: String, songURL: String, imageURL: String, imageSize: CGSize, image: UIImage?, addedBy: String?, played: Bool) {
         self.artist = artist
