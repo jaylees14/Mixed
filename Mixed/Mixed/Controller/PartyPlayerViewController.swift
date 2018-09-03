@@ -33,6 +33,7 @@ class PartyPlayerViewController: UIViewController {
     public var playerType: PlayerType!
     public var partyID: String!
     
+    private var tableViewMinHeight: CGFloat = 0.0
     private var discView: DiscView?
     private let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
     private let datastore = Datastore.instance
@@ -71,7 +72,8 @@ class PartyPlayerViewController: UIViewController {
         upcomingTableView.isScrollEnabled = false
     
         currentSong = nil
-        tableViewHeight.constant = CGFloat(songQueue.count >= 3 ? (songQueue.count + 1) * 60 : 200)
+        tableViewMinHeight = tableViewHeight.constant
+        setTableViewHeight()
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(spotifySessionUpdated),
@@ -129,9 +131,16 @@ class PartyPlayerViewController: UIViewController {
                 }
                 self.party = party
                 self.setupNavigationBar(title: "\(party.partyHost)'s Party")
-                self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
-                self.musicPlayer?.setDelegate(self)
-                self.musicPlayer?.validateSession(for: self.playerType)
+                if self.playerType == .host {
+                    self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
+                    self.musicPlayer?.setDelegate(self)
+                    self.musicPlayer?.validateSession(for: self.playerType)
+                } else {
+                    //FIXME: this is a horrible hack
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (_) in
+                         self.datastore.subscribeToUpdates(for: self.partyID)
+                    })
+                }
             }
         }
         // Fix a bug where the disc view would be correctly sized on first load
@@ -225,6 +234,15 @@ class PartyPlayerViewController: UIViewController {
                 return
             }
             destination.party = party
+        }
+    }
+    
+    //MARK: - UI
+    func setTableViewHeight() {
+        if tableViewMinHeight <= CGFloat((songQueue.count + 1) * 60) {
+            tableViewHeight.constant = CGFloat((songQueue.count + 1) * 60)
+        } else {
+            tableViewHeight.constant = tableViewMinHeight
         }
     }
 }
@@ -386,8 +404,7 @@ extension PartyPlayerViewController: DatastoreDelegate {
             $0.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData()})
         })
         self.songQueue.setTo(Array(toPlay.dropFirst()))
-        
-        tableViewHeight.constant = CGFloat(songQueue.count >= 3 ? (songQueue.count + 1) * 60 : 200)
+        setTableViewHeight()
     }
 }
 
