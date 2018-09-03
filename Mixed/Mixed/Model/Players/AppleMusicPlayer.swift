@@ -55,8 +55,10 @@ public class AppleMusicPlayer: MusicPlayer {
                     }
                     if capability.contains(SKCloudServiceCapability.musicCatalogPlayback) {
                         Logger.log("Has an AM subscription and can playback music!", type: .debug)
+                        self.delegate?.hasValidSession()
                     } else if  capability.contains(SKCloudServiceCapability.addToCloudMusicLibrary) {
                         Logger.log("Has an AM subscription, can playback music AND can add to the Cloud Music Library", type: .debug)
+                        self.delegate?.hasValidSession()
                     } else {
                         Logger.log("Has no AM subscription", type: .debug)
                         self.delegate?.didReceiveError(AppleMusicPlayerError.noSubscription)
