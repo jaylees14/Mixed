@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import AVKit
 
 public enum PlayerType: Int {
     case host = 0
@@ -22,6 +23,7 @@ class PartyPlayerViewController: UIViewController {
     @IBOutlet private weak var leftButton: UIButton!
     @IBOutlet private weak var centerButton: UIButton!
     @IBOutlet private weak var rightButton: UIButton!
+    @IBOutlet private weak var outputSelector: UIView!
     @IBOutlet private weak var authenticateButton: OnboardingButton!
     @IBOutlet private weak var upcomingTableView: UITableView!
     @IBOutlet private weak var centerButtonHeight: NSLayoutConstraint!
@@ -76,6 +78,9 @@ class PartyPlayerViewController: UIViewController {
                                                name: NSNotification.Name.init("spotifySessionUpdated"),
                                                object: nil)
         
+        let volumeView = AVRoutePickerView(frame: CGRect(origin: .zero, size: outputSelector.frame.size))
+        outputSelector.addSubview(volumeView)
+        
         if playerType == .host {
             leftButton.setBackgroundImage(#imageLiteral(resourceName: "plus"), for: .normal)
             centerButton.setBackgroundImage(#imageLiteral(resourceName: "play"), for: .normal)
@@ -86,11 +91,12 @@ class PartyPlayerViewController: UIViewController {
         } else {
             leftButton.isHidden = true
             rightButton.isHidden = true
+            outputSelector.isHidden = true
             centerButton.setBackgroundImage(#imageLiteral(resourceName: "plus"), for: .normal)
             centerButtonHeight.constant = 45
             centerButton.addTarget(self, action: #selector(toSearch), for: .touchUpInside)
         }
-        [leftButton, centerButton, rightButton].forEach({$0?.backgroundColor = .clear})
+        [leftButton, centerButton, rightButton, outputSelector].forEach({$0?.backgroundColor = .clear})
         
         authenticateButton.isHidden = true
         authenticateButton.addTarget(self, action: #selector(didTapAuth), for: .touchUpInside)
@@ -188,7 +194,7 @@ class PartyPlayerViewController: UIViewController {
     @objc private func spotifySessionUpdated(){
         safariViewController.dismiss(animated: true, completion: nil)
         if playerType == .host {
-            [self.leftButton, self.centerButton, self.rightButton].forEach({ (button) in
+            [self.leftButton, self.centerButton, self.rightButton, self.outputSelector].forEach({ (button) in
                 button?.isHidden = false
             })
         } else {
@@ -320,7 +326,7 @@ extension PartyPlayerViewController: PlayerDelegate {
     
     func didReceiveError(_ error: Error) {
         func hidePlayerShowAuth(){
-            [self.leftButton, self.centerButton, self.rightButton].forEach({ (button) in
+            [self.leftButton, self.centerButton, self.rightButton, self.outputSelector].forEach({ (button) in
                 button?.isHidden = true
             })
             self.authenticateButton.isHidden = false
