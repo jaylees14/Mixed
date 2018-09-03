@@ -31,6 +31,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
             do {
                 try self.player.start(withClientId: SPTAuth.defaultInstance().clientID)
                 self.player.login(withAccessToken: SPTAuth.defaultInstance().session.accessToken)
+                self.delegate?.hasValidSession()
             } catch let error {
                 delegate?.didReceiveError(error)
                 return
@@ -158,6 +159,9 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func getCurrentStatus() -> PlaybackStatus {
+        if player.playbackState == nil {
+            return .paused
+        }
         return player.playbackState.isPlaying ? .playing : .paused
     }
     

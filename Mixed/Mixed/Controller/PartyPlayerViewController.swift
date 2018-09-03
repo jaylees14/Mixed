@@ -127,14 +127,11 @@ class PartyPlayerViewController: UIViewController {
                     //TODO: throw
                     return
                 }
-                
                 self.party = party
                 self.setupNavigationBar(title: "\(party.partyHost)'s Party")
                 self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
                 self.musicPlayer?.setDelegate(self)
                 self.musicPlayer?.validateSession(for: self.playerType)
-                // We have to do this after we've created the player!
-                self.datastore.subscribeToUpdates(for: party.partyID)
             }
         }
         // Fix a bug where the disc view would be correctly sized on first load
@@ -323,6 +320,13 @@ extension PartyPlayerViewController: PlayerDelegate {
         safariViewController.delegate = self
         DispatchQueue.main.async {
             self.present(self.safariViewController, animated: true, completion: nil)
+        }
+    }
+    
+    // When we have a valid session, we can enqueue songs!
+    func hasValidSession() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
+             self.datastore.subscribeToUpdates(for: self.party!.partyID)
         }
     }
     
