@@ -192,16 +192,18 @@ class PartyPlayerViewController: UIViewController {
     
     // MARK: - Spotify Callback
     @objc private func spotifySessionUpdated(){
-        safariViewController.dismiss(animated: true, completion: nil)
-        if playerType == .host {
-            [self.leftButton, self.centerButton, self.rightButton, self.outputSelector].forEach({ (button) in
-                button?.isHidden = false
-            })
-        } else {
-            self.centerButton.isHidden = false
+        DispatchQueue.main.async {
+            self.safariViewController.dismiss(animated: true, completion: nil)
+            if self.playerType == .host {
+                [self.leftButton, self.centerButton, self.rightButton, self.outputSelector].forEach({ (button) in
+                    button?.isHidden = false
+                })
+            } else {
+                self.centerButton.isHidden = false
+            }
+            self.authenticateButton.isHidden = true
+            self.musicPlayer?.validateSession(for: self.playerType)
         }
-        self.authenticateButton.isHidden = true
-        musicPlayer?.validateSession(for: playerType)
     }
     
     
