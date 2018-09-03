@@ -73,6 +73,7 @@ class Datastore {
         }
     }
     
+    // FIXME: If user is listening to songs via offical AM app, it triggers this!!
     public func didFinish(song id: Int, party: String){
         ref.child(databaseName).child(party).child("queue").child("\(id)").child("played").setValue(true)
     }
