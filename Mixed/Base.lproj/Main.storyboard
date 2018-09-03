@@ -526,6 +526,14 @@ parties and events.</string>
                                                 <rect key="frame" x="81" y="526" width="672" height="36.5"/>
                                                 <state key="normal" title="AUTHENTICATE"/>
                                             </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="73o-Tf-mwU">
+                                                <rect key="frame" x="528.5" y="532" width="41" height="41"/>
+                                                <color key="backgroundColor" red="0.44184458490339384" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="41" id="Uem-Rv-4aV"/>
+                                                    <constraint firstAttribute="height" constant="41" id="jYB-s4-diT"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -538,6 +546,7 @@ parties and events.</string>
                                             <constraint firstItem="oJS-td-CKQ" firstAttribute="top" secondItem="ttv-rI-1ut" secondAttribute="bottom" constant="24" id="G1B-Db-cW0"/>
                                             <constraint firstItem="b94-zO-7GD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7pE-nr-ob2" secondAttribute="leading" constant="10" id="HAT-uq-80Q"/>
                                             <constraint firstItem="ztu-O9-WcA" firstAttribute="centerX" secondItem="7pE-nr-ob2" secondAttribute="centerX" id="KOx-rE-gHg"/>
+                                            <constraint firstItem="73o-Tf-mwU" firstAttribute="leading" secondItem="oYd-Fh-4dy" secondAttribute="trailing" constant="24" id="L8d-gU-I5T"/>
                                             <constraint firstItem="oJS-td-CKQ" firstAttribute="width" secondItem="7pE-nr-ob2" secondAttribute="width" id="Nz7-Gu-LFA"/>
                                             <constraint firstItem="oYd-Fh-4dy" firstAttribute="leading" secondItem="ttv-rI-1ut" secondAttribute="trailing" constant="32" id="Ou0-sH-Jpa"/>
                                             <constraint firstItem="u9l-qT-C9f" firstAttribute="top" secondItem="cnU-DA-LPF" secondAttribute="bottom" constant="32" id="VbA-Tj-ijQ"/>
@@ -546,6 +555,7 @@ parties and events.</string>
                                             <constraint firstItem="cnU-DA-LPF" firstAttribute="top" secondItem="7pE-nr-ob2" secondAttribute="top" constant="40" id="cz0-tV-gzk"/>
                                             <constraint firstItem="ttv-rI-1ut" firstAttribute="top" secondItem="b94-zO-7GD" secondAttribute="bottom" constant="40.329999999999998" id="eZE-J4-ChQ"/>
                                             <constraint firstItem="lFf-Nh-sN2" firstAttribute="centerY" secondItem="ttv-rI-1ut" secondAttribute="centerY" id="h7x-Ez-HDP"/>
+                                            <constraint firstItem="73o-Tf-mwU" firstAttribute="centerY" secondItem="oYd-Fh-4dy" secondAttribute="centerY" id="jfB-gk-2OK"/>
                                             <constraint firstItem="ztu-O9-WcA" firstAttribute="top" secondItem="b94-zO-7GD" secondAttribute="bottom" constant="40" id="lXM-K9-9zE"/>
                                             <constraint firstItem="ttv-rI-1ut" firstAttribute="leading" secondItem="lFf-Nh-sN2" secondAttribute="trailing" constant="32" id="lZm-9c-1Ca"/>
                                             <constraint firstItem="b94-zO-7GD" firstAttribute="top" secondItem="u9l-qT-C9f" secondAttribute="bottom" constant="8" id="oAh-PZ-rja"/>
@@ -582,6 +592,7 @@ parties and events.</string>
                         <outlet property="leftButton" destination="lFf-Nh-sN2" id="bU8-Xa-OrM"/>
                         <outlet property="nowPlayingArtist" destination="b94-zO-7GD" id="kMq-eD-wbf"/>
                         <outlet property="nowPlayingSong" destination="u9l-qT-C9f" id="dh3-CL-uSW"/>
+                        <outlet property="outputSelector" destination="73o-Tf-mwU" id="TQS-Jh-t1O"/>
                         <outlet property="rightButton" destination="oYd-Fh-4dy" id="8gr-vh-Vng"/>
                         <outlet property="scrollView" destination="6dB-c0-eL2" id="3fH-gm-EGq"/>
                         <outlet property="tableViewHeight" destination="lya-tB-S8U" id="RC9-Cx-BrC"/>
@@ -592,7 +603,7 @@ parties and events.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mwR-bf-TVe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3252" y="2462.807881773399"/>
+            <point key="canvasLocation" x="3251.7985611510794" y="2462.5899280575541"/>
         </scene>
         <!--Party Code View Controller-->
         <scene sceneID="5gT-Fl-dGf">
@@ -671,7 +682,7 @@ parties and events.</string>
                                 <rect key="frame" x="16" y="146" width="802" height="1006"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recentSearchCell" rowHeight="51" id="PFN-DE-duj" customClass="RecentSearchTableViewCell" customModule="Mixed" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="recentSearchCell" rowHeight="51" id="PFN-DE-duj" customClass="RecentSearchTableViewCell" customModule="Mixed" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="802" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PFN-DE-duj" id="Qwy-m4-hic">
@@ -696,7 +707,7 @@ parties and events.</string>
                                             <outlet property="title" destination="New-mb-gmO" id="Cua-3F-ITJ"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="65" id="kI3-1R-FNJ" customClass="SongTableViewCell" customModule="Mixed" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="65" id="kI3-1R-FNJ" customClass="SongTableViewCell" customModule="Mixed" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="79" width="802" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kI3-1R-FNJ" id="Igw-9X-2PD">
