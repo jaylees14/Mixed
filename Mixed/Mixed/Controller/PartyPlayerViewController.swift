@@ -185,9 +185,9 @@ class PartyPlayerViewController: UIViewController {
         askQuestion(title: title, message: message, controller: self, acceptCompletion: {
             if self.musicPlayer?.hasValidSession() ?? false {
                 self.musicPlayer?.stop()
-                self.datastore.unsubscribeFromUpdates()
-                SessionManager.shared.clearActiveSession()
             }
+            self.datastore.unsubscribeFromUpdates()
+            SessionManager.shared.clearActiveSession()
             self.dismiss(animated: true, completion: nil)
         }, cancelCompletion: nil)
     }
