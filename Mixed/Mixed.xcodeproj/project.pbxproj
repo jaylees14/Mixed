@@ -54,6 +54,8 @@
 		69C77395214C458A0035EB7B /* Mixed.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 69A32E5C21470EAD009D176B /* Mixed.entitlements */; };
 		69D9E6291F2C94F60012319A /* SoundWave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E6281F2C94F60012319A /* SoundWave.swift */; };
 		69DDAB1B213F308C008DDD0D /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DDAB1A213F308C008DDD0D /* PlayerTests.swift */; };
+		69DDAB1F213F418E008DDD0D /* SessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DDAB1E213F418E008DDD0D /* SessionManagerTests.swift */; };
+		69DDAB21213F4409008DDD0D /* DatastoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DDAB20213F4409008DDD0D /* DatastoreTests.swift */; };
 		69EDCFFA212A12780089309A /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFF9212A12780089309A /* Queue.swift */; };
 		69EDCFFC212A12810089309A /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFFB212A12810089309A /* UIImage+resize.swift */; };
 		69EDCFFE212A12870089309A /* UIViewController+MixedNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFFD212A12870089309A /* UIViewController+MixedNav.swift */; };
@@ -150,6 +152,8 @@
 		69D9E6281F2C94F60012319A /* SoundWave.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundWave.swift; sourceTree = "<group>"; };
 		69D9E6321F2D24DC0012319A /* Mixed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mixed-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		69DDAB1A213F308C008DDD0D /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
+		69DDAB1E213F418E008DDD0D /* SessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTests.swift; sourceTree = "<group>"; };
+		69DDAB20213F4409008DDD0D /* DatastoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatastoreTests.swift; sourceTree = "<group>"; };
 		69EDCFF9212A12780089309A /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Queue.swift; path = Extensions/Queue.swift; sourceTree = "<group>"; };
 		69EDCFFB212A12810089309A /* UIImage+resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+resize.swift"; path = "Extensions/UIImage+resize.swift"; sourceTree = "<group>"; };
 		69EDCFFD212A12870089309A /* UIViewController+MixedNav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+MixedNav.swift"; path = "Extensions/UIViewController+MixedNav.swift"; sourceTree = "<group>"; };
@@ -215,6 +219,8 @@
 				6955AA3F210480FF003F1548 /* MixedTests.swift */,
 				6955AA41210480FF003F1548 /* Info.plist */,
 				69DDAB1A213F308C008DDD0D /* PlayerTests.swift */,
+				69DDAB1E213F418E008DDD0D /* SessionManagerTests.swift */,
+				69DDAB20213F4409008DDD0D /* DatastoreTests.swift */,
 			);
 			path = MixedTests;
 			sourceTree = "<group>";
@@ -601,7 +607,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				69DDAB1B213F308C008DDD0D /* PlayerTests.swift in Sources */,
+				69DDAB21213F4409008DDD0D /* DatastoreTests.swift in Sources */,
 				6955AA40210480FF003F1548 /* MixedTests.swift in Sources */,
+				69DDAB1F213F418E008DDD0D /* SessionManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
