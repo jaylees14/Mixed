@@ -15,29 +15,24 @@ public enum SpotifyPlayerError: Error {
 }
 
 public class SpotifyMusicPlayer: NSObject, MusicPlayer {
-    private let player: SPTAudioStreamingController
+    private static let player: SPTAudioStreamingController = SPTAudioStreamingController.sharedInstance()
     private var delegate: PlayerDelegate?
     private var hasStarted: Bool = false
     private var gotFirstTrack: Bool = false
     
     public override init() {
-        self.player = SPTAudioStreamingController.sharedInstance()
         super.init()
-        player.playbackDelegate = self
+        SpotifyMusicPlayer.player.playbackDelegate = self
     }
     
     private func startPlayer(){
-        if !self.player.loggedIn {
-            do {
-                try self.player.start(withClientId: SPTAuth.defaultInstance().clientID)
-                self.player.login(withAccessToken: SPTAuth.defaultInstance().session.accessToken)
-                self.delegate?.hasValidSession()
-            } catch let error {
-                delegate?.didReceiveError(error)
-                return
-            }
+        do {
+            try SpotifyMusicPlayer.player.start(withClientId: SPTAuth.defaultInstance().clientID)
+        } catch {
+            Logger.log("Error whilst starting Spotify player - it's probably already started.", type: .error)
         }
-        
+        SpotifyMusicPlayer.player.login(withAccessToken: SPTAuth.defaultInstance().session.accessToken)
+        self.delegate?.hasValidSession()
         self.hasStarted = true
     }
     
@@ -69,7 +64,6 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
                         self.startPlayer()
                     }
                 }
-                
                 return
             }
         }
@@ -89,11 +83,11 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     
     
     public func play() {
-        guard player.metadata.currentTrack != nil && gotFirstTrack else {
+        guard SpotifyMusicPlayer.player.metadata.currentTrack != nil && gotFirstTrack else {
             return
         }
         
-        player.setIsPlaying(true) { (error) in
+        SpotifyMusicPlayer.player.setIsPlaying(true) { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
                 return
@@ -102,7 +96,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func pause() {
-        player.setIsPlaying(false) { (error) in
+        SpotifyMusicPlayer.player.setIsPlaying(false) { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
                 return
@@ -111,14 +105,14 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func next() {
-        guard player.metadata.nextTrack != nil else {
+        guard SpotifyMusicPlayer.player.metadata.nextTrack != nil else {
             self.pause()
             self.gotFirstTrack = false
             self.delegate?.playerDidStartPlaying(songID: nil)
             return
         }
         
-        player.skipNext { (error) in
+        SpotifyMusicPlayer.player.skipNext { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
                 return
@@ -140,7 +134,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         }
 
         if !gotFirstTrack {
-            player.playSpotifyURI(song.songURL, startingWith: 0, startingWithPosition: 0) { (error) in
+            SpotifyMusicPlayer.player.playSpotifyURI(song.songURL, startingWith: 0, startingWithPosition: 0) { (error) in
                 guard error == nil else {
                     self.delegate?.didReceiveError(error!)
                     return
@@ -149,7 +143,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
                 self.gotFirstTrack = true
             }
         } else {
-            player.queueSpotifyURI(song.songURL, callback: { (error) in
+            SpotifyMusicPlayer.player.queueSpotifyURI(song.songURL, callback: { (error) in
                 guard error == nil else {
                     self.delegate?.didReceiveError(error!)
                     return
@@ -159,10 +153,10 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func getCurrentStatus() -> PlaybackStatus {
-        if player.playbackState == nil {
+        if SpotifyMusicPlayer.player.playbackState == nil {
             return .paused
         }
-        return player.playbackState.isPlaying ? .playing : .paused
+        return SpotifyMusicPlayer.player.playbackState.isPlaying ? .playing : .paused
     }
     
 }
