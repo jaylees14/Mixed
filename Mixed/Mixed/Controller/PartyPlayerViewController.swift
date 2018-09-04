@@ -131,16 +131,9 @@ class PartyPlayerViewController: UIViewController {
                 }
                 self.party = party
                 self.setupNavigationBar(title: "\(party.partyHost)'s Party")
-                if self.playerType == .host {
-                    self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
-                    self.musicPlayer?.setDelegate(self)
-                    self.musicPlayer?.validateSession(for: self.playerType)
-                } else {
-                    //FIXME: this is a horrible hack
-                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (_) in
-                         self.datastore.subscribeToUpdates(for: self.partyID)
-                    })
-                }
+                self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
+                self.musicPlayer?.setDelegate(self)
+                self.musicPlayer?.validateSession(for: self.playerType)
             }
         }
         // Fix a bug where the disc view would be correctly sized on first load
@@ -302,8 +295,6 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 }
 
 extension PartyPlayerViewController: PlayerDelegate {
-    
-    // FIXME: Fix Apple Music songID being a URL should be abstracted away
     func playerDidStartPlaying(songID: String?) {
         guard let party = party else { return }
         if songID == currentSong?.songURL || songID == "" {
@@ -387,7 +378,9 @@ extension PartyPlayerViewController: DatastoreDelegate {
         } else {
             songQueue.enqueue(song)
         }
-        musicPlayer?.enqueue(song: song)
+        if playerType == .host {
+            musicPlayer?.enqueue(song: song)
+        }
         song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
     }
     
