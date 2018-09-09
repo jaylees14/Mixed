@@ -17,7 +17,6 @@
 		69181E2A20E13C2500C37FB9 /* DiscView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69181E2920E13C2500C37FB9 /* DiscView.swift */; };
 		69181E2C20E14E9E00C37FB9 /* SongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69181E2B20E14E9E00C37FB9 /* SongTableViewCell.swift */; };
 		6955AA3821047C3E003F1548 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955AA3721047C3E003F1548 /* CurrentUser.swift */; };
-		6955AA40210480FF003F1548 /* MixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955AA3F210480FF003F1548 /* MixedTests.swift */; };
 		695B038C20D452D300946DC2 /* Comfortaa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 695B038920D451AA00946DC2 /* Comfortaa-Bold.ttf */; };
 		695B038D20D452D300946DC2 /* Comfortaa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 695B038A20D451AC00946DC2 /* Comfortaa-Light.ttf */; };
 		695B038E20D452D300946DC2 /* Comfortaa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 695B038B20D451B400946DC2 /* Comfortaa-Regular.ttf */; };
@@ -33,6 +32,8 @@
 		69675FDA1F17FF72008A3299 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69675FD91F17FF72008A3299 /* Assets.xcassets */; };
 		69675FDD1F17FF72008A3299 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69675FDB1F17FF72008A3299 /* LaunchScreen.storyboard */; };
 		69675FE91F17FF86008A3299 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69675FE61F17FF86008A3299 /* Song.swift */; };
+		696EE6212145A06200C31E1E /* SearchCacherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696EE6202145A06200C31E1E /* SearchCacherTests.swift */; };
+		696EE6232145A10000C31E1E /* AutocompleterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696EE6222145A10000C31E1E /* AutocompleterTests.swift */; };
 		6979D99D20CA43C5000F6502 /* OpeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99C20CA43C5000F6502 /* OpeningViewController.swift */; };
 		6979D99F20CA4415000F6502 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99E20CA4415000F6502 /* LogoView.swift */; };
 		697D3CB52129F354003E5D06 /* ConfigurationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D3CB42129F354003E5D06 /* ConfigurationManager.swift */; };
@@ -107,7 +108,6 @@
 		69181E2B20E14E9E00C37FB9 /* SongTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTableViewCell.swift; sourceTree = "<group>"; };
 		6955AA3721047C3E003F1548 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		6955AA3D210480FF003F1548 /* MixedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MixedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6955AA3F210480FF003F1548 /* MixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedTests.swift; sourceTree = "<group>"; };
 		6955AA41210480FF003F1548 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		695B038920D451AA00946DC2 /* Comfortaa-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-Bold.ttf"; sourceTree = "<group>"; };
 		695B038A20D451AC00946DC2 /* Comfortaa-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-Light.ttf"; sourceTree = "<group>"; };
@@ -126,6 +126,8 @@
 		69675FDC1F17FF72008A3299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69675FDE1F17FF72008A3299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69675FE61F17FF86008A3299 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		696EE6202145A06200C31E1E /* SearchCacherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCacherTests.swift; sourceTree = "<group>"; };
+		696EE6222145A10000C31E1E /* AutocompleterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleterTests.swift; sourceTree = "<group>"; };
 		6979D99C20CA43C5000F6502 /* OpeningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningViewController.swift; sourceTree = "<group>"; };
 		6979D99E20CA4415000F6502 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		697D3CB42129F354003E5D06 /* ConfigurationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationManager.swift; sourceTree = "<group>"; };
@@ -216,11 +218,12 @@
 		6955AA3E210480FF003F1548 /* MixedTests */ = {
 			isa = PBXGroup;
 			children = (
-				6955AA3F210480FF003F1548 /* MixedTests.swift */,
 				6955AA41210480FF003F1548 /* Info.plist */,
 				69DDAB1A213F308C008DDD0D /* PlayerTests.swift */,
 				69DDAB1E213F418E008DDD0D /* SessionManagerTests.swift */,
 				69DDAB20213F4409008DDD0D /* DatastoreTests.swift */,
+				696EE6202145A06200C31E1E /* SearchCacherTests.swift */,
+				696EE6222145A10000C31E1E /* AutocompleterTests.swift */,
 			);
 			path = MixedTests;
 			sourceTree = "<group>";
@@ -606,9 +609,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				696EE6212145A06200C31E1E /* SearchCacherTests.swift in Sources */,
 				69DDAB1B213F308C008DDD0D /* PlayerTests.swift in Sources */,
+				696EE6232145A10000C31E1E /* AutocompleterTests.swift in Sources */,
 				69DDAB21213F4409008DDD0D /* DatastoreTests.swift in Sources */,
-				6955AA40210480FF003F1548 /* MixedTests.swift in Sources */,
 				69DDAB1F213F418E008DDD0D /* SessionManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
