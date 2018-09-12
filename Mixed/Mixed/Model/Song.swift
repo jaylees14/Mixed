@@ -46,8 +46,8 @@ public class Song: Codable {
  
     public func downloadImage(on queue: DispatchQueue, then callback: ((UIImage?) -> Void)?) {
         let formattedURL =
-            imageURL.replacingOccurrences(of: "{w}", with: "\(200)")
-                    .replacingOccurrences(of: "{h}", with: "\(200)")
+            imageURL.replacingOccurrences(of: "{w}", with: "\(300)")
+                    .replacingOccurrences(of: "{h}", with: "\(300)")
         
         queue.async {
             do {

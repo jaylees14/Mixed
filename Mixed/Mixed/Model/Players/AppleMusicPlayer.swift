@@ -43,7 +43,10 @@ public class AppleMusicPlayer: MusicPlayer {
     
     // MARK: - Music Player
     public func validateSession(for player: PlayerType) {
-        if player == .attendee { return }
+        if player == .attendee {
+            self.delegate?.hasValidSession()
+            return
+        }
         SKCloudServiceController.requestAuthorization { status in
             switch status {
             case .authorized:
