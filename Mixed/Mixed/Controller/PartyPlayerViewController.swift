@@ -37,7 +37,7 @@ class PartyPlayerViewController: UIViewController {
     private var discView: DiscView?
     private let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
     private let datastore = Datastore.instance
-    private var safariViewController: SFSafariViewController!
+    private var safariViewController: SFSafariViewController?
     private var party: Party?
     private var lastContentOffset: CGFloat = 0
     private var musicPlayer: MusicPlayer?
@@ -178,7 +178,7 @@ class PartyPlayerViewController: UIViewController {
         askQuestion(title: title, message: message, controller: self, acceptCompletion: {
             if self.musicPlayer?.hasValidSession() ?? false {
                 // FIXME: This will not let you exit if nothing is playing :(
-                // self.musicPlayer?.stop()
+                 self.musicPlayer?.stop()
             }
             self.datastore.unsubscribeFromUpdates()
             SessionManager.shared.clearActiveSession()
@@ -193,7 +193,7 @@ class PartyPlayerViewController: UIViewController {
     // MARK: - Spotify Callback
     @objc private func spotifySessionUpdated(){
         DispatchQueue.main.async {
-            self.safariViewController.dismiss(animated: true, completion: nil)
+            self.safariViewController?.dismiss(animated: true, completion: nil)
             if self.playerType == .host {
                 [self.leftButton, self.centerButton, self.rightButton, self.outputSelector].forEach({ (button) in
                     button?.isHidden = false
@@ -327,16 +327,18 @@ extension PartyPlayerViewController: PlayerDelegate {
     
     func requestAuth(to url: URL) {
         safariViewController = SFSafariViewController(url: url)
-        safariViewController.delegate = self
+        safariViewController?.delegate = self
         DispatchQueue.main.async {
-            self.present(self.safariViewController, animated: true, completion: nil)
+            self.present(self.safariViewController!, animated: true, completion: nil)
         }
     }
     
     // When we have a valid session, we can enqueue songs!
     func hasValidSession() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
-             self.datastore.subscribeToUpdates(for: self.party!.partyID)
+        DispatchQueue.main.async {
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
+                self.datastore.subscribeToUpdates(for: self.party!.partyID)
+            }
         }
     }
     
