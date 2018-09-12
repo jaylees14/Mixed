@@ -136,6 +136,7 @@
 		698D315C211102E200E83579 /* JoinPartyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinPartyViewController.swift; sourceTree = "<group>"; };
 		69A1EB942130981C00CDABB6 /* UIView+innerShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIView+innerShadow.swift"; path = "Extensions/UIView+innerShadow.swift"; sourceTree = "<group>"; };
 		69A22DE021345F5C004EEC45 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		69A32E5C21470EAD009D176B /* Mixed.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mixed.entitlements; sourceTree = "<group>"; };
 		69AF59491F1800B300402BE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		69B45942212F498600B76CA1 /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyAudioPlayback.framework; path = "Mixed/spotify-ios-sdk-master/SpotifyAudioPlayback.framework"; sourceTree = "<group>"; };
 		69B45943212F498600B76CA1 /* SpotifyMetadata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyMetadata.framework; path = "Mixed/spotify-ios-sdk-master/SpotifyMetadata.framework"; sourceTree = "<group>"; };
@@ -249,6 +250,7 @@
 		69675FD11F17FF72008A3299 /* Mixed */ = {
 			isa = PBXGroup;
 			children = (
+				69A32E5C21470EAD009D176B /* Mixed.entitlements */,
 				6981CEE120F28D6500B4A6D6 /* Controller */,
 				6981CEE020F28D6000B4A6D6 /* View */,
 				6981CEDF20F28D5B00B4A6D6 /* Model */,
@@ -439,6 +441,9 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
 						};
@@ -798,6 +803,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mixed/Mixed.entitlements;
 				DEVELOPMENT_TEAM = 95HMAHL2SN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -822,6 +828,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mixed/Mixed.entitlements;
 				DEVELOPMENT_TEAM = 95HMAHL2SN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

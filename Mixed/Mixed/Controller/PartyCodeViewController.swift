@@ -14,12 +14,12 @@ class PartyCodeViewController: UIViewController {
     @IBOutlet weak var partyCode: UILabel!
     @IBOutlet weak var joinLabel: UILabel!
     
-    public var party: Party!
+    public var party: Party?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.partyCode.text = party.partyID
-        self.joinLabel.text = "Join \(party.partyHost)'s party by entering the code above."
+        //self.partyCode.text = party.partyID
+        //self.joinLabel.text = "Join \(party.partyHost)'s party by entering the code above."
         
         setupNavigationBar(title: "Join Party")
         let resized = UIImage(named: "back")?.resize(to: CGSize(width: 13, height: 22))
@@ -27,19 +27,16 @@ class PartyCodeViewController: UIViewController {
             UIBarButtonItem(image: resized, style: .plain, target: self, action: #selector(didTapBackArrow))
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        let manager = PartyManager()
-        manager.delegate = self
-        manager.advertiseParty()
-    }
     
     // MARK: - Actions
     @objc func didTapBackArrow() {
         self.navigationController?.popViewController(animated: true)
     }
-}
-
-extension PartyCodeViewController: PartyManagerDelegate {
     
+    @IBAction func didTapShare(_ sender: UIButton) {
+        let textToShare = "Come and join my Mixed party, you can collaborate on the party playlist!\n https://jaylees.me/mixed?i=\(party?.partyID)"
+        let share = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+        share.popoverPresentationController?.sourceView = sender
+        present(share, animated: true, completion: nil)
+    }
 }

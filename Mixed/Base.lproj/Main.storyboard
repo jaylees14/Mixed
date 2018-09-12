@@ -655,10 +655,23 @@ parties and events.</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9mb-mK-QCs">
+                                <rect key="frame" x="164" y="542" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="HnE-DX-r2g"/>
+                                    <constraint firstAttribute="height" constant="30" id="hD8-F8-cEv"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="didTapShare:" destination="Dzg-WK-uHc" eventType="touchUpInside" id="JUC-eK-z0t"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="9mb-mK-QCs" firstAttribute="top" secondItem="siE-ib-vPG" secondAttribute="bottom" constant="30" id="AcT-jf-Zhn"/>
                             <constraint firstItem="siE-ib-vPG" firstAttribute="centerX" secondItem="lsE-T4-NKk" secondAttribute="centerX" id="IT2-7O-rQC"/>
+                            <constraint firstItem="9mb-mK-QCs" firstAttribute="centerX" secondItem="lsE-T4-NKk" secondAttribute="centerX" id="NlX-De-4gu"/>
                             <constraint firstItem="siE-ib-vPG" firstAttribute="top" secondItem="zem-an-rUJ" secondAttribute="bottom" constant="18" id="ayh-zQ-mPH"/>
                             <constraint firstItem="via-Rp-Z5v" firstAttribute="leading" secondItem="lsE-T4-NKk" secondAttribute="leading" constant="69" id="cZc-Qq-1D5"/>
                             <constraint firstItem="via-Rp-Z5v" firstAttribute="top" secondItem="lsE-T4-NKk" secondAttribute="top" constant="37" id="ccJ-EX-GIp"/>
