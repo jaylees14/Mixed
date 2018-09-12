@@ -83,7 +83,10 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     
     
     public func play() {
-        guard SpotifyMusicPlayer.player.metadata.currentTrack != nil && gotFirstTrack else {
+        guard let metadata = SpotifyMusicPlayer.player.metadata else {
+            return
+        }
+        guard metadata.currentTrack != nil && gotFirstTrack else {
             return
         }
         
@@ -105,7 +108,10 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func next() {
-        guard SpotifyMusicPlayer.player.metadata.nextTrack != nil else {
+        guard let metadata = SpotifyMusicPlayer.player.metadata else {
+            return
+        }
+        guard metadata.nextTrack != nil else {
             self.pause()
             self.gotFirstTrack = false
             self.delegate?.playerDidStartPlaying(songID: nil)
