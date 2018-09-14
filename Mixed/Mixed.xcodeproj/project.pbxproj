@@ -51,6 +51,7 @@
 		69B45945212F498600B76CA1 /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45942212F498600B76CA1 /* SpotifyAudioPlayback.framework */; };
 		69B45946212F498600B76CA1 /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45943212F498600B76CA1 /* SpotifyMetadata.framework */; };
 		69B45947212F498600B76CA1 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45944212F498600B76CA1 /* SpotifyAuthentication.framework */; };
+		69C77395214C458A0035EB7B /* Mixed.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 69A32E5C21470EAD009D176B /* Mixed.entitlements */; };
 		69D9E6291F2C94F60012319A /* SoundWave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E6281F2C94F60012319A /* SoundWave.swift */; };
 		69EDCFFA212A12780089309A /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFF9212A12780089309A /* Queue.swift */; };
 		69EDCFFC212A12810089309A /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFFB212A12810089309A /* UIImage+resize.swift */; };
@@ -481,6 +482,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69C77395214C458A0035EB7B /* Mixed.entitlements in Resources */,
 				695B038C20D452D300946DC2 /* Comfortaa-Bold.ttf in Resources */,
 				695B038D20D452D300946DC2 /* Comfortaa-Light.ttf in Resources */,
 				695B038E20D452D300946DC2 /* Comfortaa-Regular.ttf in Resources */,

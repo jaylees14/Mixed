@@ -25,6 +25,14 @@
 			</array>
 		</dict>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.jaylees.mixed.customurl</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mixed</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
