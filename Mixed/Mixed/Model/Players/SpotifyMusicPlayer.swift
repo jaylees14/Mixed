@@ -112,7 +112,9 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
             return
         }
         guard metadata.nextTrack != nil else {
-            self.pause()
+            if metadata.currentTrack != nil {
+                self.pause()
+            }
             self.gotFirstTrack = false
             self.delegate?.playerDidStartPlaying(songID: nil)
             return
@@ -120,7 +122,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         
         SpotifyMusicPlayer.player.skipNext { (error) in
             guard error == nil else {
-                self.delegate?.didReceiveError(error!)
+                Logger.log(error, type: .debug)
                 return
             }
         }
