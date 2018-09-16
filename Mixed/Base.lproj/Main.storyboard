@@ -635,19 +635,19 @@ parties and events.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="via-Rp-Z5v">
-                                <rect key="frame" x="69" y="125" width="237" height="237"/>
+                                <rect key="frame" x="69" y="168" width="237" height="237"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="via-Rp-Z5v" secondAttribute="height" multiplier="1:1" id="Xcu-VX-f3E"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABCDEF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zem-an-rUJ">
-                                <rect key="frame" x="101.66666666666669" y="390" width="172" height="45"/>
+                                <rect key="frame" x="101.66666666666669" y="433" width="172" height="45"/>
                                 <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join the party by scanning the code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="siE-ib-vPG">
-                                <rect key="frame" x="23" y="453" width="329" height="59"/>
+                                <rect key="frame" x="23" y="496" width="329" height="59"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="59" id="2pn-WZ-UzH"/>
                                 </constraints>
@@ -655,13 +655,16 @@ parties and events.</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9mb-mK-QCs">
-                                <rect key="frame" x="164" y="542" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9mb-mK-QCs" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
+                                <rect key="frame" x="62.666666666666657" y="585" width="249.99999999999997" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="HnE-DX-r2g"/>
-                                    <constraint firstAttribute="height" constant="30" id="hD8-F8-cEv"/>
+                                    <constraint firstAttribute="width" constant="250" id="HnE-DX-r2g"/>
+                                    <constraint firstAttribute="height" constant="45" id="hD8-F8-cEv"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
+                                <fontDescription key="fontDescription" name="Comfortaa-Bold" family="Comfortaa" pointSize="9"/>
+                                <state key="normal" title="SHARE WITH FRIENDS">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
                                 <connections>
                                     <action selector="didTapShare:" destination="Dzg-WK-uHc" eventType="touchUpInside" id="JUC-eK-z0t"/>
                                 </connections>
@@ -674,7 +677,7 @@ parties and events.</string>
                             <constraint firstItem="9mb-mK-QCs" firstAttribute="centerX" secondItem="lsE-T4-NKk" secondAttribute="centerX" id="NlX-De-4gu"/>
                             <constraint firstItem="siE-ib-vPG" firstAttribute="top" secondItem="zem-an-rUJ" secondAttribute="bottom" constant="18" id="ayh-zQ-mPH"/>
                             <constraint firstItem="via-Rp-Z5v" firstAttribute="leading" secondItem="lsE-T4-NKk" secondAttribute="leading" constant="69" id="cZc-Qq-1D5"/>
-                            <constraint firstItem="via-Rp-Z5v" firstAttribute="top" secondItem="lsE-T4-NKk" secondAttribute="top" constant="37" id="ccJ-EX-GIp"/>
+                            <constraint firstItem="via-Rp-Z5v" firstAttribute="top" secondItem="lsE-T4-NKk" secondAttribute="top" constant="80" id="ccJ-EX-GIp"/>
                             <constraint firstItem="via-Rp-Z5v" firstAttribute="centerX" secondItem="lsE-T4-NKk" secondAttribute="centerX" id="m99-Ad-IRc"/>
                             <constraint firstItem="zem-an-rUJ" firstAttribute="top" secondItem="via-Rp-Z5v" secondAttribute="bottom" constant="28" id="ncg-n9-Xfa"/>
                             <constraint firstItem="zem-an-rUJ" firstAttribute="centerX" secondItem="lsE-T4-NKk" secondAttribute="centerX" id="oWh-5r-35Z"/>
@@ -686,6 +689,7 @@ parties and events.</string>
                         <outlet property="imageView" destination="via-Rp-Z5v" id="093-mS-PPh"/>
                         <outlet property="joinLabel" destination="siE-ib-vPG" id="rBn-WE-7De"/>
                         <outlet property="partyCode" destination="zem-an-rUJ" id="lTi-ez-bRQ"/>
+                        <outlet property="shareButton" destination="9mb-mK-QCs" id="uV0-Vc-Oc5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eNL-TK-qac" userLabel="First Responder" sceneMemberID="firstResponder"/>

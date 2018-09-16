@@ -13,6 +13,7 @@ class PartyCodeViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var partyCode: UILabel!
     @IBOutlet weak var joinLabel: UILabel!
+    @IBOutlet weak var shareButton: OnboardingButton!
     
     public var party: Party!
     
@@ -26,6 +27,8 @@ class PartyCodeViewController: UIViewController {
         self.navigationItem.leftBarButtonItem =
             UIBarButtonItem(image: resized, style: .plain, target: self, action: #selector(didTapBackArrow))
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        self.shareButton.layer.borderColor = UIColor.black.cgColor
+        self.shareButton.setTitleColor(.black, for: .normal)
     }
     
     // MARK: - Actions
