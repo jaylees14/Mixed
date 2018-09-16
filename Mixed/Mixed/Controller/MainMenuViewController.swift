@@ -78,7 +78,7 @@ class MainMenuViewController: UIViewController {
     public func didJoinRemoteParty(id: String) {
         Datastore.instance.joinParty(with: id) { (party) in
             guard party != nil else {
-                showError(title: "Error.", message: "A party with that ID does not exist", controller: self)
+                showError(title: "Error", message: "A party with that ID does not exist", controller: self)
                 return
             }
             self.partyID = id
