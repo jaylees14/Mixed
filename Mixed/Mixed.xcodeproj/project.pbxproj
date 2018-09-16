@@ -51,6 +51,7 @@
 		69B45945212F498600B76CA1 /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45942212F498600B76CA1 /* SpotifyAudioPlayback.framework */; };
 		69B45946212F498600B76CA1 /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45943212F498600B76CA1 /* SpotifyMetadata.framework */; };
 		69B45947212F498600B76CA1 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B45944212F498600B76CA1 /* SpotifyAuthentication.framework */; };
+		69C77395214C458A0035EB7B /* Mixed.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 69A32E5C21470EAD009D176B /* Mixed.entitlements */; };
 		69D9E6291F2C94F60012319A /* SoundWave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D9E6281F2C94F60012319A /* SoundWave.swift */; };
 		69EDCFFA212A12780089309A /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFF9212A12780089309A /* Queue.swift */; };
 		69EDCFFC212A12810089309A /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EDCFFB212A12810089309A /* UIImage+resize.swift */; };
@@ -136,6 +137,7 @@
 		698D315C211102E200E83579 /* JoinPartyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinPartyViewController.swift; sourceTree = "<group>"; };
 		69A1EB942130981C00CDABB6 /* UIView+innerShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIView+innerShadow.swift"; path = "Extensions/UIView+innerShadow.swift"; sourceTree = "<group>"; };
 		69A22DE021345F5C004EEC45 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		69A32E5C21470EAD009D176B /* Mixed.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mixed.entitlements; sourceTree = "<group>"; };
 		69AF59491F1800B300402BE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		69B45942212F498600B76CA1 /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyAudioPlayback.framework; path = "Mixed/spotify-ios-sdk-master/SpotifyAudioPlayback.framework"; sourceTree = "<group>"; };
 		69B45943212F498600B76CA1 /* SpotifyMetadata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyMetadata.framework; path = "Mixed/spotify-ios-sdk-master/SpotifyMetadata.framework"; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 		69675FD11F17FF72008A3299 /* Mixed */ = {
 			isa = PBXGroup;
 			children = (
+				69A32E5C21470EAD009D176B /* Mixed.entitlements */,
 				6981CEE120F28D6500B4A6D6 /* Controller */,
 				6981CEE020F28D6000B4A6D6 /* View */,
 				6981CEDF20F28D5B00B4A6D6 /* Model */,
@@ -441,6 +444,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -476,6 +482,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69C77395214C458A0035EB7B /* Mixed.entitlements in Resources */,
 				695B038C20D452D300946DC2 /* Comfortaa-Bold.ttf in Resources */,
 				695B038D20D452D300946DC2 /* Comfortaa-Light.ttf in Resources */,
 				695B038E20D452D300946DC2 /* Comfortaa-Regular.ttf in Resources */,
@@ -798,6 +805,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mixed/Mixed.entitlements;
 				DEVELOPMENT_TEAM = 95HMAHL2SN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -822,6 +830,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mixed/Mixed.entitlements;
 				DEVELOPMENT_TEAM = 95HMAHL2SN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -20,12 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let kTokenSwapURL = "http://localhost:1234/swap"
     let kTokenRefreshServiceURL = "http://localhost:1234/refresh"
     let kSessionUserDefaultsKey = "SpotifySession"
-    
-    func delay(_ delay:Double, closure:@escaping ()->()) {
-        DispatchQueue.main.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
-    }
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseConfiguration.shared.setLoggerLevel(.min)
@@ -34,8 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SPTAuth.defaultInstance().redirectURL = URL(string:kCallbackURL)
         SPTAuth.defaultInstance().requestedScopes = [SPTAuthStreamingScope, SPTAuthUserReadPrivateScope]
         SPTAuth.defaultInstance().sessionUserDefaultsKey = kSessionUserDefaultsKey
-        
-        //SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
     
@@ -50,6 +42,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "spotifySessionUpdated"), object: self)
                 }
             }
+        } else if url.scheme == "mixed" {
+            guard CurrentUser.shared.isLoggedIn() else {
+                Logger.log("Tried to open mixed:// url without logging in", type: .debug)
+                return false
+            }
+            
+            guard let query = url.query?.components(separatedBy: "&") else { return false }
+            let id = query[0].components(separatedBy: "=")[1]
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let menu = storyboard.instantiateViewController(withIdentifier: "MainMenuViewController")
+                as! MainMenuViewController
+            menu.didJoinRemoteParty(id: id)
+            
+            self.window?.rootViewController = menu
+            self.window?.makeKeyAndVisible()
+            
         }
         return true
     }

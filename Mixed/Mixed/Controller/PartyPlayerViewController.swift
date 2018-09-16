@@ -177,8 +177,7 @@ class PartyPlayerViewController: UIViewController {
         }
         askQuestion(title: title, message: message, controller: self, acceptCompletion: {
             if self.musicPlayer?.hasValidSession() ?? false {
-                // FIXME: This will not let you exit if nothing is playing :(
-                 self.musicPlayer?.stop()
+                self.musicPlayer?.stop()
             }
             self.datastore.unsubscribeFromUpdates()
             SessionManager.shared.clearActiveSession()

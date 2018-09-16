@@ -25,7 +25,6 @@ class SessionManager {
             Logger.log("No session in defaults", type: .debug)
             return false
         }
-        print(session)
         guard let dict = session as? [String:Any], let start = dict["start"] as? String else {
             Logger.log("No start found", type: .debug)
             return false

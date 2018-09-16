@@ -74,6 +74,19 @@ class MainMenuViewController: UIViewController {
         }, completion:  nil)
     }
 
+    // Called from AppDelegate when goes to mixed://...
+    public func didJoinRemoteParty(id: String) {
+        Datastore.instance.joinParty(with: id) { (party) in
+            guard party != nil else {
+                showError(title: "Error", message: "A party with that ID does not exist", controller: self)
+                return
+            }
+            self.partyID = id
+            self.playerType = .attendee
+            SessionManager.shared.setActiveSession(Session(partyID: self.partyID, type: self.playerType))
+            self.performSegue(withIdentifier: "toPlayer", sender: self)
+        }
+    }
     
     @IBAction func didTapJoinParty(_ sender: Any) {
         guard hasNetworkConnection() else {
