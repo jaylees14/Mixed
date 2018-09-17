@@ -57,14 +57,62 @@ class PlayerTests: XCTestCase {
         appleMusicPlayer = AppleMusicPlayer()
         spotifyPlayer = SpotifyMusicPlayer()
         mockDelegate = MockDelegate()
+        appleMusicPlayer.setDelegate(mockDelegate)
+        spotifyPlayer.setDelegate(mockDelegate)
     }
 
+    
+    // MARK: - Valid sessions
     func testAppleMusicSession() {
-        XCTAssert(appleMusicPlayer.hasValidSession())
+        if appleMusicPlayer.hasValidSession() {
+            XCTAssert(mockDelegate.result == nil)
+        }
     }
     
     func testSpotifySession() {
-        XCTAssert(spotifyPlayer.hasValidSession())
+        mockDelegate.expectation = expectation(description: "Valid sessions handled correctly")
+        spotifyPlayer.validateSession(for: .attendee)
+        waitForExpectations(timeout: 2) { (error) in
+            guard error == nil else {
+                XCTFail(error!.localizedDescription)
+                return
+            }
+            
+            guard let result = self.mockDelegate.result else {
+                XCTFail("No delegate method was called")
+                return
+            }
+            
+            switch result {
+            case .requestAuth(to: _):
+                XCTAssert(!self.spotifyPlayer.hasValidSession())
+            case .hasValidSession:
+                XCTAssert(self.spotifyPlayer.hasValidSession())
+            default:
+                XCTFail("Incorrect delegate method called")
+            }
+        }
     }
     
+    func testAppleMusicNotifyAddSong() {
+        mockDelegate.expectation = expectation(description: "Delegate informs subscriber a new song has been enqueued")
+        let mockSongOne = Song(artist: "Foo", songName: "Bar", songURL: "Baz", imageURL: "invalid", imageSize: CGSize(width: 10, height: 1), image: nil, addedBy: nil, played: false)
+        appleMusicPlayer.enqueue(song: mockSongOne)
+        waitForExpectations(timeout: 2) { (error) in
+            guard error == nil else {
+                XCTFail(error!.localizedDescription)
+                return
+            }
+            guard let result = self.mockDelegate.result else {
+                XCTFail("No delegate method was called")
+                return
+            }
+            switch result {
+            case .playerDidStartPlaying(songID: let song):
+                XCTAssert(song == mockSongOne.songURL)
+            default:
+                XCTFail("Incorrect delegate method called")
+            }
+        }
+    }
 }

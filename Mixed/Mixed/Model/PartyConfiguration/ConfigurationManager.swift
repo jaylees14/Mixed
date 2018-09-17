@@ -11,7 +11,7 @@ import Firebase
 
 class ConfigurationManager {
     public static let shared = ConfigurationManager()
-    private(set) var appleMusicToken: String?
+    public var appleMusicToken: String?
     
     private init(){
         self.configure()
