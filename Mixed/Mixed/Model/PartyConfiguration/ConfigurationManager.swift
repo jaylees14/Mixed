@@ -11,9 +11,11 @@ import Firebase
 
 class ConfigurationManager {
     public static let shared = ConfigurationManager()
-    private(set) var appleMusicToken: String?
+    public var appleMusicToken: String?
     
-    private init(){ }
+    private init(){
+        self.configure()
+    }
     
     public func configure(){
         Database.database().reference().child("appleMusic").observeSingleEvent(of: .value, with: { (snapshot) in
