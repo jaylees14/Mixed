@@ -18,8 +18,15 @@ enum AppleMusicError: Error {
 }
 
 class AppleMusic: MusicProvider {
+    
     func getPlaylists(_ callback: @escaping ([Playlist]?, Error?) -> Void) {
-        
+        let playlists = MPMediaQuery.playlists().collections?.map({ (collection) -> AppleMusicPlaylist in
+            let playlistName = collection.value(forProperty: MPMediaPlaylistPropertyName) as? String ?? ""
+            let playlistID = collection.value(forProperty: MPMediaPlaylistPropertyPersistentID) as? NSNumber ?? 0
+            let playlistInfo = PlaylistInfo(name: playlistName, tracks: PlaylistInfo.TrackInfo(href: "\(playlistID)"))
+            return AppleMusicPlaylist(playlistInfo: playlistInfo)
+        })
+        callback(playlists, nil)
     }
     
     func search(for query: String, callback: @escaping ([Song]?, Error?) -> Void) {
@@ -43,7 +50,17 @@ class AppleMusic: MusicProvider {
         }
     }
     
-    //TODO: Refactor this to decodable and should return an error not []
+    //TODO: Refactor this to decodable, with custom keys for AM and Spotify and should return an error not []
+    private func processPlaylistJSON(_ json: [String: Any]) -> [PlaylistInfo] {
+        let playlistDetails = json["data"] as! [[String:Any]]
+        return playlistDetails.map { (details) -> PlaylistInfo in
+            let tracksURL = details["href"] as! String
+            let attributes = details["attributes"] as! [String: Any]
+            let name = attributes["name"] as! String
+            return PlaylistInfo(name: name, tracks: PlaylistInfo.TrackInfo(href: tracksURL))
+        }
+    }
+    
     private func processSearchJSON(_ json: [String: Any]) -> [Song] {
         let results = json["results"] as! [String: Any]
         guard let songs = results["songs"] as? [String: Any] else { return [] }

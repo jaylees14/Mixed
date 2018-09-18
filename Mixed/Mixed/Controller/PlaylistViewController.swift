@@ -23,6 +23,10 @@ class PlaylistViewController: UIViewController {
         self.selectAllButton.layer.borderColor = UIColor.black.cgColor
         self.selectAllButton.setTitleColor(.black, for: .normal)
         
+        selectedPlaylist.downloadSongs {
+            self.tableView.reloadData()
+        }
+        
         setupNavigationBar(title: "Playlist")
         let resized = UIImage(named: "back")?.resize(to: CGSize(width: 13, height: 22))
         self.navigationItem.leftBarButtonItem =
