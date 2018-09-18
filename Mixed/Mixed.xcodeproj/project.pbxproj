@@ -32,6 +32,7 @@
 		69675FDA1F17FF72008A3299 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69675FD91F17FF72008A3299 /* Assets.xcassets */; };
 		69675FDD1F17FF72008A3299 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69675FDB1F17FF72008A3299 /* LaunchScreen.storyboard */; };
 		69675FE91F17FF86008A3299 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69675FE61F17FF86008A3299 /* Song.swift */; };
+		696E507C21511EA80015EF7B /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696E507B21511EA80015EF7B /* Playlist.swift */; };
 		696EE6212145A06200C31E1E /* SearchCacherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696EE6202145A06200C31E1E /* SearchCacherTests.swift */; };
 		6979D99D20CA43C5000F6502 /* OpeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99C20CA43C5000F6502 /* OpeningViewController.swift */; };
 		6979D99F20CA4415000F6502 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99E20CA4415000F6502 /* LogoView.swift */; };
@@ -125,6 +126,7 @@
 		69675FDC1F17FF72008A3299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69675FDE1F17FF72008A3299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69675FE61F17FF86008A3299 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		696E507B21511EA80015EF7B /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		696EE6202145A06200C31E1E /* SearchCacherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCacherTests.swift; sourceTree = "<group>"; };
 		6979D99C20CA43C5000F6502 /* OpeningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningViewController.swift; sourceTree = "<group>"; };
 		6979D99E20CA4415000F6502 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				6955AA3721047C3E003F1548 /* CurrentUser.swift */,
 				69EDD013212A1B920089309A /* NetworkRequest.swift */,
 				69675FE61F17FF86008A3299 /* Song.swift */,
+				696E507B21511EA80015EF7B /* Playlist.swift */,
 				698991F0210683A3001C04D1 /* Datastore.swift */,
 				698991EE2106804B001C04D1 /* Party.swift */,
 				698BBE45213BF8AA0073E4A8 /* PartyConfiguration */,
@@ -637,6 +640,7 @@
 				6955AA3821047C3E003F1548 /* CurrentUser.swift in Sources */,
 				69A22DE121345F5C004EEC45 /* Logger.swift in Sources */,
 				69EDD009212A1ACD0089309A /* PlaybackStatus.swift in Sources */,
+				696E507C21511EA80015EF7B /* Playlist.swift in Sources */,
 				69EDD018212A1B920089309A /* Autocompleter.swift in Sources */,
 				69EDD015212A1B920089309A /* MusicProvider.swift in Sources */,
 				69EDD017212A1B920089309A /* MusicProviderFactory.swift in Sources */,

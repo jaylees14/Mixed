@@ -23,7 +23,7 @@ class SongSearchViewController: UIViewController {
     
     // Data Sources
     private var recentSearches: [String] = []
-    private var suggested: [String] = []
+    private var playlists: [Playlist] = []
     private var autocomplete: [String] = []
     private var searchResults: [Song] = []
     private var state: SearchState = .standard
@@ -38,10 +38,20 @@ class SongSearchViewController: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         
+       
+        provider = MusicProviderFactory.generateMusicProvider(for: party.streamingProvider)
         recentSearches = SearchCacher.getLastThree()
-        suggested = ["Panic at the Disco", "Ed Sheeran", "Divide"]
-
-        provider = MusicProviderFactory.generateMusicProvider(for: party.streamingProvider, with: self)
+        provider.getPlaylists { (playlists, error) in
+            guard error == nil, let playlists = playlists else {
+                Logger.log(error!, type: .debug)
+                return
+            }
+            self.playlists = playlists
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
         
         searchField.searchDelegate = self
         setupNavigationBar(title: "Search")
@@ -64,20 +74,6 @@ class SongSearchViewController: UIViewController {
     }
 }
 
-// MARK: - MusicProviderDelegate
-extension SongSearchViewController: MusicProviderDelegate {
-    func queryDidSucceed(_ songs: [Song]) {
-        self.searchResults = songs
-        self.searchResults.forEach { $0.downloadImage(on: imageDispatchQueue, then: { _ in self.tableView.reloadData() } )}
-        tableView.reloadData()
-    }
-    
-    func queryDidFail(_ error: Error) {
-        Logger.log(error, type: .error)
-        showError(title: "Whoops", message: "Looks like we had a problem trying to connect to our service. Please check your connection and try again.", controller: self)
-    }
-}
-
 // MARK: - SongSearchDelegate
 extension SongSearchViewController: SongSearchViewDelegate {
     func currentSearchQuery(_ text: String?) {
@@ -90,9 +86,21 @@ extension SongSearchViewController: SongSearchViewDelegate {
     }
     
     func didRequestSearch(with text: String) {
+        guard text != "" else { return }
         state = .results
         SearchCacher.cache(song: text)
-        provider.search(for: text)
+        provider.search(for: text, callback: { (songs, error) in
+            guard error == nil, let songs = songs else {
+                Logger.log(error!, type: .error)
+                showError(title: "Whoops", message: "Looks like we had a problem trying to connect to our service. Please check your connection and try again.", controller: self)
+                return
+            }
+            self.searchResults = songs
+            self.searchResults.forEach { $0.downloadImage(on: self.imageDispatchQueue, then: { _ in self.tableView.reloadData() } )}
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        })
     }
     
     func didStartSearching() {
@@ -140,7 +148,7 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
             case 0:
                 return "Recent Searches"
             case 1:
-                return "Suggested"
+                return "Your Playlists"
             default:
                 return ""
             }
@@ -164,7 +172,7 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
         case .standard:
             switch section {
             case 0: return recentSearches.count
-            case 1: return suggested.count
+            case 1: return playlists.count
             default: return 0
             }
         }
@@ -200,7 +208,7 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearchCell", for: indexPath) as! RecentSearchTableViewCell
             switch indexPath.section {
             case 0: cell.title.text = recentSearches[indexPath.row]
-            case 1: cell.title.text = suggested[indexPath.row]
+            case 1: cell.title.text = playlists[indexPath.row].name
             default: break
             }
             return cell
@@ -218,7 +226,9 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.section == 0 {
                 selectedText = recentSearches[indexPath.row]
             } else if indexPath.section == 1 {
-                selectedText = suggested[indexPath.row]
+                // TODO: Deal with playlists
+//                selectedText = suggested[indexPath.row]
+                selectedText = ""
             } else {
                 selectedText = ""
             }
