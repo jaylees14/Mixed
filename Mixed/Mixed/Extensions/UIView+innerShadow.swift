@@ -16,7 +16,7 @@ extension UIView {
         shadowLayer.shadowOffset = CGSize(width: 0.0, height: 0.0)
         shadowLayer.shadowOpacity = opacity
         shadowLayer.shadowRadius = size
-        shadowLayer.fillRule = kCAFillRuleEvenOdd
+        shadowLayer.fillRule = CAShapeLayerFillRule.evenOdd
         shadowLayer.cornerRadius = cornerRadius
         
         let shadowPath = CGMutablePath()

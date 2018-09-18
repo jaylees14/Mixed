@@ -32,8 +32,8 @@ class LogoView: UIView {
         logoLayer.strokeColor = UIColor.white.cgColor
         logoLayer.strokeEnd = isInitiallyHidden ? 0.0 : 1.0
         logoLayer.fillColor = UIColor.clear.cgColor
-        logoLayer.lineCap = kCALineCapRound
-        logoLayer.lineJoin = kCALineJoinRound
+        logoLayer.lineCap = CAShapeLayerLineCap.round
+        logoLayer.lineJoin = CAShapeLayerLineJoin.round
         logoLayer.lineWidth = 27.0
         
         gradient = MixedGradient(in: CGRect(origin: CGPoint(x: -50, y: -50),
@@ -59,7 +59,7 @@ class LogoView: UIView {
         animation.duration = duration
         animation.fromValue = 0
         animation.toValue = 1
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
     
         logoLayer.strokeEnd = 1.0
         logoLayer.add(animation, forKey: "animateLogo")

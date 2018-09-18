@@ -121,7 +121,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         
         SpotifyMusicPlayer.player.skipNext { (error) in
             guard error == nil else {
-                Logger.log(error, type: .debug)
+                Logger.log(error!, type: .debug)
                 return
             }
         }
@@ -181,7 +181,7 @@ extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlayba
         
         //Allows audio to be played in background
         if isPlaying {
-            try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .allowBluetooth)
             try? AVAudioSession.sharedInstance().setActive(true)
         } else {
             try? AVAudioSession.sharedInstance().setActive(false)
@@ -206,3 +206,8 @@ extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlayba
     }
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
+}
