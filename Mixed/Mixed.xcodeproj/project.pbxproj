@@ -33,6 +33,7 @@
 		69675FDD1F17FF72008A3299 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69675FDB1F17FF72008A3299 /* LaunchScreen.storyboard */; };
 		69675FE91F17FF86008A3299 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69675FE61F17FF86008A3299 /* Song.swift */; };
 		696E507C21511EA80015EF7B /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696E507B21511EA80015EF7B /* Playlist.swift */; };
+		696E507E21513E540015EF7B /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696E507D21513E540015EF7B /* PlaylistViewController.swift */; };
 		696EE6212145A06200C31E1E /* SearchCacherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696EE6202145A06200C31E1E /* SearchCacherTests.swift */; };
 		6979D99D20CA43C5000F6502 /* OpeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99C20CA43C5000F6502 /* OpeningViewController.swift */; };
 		6979D99F20CA4415000F6502 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6979D99E20CA4415000F6502 /* LogoView.swift */; };
@@ -127,6 +128,7 @@
 		69675FDE1F17FF72008A3299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69675FE61F17FF86008A3299 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		696E507B21511EA80015EF7B /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		696E507D21513E540015EF7B /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
 		696EE6202145A06200C31E1E /* SearchCacherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCacherTests.swift; sourceTree = "<group>"; };
 		6979D99C20CA43C5000F6502 /* OpeningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningViewController.swift; sourceTree = "<group>"; };
 		6979D99E20CA4415000F6502 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				69029336210FBB6500E2A1EB /* PartyCodeViewController.swift */,
 				697D3CB8212A052C003E5D06 /* SettingsTableViewController.swift */,
 				697D3CB6212A04E0003E5D06 /* FeedbackTableViewController.swift */,
+				696E507D21513E540015EF7B /* PlaylistViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -637,6 +640,7 @@
 				69A1EB952130981C00CDABB6 /* UIView+innerShadow.swift in Sources */,
 				69670CCB20E3F8B900AC6E06 /* RecentSearchTableViewCell.swift in Sources */,
 				6966ED402117885000A05460 /* PartyManager.swift in Sources */,
+				696E507E21513E540015EF7B /* PlaylistViewController.swift in Sources */,
 				6955AA3821047C3E003F1548 /* CurrentUser.swift in Sources */,
 				69A22DE121345F5C004EEC45 /* Logger.swift in Sources */,
 				69EDD009212A1ACD0089309A /* PlaybackStatus.swift in Sources */,

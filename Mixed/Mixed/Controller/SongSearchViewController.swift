@@ -27,6 +27,7 @@ class SongSearchViewController: UIViewController {
     private var autocomplete: [String] = []
     private var searchResults: [Song] = []
     private var state: SearchState = .standard
+    private var selectedPlaylist: Playlist?
     
     // Party settings
     public var party: Party!
@@ -37,7 +38,6 @@ class SongSearchViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
-        
        
         provider = MusicProviderFactory.generateMusicProvider(for: party.streamingProvider)
         recentSearches = SearchCacher.getLastThree()
@@ -71,6 +71,14 @@ class SongSearchViewController: UIViewController {
     
     @objc private func didTapBackArrow(){
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    //MARK: - Prepare for Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toPlaylist" {
+            let destination = segue.destination as! PlaylistViewController
+            destination.selectedPlaylist = selectedPlaylist!
+        }
     }
 }
 
@@ -208,7 +216,7 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearchCell", for: indexPath) as! RecentSearchTableViewCell
             switch indexPath.section {
             case 0: cell.title.text = recentSearches[indexPath.row]
-            case 1: cell.title.text = playlists[indexPath.row].name
+            case 1: cell.title.text = playlists[indexPath.row].playlistInfo.name
             default: break
             }
             return cell
@@ -222,19 +230,14 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.popViewController(animated: true)
             return
         case .standard:
-            let selectedText: String
             if indexPath.section == 0 {
-                selectedText = recentSearches[indexPath.row]
-            } else if indexPath.section == 1 {
-                // TODO: Deal with playlists
-//                selectedText = suggested[indexPath.row]
-                selectedText = ""
+                // Update UI and trigger request
+                self.searchField.text = recentSearches[indexPath.row]
             } else {
-                selectedText = ""
+                self.selectedPlaylist = playlists[indexPath.row]
+                self.performSegue(withIdentifier: "toPlaylist", sender: self)
+                return
             }
-            
-            // Update UI and trigger request
-            self.searchField.text = selectedText
         case .autocomplete:
             let selectedText = autocomplete[indexPath.row]
             self.searchField.text = selectedText
@@ -243,5 +246,4 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
         let _ = self.searchField.textFieldShouldReturn(searchField)
         tableView.reloadData()
     }
-    
 }

@@ -26,7 +26,10 @@ class Spotify: MusicProvider {
             }
             let url = URL(string: "https://api.spotify.com/v1/users/\(id)/playlists")!
             NetworkRequest.getRequest(to: url, bearer: session.accessToken, callback: { (response, error) in
-                let playlists = self.processPlaylistJSON(response ?? [:])
+                let playlists = self.processPlaylistJSON(response ?? [:]).map({ 
+                    // This downloads the tracks for each
+                    SpotifyPlaylist(playlistInfo: $0)
+                })
                 callback(playlists, nil)
             })
         }
@@ -100,11 +103,14 @@ class Spotify: MusicProvider {
         return songs
     }
     
-    private func processPlaylistJSON(_ json: [String: Any]) -> [Playlist] {
-        if let items = json["items"] as? [[String: Any]],
-           let data = try? JSONSerialization.data(withJSONObject: items) {
-            let playlists = try? JSONDecoder().decode(Array<Playlist>.self, from: data)
-            return playlists ?? []
+    private func processPlaylistJSON(_ json: [String: Any]) -> [PlaylistInfo] {
+        if let items = json["items"] as? [[String: Any]] {
+            do {
+                let data = try JSONSerialization.data(withJSONObject: items)
+                return try JSONDecoder().decode(Array<PlaylistInfo>.self, from: data)
+            } catch let error {
+                Logger.log(error, type: .debug)
+            }
         }
         return []
     }
