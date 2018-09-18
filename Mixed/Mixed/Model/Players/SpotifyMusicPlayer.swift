@@ -18,7 +18,7 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     private static let player: SPTAudioStreamingController = SPTAudioStreamingController.sharedInstance()
     private var delegate: PlayerDelegate?
     private var hasStarted: Bool = false
-    private var gotFirstTrack: Bool = false
+    //private var gotFirstTrack: Bool = false
     
     public override init() {
         super.init()
@@ -80,15 +80,22 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         return false
     }
     
+    public func hasSong() -> Bool {
+        return SpotifyMusicPlayer.player.metadata?.currentTrack != nil
+    }
     
-    public func play() {
-        guard let metadata = SpotifyMusicPlayer.player.metadata else {
-            return
+    
+    public func play(song: Song) {
+        SpotifyMusicPlayer.player.playSpotifyURI(song.songURL, startingWith: 0, startingWithPosition: 0) { (error) in
+            guard error == nil else {
+                self.delegate?.didReceiveError(error!)
+                return
+            }
+            self.pause()
         }
-        guard metadata.currentTrack != nil && gotFirstTrack else {
-            return
-        }
-        
+    }
+    
+    public func resume() {
         SpotifyMusicPlayer.player.setIsPlaying(true) { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
@@ -106,58 +113,14 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
         }
     }
     
-    public func next() {
-        guard let metadata = SpotifyMusicPlayer.player.metadata else {
-            return
-        }
-        guard metadata.nextTrack != nil else {
-            if metadata.currentTrack != nil {
-                self.pause()
-            }
-            self.gotFirstTrack = false
-            self.delegate?.playerDidStartPlaying(songID: nil)
-            return
-        }
-        
-        SpotifyMusicPlayer.player.skipNext { (error) in
-            guard error == nil else {
-                Logger.log(error!, type: .debug)
-                return
-            }
-        }
-    }
-    
     public func stop(){
         self.pause()
     }
     
     public func clearQueue() {
-        self.gotFirstTrack = false
+        //self.gotFirstTrack = false
     }
     
-    public func enqueue(song: Song) {
-        if !hasStarted {
-            startPlayer()
-        }
-
-        if !gotFirstTrack {
-            SpotifyMusicPlayer.player.playSpotifyURI(song.songURL, startingWith: 0, startingWithPosition: 0) { (error) in
-                guard error == nil else {
-                    self.delegate?.didReceiveError(error!)
-                    return
-                }
-                self.pause()
-                self.gotFirstTrack = true
-            }
-        } else {
-            SpotifyMusicPlayer.player.queueSpotifyURI(song.songURL, callback: { (error) in
-                guard error == nil else {
-                    self.delegate?.didReceiveError(error!)
-                    return
-                }
-            })
-        }
-    }
     
     public func getCurrentStatus() -> PlaybackStatus {
         if SpotifyMusicPlayer.player.playbackState == nil {
@@ -191,7 +154,7 @@ extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlayba
     
     // If metadata changes then update the UI
     public func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChange metadata: SPTPlaybackMetadata) {
-        delegate?.playerDidStartPlaying(songID: metadata.currentTrack?.uri)
+        delegate?.playerDidFinishPlaying(songID: metadata.currentTrack?.uri)
     }
 
     public func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {

@@ -50,6 +50,27 @@ class Datastore {
             }
         }
     }
+    public func addSongs(songs: [Song], to party: String) {
+        let partyQueue = ref.child(databaseName).child(party).child("queue")
+        partyQueue.observeSingleEvent(of: .value) { (snapshot) in
+            let currentQueueSize: Int = (snapshot.value as? Array<Any>)?.count ?? 0
+            if currentQueueSize > 0 {
+                let lastSongAdded = (snapshot.value as! Array<[String:Any]>)[currentQueueSize - 1]
+                let url = lastSongAdded["songURL"] as! String
+                if url == songs.first?.songURL {
+                    // We don't allow the same song to be added directly after each other
+                    self.delegate?.duplicateSongAdded(songs.first!)
+                    return
+                }
+            }
+            for i in 0..<songs.count {
+                let song = songs[i]
+                if let data = song.asDictionary {
+                    partyQueue.child("\(currentQueueSize + i)").setValue(data)
+                }
+            }
+        }
+    }
     
     // Recursively generates a new party ID
     private func generatePartyID(callback: @escaping (String) -> Void){

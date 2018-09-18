@@ -155,12 +155,12 @@ class PartyPlayerViewController: UIViewController {
         if musicPlayer?.getCurrentStatus() == .playing {
             musicPlayer?.pause()
         } else {
-            musicPlayer?.play()
+            musicPlayer?.resume()
         }
     }
     
     @objc private func nextSong() {
-        musicPlayer?.next()
+        
     }
     
     @objc private func didTapQR(){
@@ -295,12 +295,16 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 }
 
 extension PartyPlayerViewController: PlayerDelegate {
+    func playerDidFinishPlaying(songID: String?) {
+        Logger.log("Finished \(songID)", type: .debug)
+    }
+    
     func playerDidStartPlaying(songID: String?) {
         guard let party = party else { return }
         if songID == currentSong?.songURL || songID == "" {
             return
         }
-        
+
         datastore.didFinish(song: songsPlayed, party: party.partyID)
         songsPlayed += 1
         currentSong = songQueue.dequeue()
@@ -308,7 +312,7 @@ extension PartyPlayerViewController: PlayerDelegate {
             discView?.updateArtwork(image: nil)
             musicPlayer?.clearQueue()
         }
-        
+
         upcomingTableView.reloadData()
     }
     
@@ -380,8 +384,8 @@ extension PartyPlayerViewController: DatastoreDelegate {
         } else {
             songQueue.enqueue(song)
         }
-        if playerType == .host {
-            musicPlayer?.enqueue(song: song)
+        if !(musicPlayer?.hasSong() ?? true) {
+            musicPlayer?.play(song: song)
         }
         song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
     }

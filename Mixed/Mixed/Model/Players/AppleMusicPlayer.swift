@@ -16,7 +16,7 @@ public enum AppleMusicPlayerError: Error {
 
 public class AppleMusicPlayer: MusicPlayer {
     private let player: MPMusicPlayerController
-    private var hasSetInitialQueue = false
+    private var hasSongQueued = false
     private var delegate: PlayerDelegate?
     
     public init(){
@@ -78,12 +78,17 @@ public class AppleMusicPlayer: MusicPlayer {
         return true
     }
     
-    public func play() {
-        guard hasSetInitialQueue else {
-            //TODO: Throw an error
-            return
-        }
-        
+    public func hasSong() -> Bool {
+        return hasSongQueued
+    }
+    
+    public func play(song: Song) {
+        hasSongQueued = true
+        self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
+        self.delegate?.playerDidStartPlaying(songID: song.songURL)
+    }
+    
+    public func resume() {
         player.prepareToPlay { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
@@ -97,31 +102,12 @@ public class AppleMusicPlayer: MusicPlayer {
         player.pause()
     }
     
-    //TODO: If next on last song, remove has set inital queue
-    public func next() {
-        guard hasSetInitialQueue else {
-            return
-        }
-        
-        player.skipToNextItem()
-    }
-    
     public func stop(){
         player.stop()
     }
     
     public func clearQueue() {
-        self.hasSetInitialQueue = false
-    }
-
-    public func enqueue(song: Song) {
-        if !hasSetInitialQueue {
-            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
-            self.delegate?.playerDidStartPlaying(songID: song.songURL)
-            hasSetInitialQueue = true
-        } else {
-            self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
-        }
+        self.hasSongQueued = false
     }
     
     public func getCurrentStatus() -> PlaybackStatus {

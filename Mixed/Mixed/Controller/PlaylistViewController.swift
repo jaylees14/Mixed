@@ -45,9 +45,12 @@ class PlaylistViewController: UIViewController {
             return
         }
         let allSongs = selectedPlaylist.songs
+        // FIXME: Is there a cleaner way?
+        var songsToQueue = [Song]()
         for index in selectedIndices {
-            Datastore.instance.addSong(song: allSongs[index], to: party.partyID)
+            songsToQueue.append(allSongs[index])
         }
+        Datastore.instance.addSongs(songs: songsToQueue, to: party.partyID)
         self.navigationController?.popToRootViewController(animated: true)
     }
     
