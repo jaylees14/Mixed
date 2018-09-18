@@ -78,6 +78,7 @@ class SongSearchViewController: UIViewController {
         if segue.identifier == "toPlaylist" {
             let destination = segue.destination as! PlaylistViewController
             destination.selectedPlaylist = selectedPlaylist!
+            destination.party = party
         }
     }
 }
@@ -224,6 +225,7 @@ extension SongSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
         switch state {
         case .results:
             Datastore.instance.addSong(song: searchResults[indexPath.row], to: party.partyID)

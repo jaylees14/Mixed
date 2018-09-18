@@ -326,10 +326,10 @@
 				698D315C211102E200E83579 /* JoinPartyViewController.swift */,
 				69181E2720E13BA900C37FB9 /* PartyPlayerViewController.swift */,
 				69670CC820E3F19300AC6E06 /* SongSearchViewController.swift */,
+				696E507D21513E540015EF7B /* PlaylistViewController.swift */,
 				69029336210FBB6500E2A1EB /* PartyCodeViewController.swift */,
 				697D3CB8212A052C003E5D06 /* SettingsTableViewController.swift */,
 				697D3CB6212A04E0003E5D06 /* FeedbackTableViewController.swift */,
-				696E507D21513E540015EF7B /* PlaylistViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

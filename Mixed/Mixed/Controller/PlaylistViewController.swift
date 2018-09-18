@@ -13,6 +13,7 @@ class PlaylistViewController: UIViewController {
     @IBOutlet weak var selectAllButton: OnboardingButton!
     
     var selectedPlaylist: Playlist!
+    var party: Party!
     var selectedIndices = Set<Int>()
 
     override func viewDidLoad() {
@@ -21,6 +22,33 @@ class PlaylistViewController: UIViewController {
         self.tableView.dataSource = self
         self.selectAllButton.layer.borderColor = UIColor.black.cgColor
         self.selectAllButton.setTitleColor(.black, for: .normal)
+        
+        setupNavigationBar(title: "Playlist")
+        let resized = UIImage(named: "back")?.resize(to: CGSize(width: 13, height: 22))
+        self.navigationItem.leftBarButtonItem =
+            UIBarButtonItem(image: resized, style: .plain, target: self, action: #selector(didTapBackArrow))
+        self.navigationItem.rightBarButtonItem =
+            UIBarButtonItem(title: "Add to Party", style: .plain, target: self, action: #selector(didTapAddToPlaylist))
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        
+    }
+    
+    //MARK: - Actions
+    
+    @objc func didTapBackArrow(){
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func didTapAddToPlaylist(){
+        if selectedIndices.isEmpty {
+            showError(title: "No songs selected.", message: "Please select a song to add to the party", controller: self)
+            return
+        }
+        let allSongs = selectedPlaylist.songs
+        for index in selectedIndices {
+            Datastore.instance.addSong(song: allSongs[index], to: party.partyID)
+        }
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func didTapSelectAll(_ sender: Any) {
