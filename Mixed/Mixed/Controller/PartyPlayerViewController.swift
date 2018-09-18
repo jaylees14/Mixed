@@ -132,7 +132,7 @@ class PartyPlayerViewController: UIViewController {
                 self.party = party
                 self.setupNavigationBar(title: "\(party.partyHost)'s Party")
                 self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
-                self.musicPlayer?.setDelegate(self)
+                self.musicPlayer?.delegate = self
                 self.musicPlayer?.validateSession(for: self.playerType)
             }
         }
@@ -160,7 +160,9 @@ class PartyPlayerViewController: UIViewController {
     }
     
     @objc private func nextSong() {
-        
+        self.musicPlayer?.stop()
+        self.playerDidFinishPlaying(songID: currentSong?.songURL)
+        self.musicPlayer?.resume()
     }
     
     @objc private func didTapQR(){
@@ -296,24 +298,20 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 
 extension PartyPlayerViewController: PlayerDelegate {
     func playerDidFinishPlaying(songID: String?) {
-        Logger.log("Finished \(songID)", type: .debug)
-    }
-    
-    func playerDidStartPlaying(songID: String?) {
+        guard let songID = songID else { return }
         guard let party = party else { return }
-        if songID == currentSong?.songURL || songID == "" {
-            return
-        }
-
         datastore.didFinish(song: songsPlayed, party: party.partyID)
         songsPlayed += 1
         currentSong = songQueue.dequeue()
-        if currentSong == nil {
+       
+        if let song = currentSong {
+            musicPlayer?.play(song: song, autoplay: true)
+        } else {
             discView?.updateArtwork(image: nil)
-            musicPlayer?.clearQueue()
         }
-
+        
         upcomingTableView.reloadData()
+        Logger.log("Finished playing \(songID)", type: .debug)
     }
     
     func playerDidChange(to state: PlaybackStatus) {
@@ -385,7 +383,7 @@ extension PartyPlayerViewController: DatastoreDelegate {
             songQueue.enqueue(song)
         }
         if !(musicPlayer?.hasSong() ?? true) {
-            musicPlayer?.play(song: song)
+            musicPlayer?.play(song: song, autoplay: false)
         }
         song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
     }

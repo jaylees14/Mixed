@@ -9,14 +9,13 @@
 import Foundation
 
 public protocol MusicPlayer {
-    func setDelegate(_ delegate: PlayerDelegate)
+    var delegate: PlayerDelegate? { get set }
     func validateSession(for: PlayerType)
     func hasValidSession() -> Bool
     func hasSong() -> Bool
-    func play(song: Song)
+    func play(song: Song, autoplay: Bool)
     func resume()
     func pause()
     func stop()
-    func clearQueue()
     func getCurrentStatus() -> PlaybackStatus
 }

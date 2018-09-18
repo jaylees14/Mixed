@@ -16,9 +16,11 @@ public enum SpotifyPlayerError: Error {
 
 public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     private static let player: SPTAudioStreamingController = SPTAudioStreamingController.sharedInstance()
-    private var delegate: PlayerDelegate?
+    public var delegate: PlayerDelegate?
+    
     private var hasStarted: Bool = false
-    //private var gotFirstTrack: Bool = false
+    private var triggeredByButton: Bool = false
+    private var hasSongToPlay: Bool = false
     
     public override init() {
         super.init()
@@ -26,20 +28,11 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     private func startPlayer(){
-        do {
-            try SpotifyMusicPlayer.player.start(withClientId: SPTAuth.defaultInstance().clientID)
-        } catch {
-            Logger.log("Error whilst starting Spotify player - it's probably already started.", type: .error)
-        }
+        try? SpotifyMusicPlayer.player.start(withClientId: SPTAuth.defaultInstance().clientID)
         SpotifyMusicPlayer.player.login(withAccessToken: SPTAuth.defaultInstance().session.accessToken)
         self.delegate?.hasValidSession()
         self.hasStarted = true
     }
-    
-    public func setDelegate(_ delegate: PlayerDelegate) {
-        self.delegate = delegate
-    }
-    
     
     // MARK: - Music Player
     public func validateSession(for player: PlayerType) {
@@ -81,21 +74,26 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func hasSong() -> Bool {
-        return SpotifyMusicPlayer.player.metadata?.currentTrack != nil
+        return hasSongToPlay
     }
     
     
-    public func play(song: Song) {
+    public func play(song: Song, autoplay: Bool) {
+        hasSongToPlay = true
         SpotifyMusicPlayer.player.playSpotifyURI(song.songURL, startingWith: 0, startingWithPosition: 0) { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
                 return
             }
-            self.pause()
+            if !autoplay {
+                self.pause()
+            }
         }
     }
     
     public func resume() {
+        guard hasSongToPlay else { return }
+        triggeredByButton = true
         SpotifyMusicPlayer.player.setIsPlaying(true) { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
@@ -105,6 +103,8 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     }
     
     public func pause() {
+        guard hasSongToPlay else { return }
+        triggeredByButton = true
         SpotifyMusicPlayer.player.setIsPlaying(false) { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
@@ -115,12 +115,8 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
     
     public func stop(){
         self.pause()
+        hasSongToPlay = false
     }
-    
-    public func clearQueue() {
-        //self.gotFirstTrack = false
-    }
-    
     
     public func getCurrentStatus() -> PlaybackStatus {
         if SpotifyMusicPlayer.player.playbackState == nil {
@@ -132,16 +128,16 @@ public class SpotifyMusicPlayer: NSObject, MusicPlayer {
 }
 
 
-extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
-    //If an error was formed from the server, display it to the user in an altert conroller
-    public func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didReceiveMessage message: String) {
-        Logger.log(message, type: .warning)
-    }
-
-    //Did switch between playing and not playing
+extension SpotifyMusicPlayer: SPTAudioStreamingPlaybackDelegate {
     public func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePlaybackStatus isPlaying: Bool) {
         delegate?.playerDidChange(to: isPlaying ? .playing : .paused)
         
+        if !triggeredByButton && !isPlaying {
+            hasSongToPlay = false
+            delegate?.playerDidFinishPlaying(songID: audioStreaming.metadata.currentTrack?.uri)
+        }
+        
+        triggeredByButton = false
         //Allows audio to be played in background
         if isPlaying {
             try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .allowBluetooth)
@@ -150,27 +146,4 @@ extension SpotifyMusicPlayer: SPTAudioStreamingDelegate, SPTAudioStreamingPlayba
             try? AVAudioSession.sharedInstance().setActive(false)
         }
     }
-    
-    
-    // If metadata changes then update the UI
-    public func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChange metadata: SPTPlaybackMetadata) {
-        delegate?.playerDidFinishPlaying(songID: metadata.currentTrack?.uri)
-    }
-
-    public func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
-        Logger.log("Spotify login succeeded", type: .debug)
-    }
-
-    //If recieve error, show error
-    public func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didReceiveError error: Error?) {
-        if let error = error {
-             delegate?.didReceiveError(error)
-        }
-    }
-}
-
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
-	return input.rawValue
 }

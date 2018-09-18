@@ -17,7 +17,7 @@ public enum AppleMusicPlayerError: Error {
 public class AppleMusicPlayer: MusicPlayer {
     private let player: MPMusicPlayerController
     private var hasSongQueued = false
-    private var delegate: PlayerDelegate?
+    public var delegate: PlayerDelegate?
     
     public init(){
         player = .systemMusicPlayer
@@ -35,11 +35,6 @@ public class AppleMusicPlayer: MusicPlayer {
                                                name: NSNotification.Name.MPMusicPlayerControllerPlaybackStateDidChange,
                                                object: nil)
     }
-    
-    public func setDelegate(_ delegate: PlayerDelegate) {
-        self.delegate = delegate
-    }
-
     
     // MARK: - Music Player
     public func validateSession(for player: PlayerType) {
@@ -82,10 +77,10 @@ public class AppleMusicPlayer: MusicPlayer {
         return hasSongQueued
     }
     
-    public func play(song: Song) {
+    public func play(song: Song, autoplay: Bool) {
         hasSongQueued = true
         self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
-        self.delegate?.playerDidStartPlaying(songID: song.songURL)
+        //self.delegate?.playerDidStartPlaying(songID: song.songURL)
     }
     
     public func resume() {
@@ -117,7 +112,7 @@ public class AppleMusicPlayer: MusicPlayer {
     
     // MARK: - Player Notifications
     @objc private func nowPlayingChanged(){
-        delegate?.playerDidStartPlaying(songID: player.nowPlayingItem?.playbackStoreID)
+        //delegate?.playerDidStartPlaying(songID: player.nowPlayingItem?.playbackStoreID)
     }
     
     @objc private func nowPlayingStateChanged(){
