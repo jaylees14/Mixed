@@ -110,10 +110,10 @@ public class AppleMusicPlayer: MusicPlayer {
         if !hasSetInitialQueue {
             hasSetInitialQueue = true
             self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
+            // If we don't play here then the next songs aren't queued correctly :(
+            self.play()
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
-            }
+            self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
         }
     }
     

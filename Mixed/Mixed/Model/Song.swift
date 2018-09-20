@@ -9,9 +9,7 @@
 import Foundation
 import UIKit
 
-public class Song: Codable {
-    
-    
+public class Song: Codable, Equatable {
     // Ignore image from encoding
     enum CodingKeys: String, CodingKey {
         case artist = "artist"
@@ -61,6 +59,10 @@ public class Song: Codable {
                 Logger.log("Error downloading image - \(error)", type: .error)
             }
         }
+    }
+    
+    public static func == (lhs: Song, rhs: Song) -> Bool {
+        return lhs.songURL == rhs.songURL
     }
 
 }

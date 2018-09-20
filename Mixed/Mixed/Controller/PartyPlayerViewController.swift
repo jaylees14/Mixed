@@ -299,7 +299,7 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 
 extension PartyPlayerViewController: PlayerDelegate {
     func playerDidStartPlaying(songID: String?) {
-        Logger.log(songID, type: .debug)
+        Logger.log(songID ?? "No song ID", type: .debug)
         guard let party = party else { return }
         if songID == currentSong?.songURL || songID == "" {
             return
@@ -340,7 +340,7 @@ extension PartyPlayerViewController: PlayerDelegate {
     // When we have a valid session, we can enqueue songs!
     func hasValidSession() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.datastore.subscribeToUpdates(for: self.party!.partyID)
+            self.datastore.subscribeToUpdates(for: self.party!.partyID, type: self.playerType)
         }
     }
     
@@ -381,14 +381,15 @@ extension PartyPlayerViewController: DatastoreDelegate {
         if currentSong == nil {
             currentSong = song
         } else {
-            songQueue.enqueue(song)
+            self.songQueue.enqueue(song)
         }
         self.musicPlayer?.enqueue(song: song)
-        
-        song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
+        song.downloadImage(on: self.imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
+        self.setTableViewHeight()
     }
     
     func queueDidChange(songs: [Song]) {
+        print("Queue did change")
         self.songQueue.clear()
         let toPlay = songs.filter({!$0.played})
         

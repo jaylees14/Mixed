@@ -124,26 +124,28 @@ class Datastore {
         }
     }
     
-    public func subscribeToUpdates(for party: String){
-        // TODO: This should be a single call at initial join. The other observer should be enough.
-        ref.child(databaseName).child(party).child("queue").observe(.childAdded) { (snapshot) in
-            guard let json = snapshot.value as? [String: Any],
-                  let data = try? JSONSerialization.data(withJSONObject: json, options: []),
-                  let song = try? JSONDecoder().decode(Song.self, from:  data) else {
-                   Logger.log("Failed to decode response", type: .error)
-                return
-            }
-            self.delegate?.didAddSong(song)
-        }
+    public func subscribeToUpdates(for party: String, type: PlayerType){
         
-        ref.child(databaseName).child(party).observe(.childChanged) { (snapshot) in
-            guard let json = snapshot.value as? [[String: Any]],
-                let data = try? JSONSerialization.data(withJSONObject: json, options: []),
-                let songs = try? JSONDecoder().decode(Array<Song>.self, from:  data) else {
-                    Logger.log("Failed to decode response", type: .error)
+        if type == .host {
+            ref.child(databaseName).child(party).child("queue").observe(.childAdded) { (snapshot) in
+                guard let json = snapshot.value as? [String: Any],
+                      let data = try? JSONSerialization.data(withJSONObject: json, options: []),
+                      let song = try? JSONDecoder().decode(Song.self, from:  data) else {
+                       Logger.log("Failed to decode response", type: .error)
                     return
+                }
+                self.delegate?.didAddSong(song)
             }
-            self.delegate?.queueDidChange(songs: songs)
+        } else {
+            ref.child(databaseName).child(party).observe(.childChanged) { (snapshot) in
+                guard let json = snapshot.value as? [[String: Any]],
+                    let data = try? JSONSerialization.data(withJSONObject: json, options: []),
+                    let songs = try? JSONDecoder().decode(Array<Song>.self, from:  data) else {
+                        Logger.log("Failed to decode response", type: .error)
+                        return
+                }
+                self.delegate?.queueDidChange(songs: songs)
+            }
         }
     }
     
