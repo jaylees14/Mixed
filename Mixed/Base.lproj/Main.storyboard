@@ -446,7 +446,7 @@ parties and events.</string>
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1282.6666666666667"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnU-DA-LPF">
-                                                <rect key="frame" x="66" y="40.000000000000014" width="243.33333333333337" height="243.33333333333337"/>
+                                                <rect key="frame" x="66.000000000000014" y="40.000000000000014" width="243.33333333333337" height="243.33333333333337"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="cnU-DA-LPF" secondAttribute="height" multiplier="1:1" id="bXY-oe-7AU"/>
@@ -726,7 +726,7 @@ parties and events.</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Panic! at the Disco" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="New-mb-gmO">
-                                                    <rect key="frame" x="15" y="10.000000000000002" width="706" height="30.666666666666671"/>
+                                                    <rect key="frame" x="15" y="10.000000000000002" width="313" height="30.666666666666671"/>
                                                     <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -888,20 +888,20 @@ parties and events.</string>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="39" translatesAutoresizingMaskIntoConstraints="NO" id="Bsm-cc-uWs">
                                 <rect key="frame" x="40" y="723" width="295" height="40"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ACj-ah-osc" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <state key="normal" title="Select All"/>
-                                        <connections>
-                                            <action selector="didTapSelectAll:" destination="bSV-Gh-1pT" eventType="touchUpInside" id="50F-pi-wcL"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jOp-8H-7DC" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
-                                        <rect key="frame" x="167" y="0.0" width="128" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <state key="normal" title="Deselect All"/>
                                         <connections>
                                             <action selector="didTapDeselectAll:" destination="bSV-Gh-1pT" eventType="touchUpInside" id="XsD-zL-nOm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ACj-ah-osc" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
+                                        <rect key="frame" x="167" y="0.0" width="128" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Select All"/>
+                                        <connections>
+                                            <action selector="didTapSelectAll:" destination="bSV-Gh-1pT" eventType="touchUpInside" id="50F-pi-wcL"/>
                                         </connections>
                                     </button>
                                 </subviews>
