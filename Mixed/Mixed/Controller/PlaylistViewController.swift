@@ -11,6 +11,7 @@ import UIKit
 class PlaylistViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var selectAllButton: OnboardingButton!
+    @IBOutlet weak var deselectAllButton: OnboardingButton!
     
     var selectedPlaylist: Playlist!
     var party: Party!
@@ -20,8 +21,10 @@ class PlaylistViewController: UIViewController {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.selectAllButton.layer.borderColor = UIColor.black.cgColor
-        self.selectAllButton.setTitleColor(.black, for: .normal)
+        [selectAllButton, deselectAllButton].forEach { (button) in
+            button?.layer.borderColor = UIColor.black.cgColor
+            button?.setTitleColor(.black, for: .normal)
+        }
         
         selectedPlaylist.downloadSongs {
             self.tableView.reloadData()
@@ -58,6 +61,12 @@ class PlaylistViewController: UIViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
+    @IBAction func didTapDeselectAll(_ sender: Any) {
+        self.selectedIndices.removeAll()
+        for i in 0..<selectedPlaylist.songs.count {
+            self.tableView.cellForRow(at: IndexPath(row: i, section: 0))?.accessoryType = .none
+        }
+    }
     @IBAction func didTapSelectAll(_ sender: Any) {
         self.selectedIndices.removeAll()
         for i in 0..<selectedPlaylist.songs.count {
