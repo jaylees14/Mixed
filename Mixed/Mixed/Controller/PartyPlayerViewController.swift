@@ -299,7 +299,6 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 
 extension PartyPlayerViewController: PlayerDelegate {
     func playerDidStartPlaying(songID: String?) {
-        Logger.log(songID ?? "No song ID", type: .debug)
         guard let party = party else { return }
         if songID == currentSong?.songURL || songID == "" {
             return
@@ -389,7 +388,6 @@ extension PartyPlayerViewController: DatastoreDelegate {
     }
     
     func queueDidChange(songs: [Song]) {
-        print("Queue did change")
         self.songQueue.clear()
         let toPlay = songs.filter({!$0.played})
         

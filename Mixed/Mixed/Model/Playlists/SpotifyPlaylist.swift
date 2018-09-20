@@ -36,6 +36,7 @@ class SpotifyPlaylist: Playlist {
     }
     
     private func processJSON(_ json: [[String: Any]]) -> [Song] {
+        let currentUser = try? CurrentUser.shared.getShortName()
         return json.map { (song)  -> Song in
             let item = song["track"] as! [String : Any]
             let artistData = item["artists"] as! [[String:Any]]
@@ -61,7 +62,7 @@ class SpotifyPlaylist: Playlist {
                         imageURL: imageURL,
                         imageSize: CGSize(width: imageWidth, height: imageHeight),
                         image: nil,
-                        addedBy: nil,
+                        addedBy: currentUser,
                         played: false)
         }
     }
