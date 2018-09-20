@@ -137,6 +137,18 @@ class Datastore {
                 self.delegate?.didAddSong(song)
             }
         } else {
+            // Send one initial view of DB
+            ref.child(databaseName).child(party).child("queue").observe(.value) { (snapshot) in
+                guard let json = snapshot.value as? [[String: Any]],
+                    let data = try? JSONSerialization.data(withJSONObject: json, options: []),
+                    let songs = try? JSONDecoder().decode(Array<Song>.self, from:  data) else {
+                        Logger.log("Failed to decode response", type: .error)
+                        return
+                }
+                self.delegate?.queueDidChange(songs: songs)
+            }
+            
+            // Subscribe to updates from then on
             ref.child(databaseName).child(party).observe(.childChanged) { (snapshot) in
                 guard let json = snapshot.value as? [[String: Any]],
                     let data = try? JSONSerialization.data(withJSONObject: json, options: []),
