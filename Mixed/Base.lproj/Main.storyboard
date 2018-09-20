@@ -443,29 +443,29 @@ parties and events.</string>
                                 <rect key="frame" x="0.0" y="88" width="375" height="730"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7pE-nr-ob2">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1283"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1282.6666666666667"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnU-DA-LPF">
-                                                <rect key="frame" x="66.000000000000014" y="40.000000000000014" width="243.33333333333337" height="243.33333333333337"/>
+                                                <rect key="frame" x="66" y="40.000000000000014" width="243.33333333333337" height="243.33333333333337"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="cnU-DA-LPF" secondAttribute="height" multiplier="1:1" id="bXY-oe-7AU"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instant Crush" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u9l-qT-C9f">
-                                                <rect key="frame" x="116.66666666666669" y="315.33333333333331" width="142" height="22.333333333333314"/>
+                                                <rect key="frame" x="116.66666666666669" y="315.33333333333331" width="142" height="22"/>
                                                 <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daft Punk" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b94-zO-7GD">
-                                                <rect key="frame" x="142" y="345.66666666666669" width="91" height="21"/>
+                                                <rect key="frame" x="142" y="345.33333333333331" width="91" height="21"/>
                                                 <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="18"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lFf-Nh-sN2">
-                                                <rect key="frame" x="105" y="419" width="28" height="28"/>
+                                                <rect key="frame" x="105" y="418.66666666666669" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="OSY-tz-azd"/>
                                                     <constraint firstAttribute="height" constant="28" id="r9v-KM-DXS"/>
@@ -473,7 +473,7 @@ parties and events.</string>
                                                 <state key="normal" backgroundImage="plus"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYd-Fh-4dy">
-                                                <rect key="frame" x="242" y="420" width="33" height="26"/>
+                                                <rect key="frame" x="242" y="419.66666666666669" width="33" height="26"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="33" id="9rm-pE-H0H"/>
                                                     <constraint firstAttribute="height" constant="26" id="bwI-5d-t79"/>
@@ -481,7 +481,7 @@ parties and events.</string>
                                                 <state key="normal" backgroundImage="next"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ttv-rI-1ut">
-                                                <rect key="frame" x="165" y="407" width="45" height="52"/>
+                                                <rect key="frame" x="165" y="406.66666666666669" width="45" height="52"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="52" id="0c0-Su-QMA"/>
                                                     <constraint firstAttribute="width" constant="45" id="s28-Kg-HfK"/>
@@ -489,7 +489,7 @@ parties and events.</string>
                                                 <state key="normal" backgroundImage="play"/>
                                             </button>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="oJS-td-CKQ">
-                                                <rect key="frame" x="0.0" y="483" width="375" height="800"/>
+                                                <rect key="frame" x="0.0" y="482.66666666666663" width="375" height="799.99999999999989"/>
                                                 <color key="backgroundColor" name="controlLightHighlightColor" catalog="System" colorSpace="catalog"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="800" id="lya-tB-S8U"/>
@@ -542,11 +542,11 @@ parties and events.</string>
                                                 </prototypes>
                                             </tableView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztu-O9-WcA" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
-                                                <rect key="frame" x="81" y="406.66666666666669" width="213" height="36.333333333333314"/>
+                                                <rect key="frame" x="81" y="406.33333333333331" width="213" height="36.333333333333314"/>
                                                 <state key="normal" title="AUTHENTICATE"/>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="73o-Tf-mwU">
-                                                <rect key="frame" x="299" y="412.33333333333331" width="41" height="41"/>
+                                                <rect key="frame" x="299" y="412" width="41" height="41"/>
                                                 <color key="backgroundColor" red="0.44184458490339384" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="41" id="Uem-Rv-4aV"/>
@@ -726,7 +726,7 @@ parties and events.</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Panic! at the Disco" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="New-mb-gmO">
-                                                    <rect key="frame" x="15" y="10.000000000000002" width="313" height="30.666666666666671"/>
+                                                    <rect key="frame" x="15" y="10.000000000000002" width="706" height="30.666666666666671"/>
                                                     <fontDescription key="fontDescription" name="Comfortaa-Regular" family="Comfortaa" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -847,7 +847,7 @@ parties and events.</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vA7-yv-rcy">
-                                                    <rect key="frame" x="16" y="12.333333333333336" width="40" height="40"/>
+                                                    <rect key="frame" x="16" y="12.666666666666664" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="KtB-9B-dVR"/>
                                                         <constraint firstAttribute="width" constant="40" id="sjY-zp-xCh"/>
@@ -885,26 +885,38 @@ parties and events.</string>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ACj-ah-osc" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
-                                <rect key="frame" x="87.666666666666686" y="737" width="200" height="41"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="Dox-as-sbN"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal" title="Select All"/>
-                                <connections>
-                                    <action selector="didTapSelectAll:" destination="bSV-Gh-1pT" eventType="touchUpInside" id="50F-pi-wcL"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="39" translatesAutoresizingMaskIntoConstraints="NO" id="Bsm-cc-uWs">
+                                <rect key="frame" x="40" y="723" width="295" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ACj-ah-osc" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Select All"/>
+                                        <connections>
+                                            <action selector="didTapSelectAll:" destination="bSV-Gh-1pT" eventType="touchUpInside" id="50F-pi-wcL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jOp-8H-7DC" customClass="OnboardingButton" customModule="Mixed" customModuleProvider="target">
+                                        <rect key="frame" x="167" y="0.0" width="128" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Deselect All"/>
+                                        <connections>
+                                            <action selector="didTapDeselectAll:" destination="bSV-Gh-1pT" eventType="touchUpInside" id="XsD-zL-nOm"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="B0V-He-qKK" firstAttribute="top" secondItem="49Y-Qv-bn5" secondAttribute="top" constant="22" id="5D2-e3-uLg"/>
-                            <constraint firstItem="49Y-Qv-bn5" firstAttribute="bottom" secondItem="ACj-ah-osc" secondAttribute="bottom" id="HGU-1m-P6n"/>
+                            <constraint firstItem="Bsm-cc-uWs" firstAttribute="centerX" secondItem="49Y-Qv-bn5" secondAttribute="centerX" id="Fhg-Dr-gJY"/>
                             <constraint firstItem="B0V-He-qKK" firstAttribute="centerX" secondItem="49Y-Qv-bn5" secondAttribute="centerX" id="OHm-pv-hNq"/>
+                            <constraint firstItem="Bsm-cc-uWs" firstAttribute="top" secondItem="B0V-He-qKK" secondAttribute="bottom" constant="5" id="U94-V5-WTA"/>
+                            <constraint firstItem="Bsm-cc-uWs" firstAttribute="leading" secondItem="49Y-Qv-bn5" secondAttribute="leading" constant="40" id="fgr-8h-F2s"/>
+                            <constraint firstItem="Bsm-cc-uWs" firstAttribute="bottom" secondItem="49Y-Qv-bn5" secondAttribute="bottom" constant="-15" id="hdt-vx-YMO"/>
                             <constraint firstItem="49Y-Qv-bn5" firstAttribute="trailing" secondItem="B0V-He-qKK" secondAttribute="trailing" constant="16" id="k1I-7E-EEE"/>
                             <constraint firstItem="49Y-Qv-bn5" firstAttribute="bottom" secondItem="B0V-He-qKK" secondAttribute="bottom" constant="60" id="ova-MT-quT"/>
-                            <constraint firstItem="ACj-ah-osc" firstAttribute="centerX" secondItem="49Y-Qv-bn5" secondAttribute="centerX" id="wwe-4o-fDO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="49Y-Qv-bn5"/>
                     </view>
@@ -912,6 +924,7 @@ parties and events.</string>
                         <barButtonItem key="rightBarButtonItem" title="Add to Party" id="QdB-nv-11L"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="deselectAllButton" destination="jOp-8H-7DC" id="Xh8-4q-4e7"/>
                         <outlet property="selectAllButton" destination="ACj-ah-osc" id="lbT-CF-dyI"/>
                         <outlet property="tableView" destination="B0V-He-qKK" id="ST8-Hn-NPe"/>
                     </connections>
