@@ -36,6 +36,7 @@ class PartyPlayerViewController: UIViewController {
     private var tableViewMinHeight: CGFloat = 0.0
     private var discView: DiscView?
     private let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
+    private let songDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-songenqueue")
     private let datastore = Datastore.instance
     private var safariViewController: SFSafariViewController?
     private var party: Party?
@@ -65,6 +66,7 @@ class PartyPlayerViewController: UIViewController {
         scrollView.bounces = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
+        songsPlayed = 0
         
         upcomingTableView.dataSource = self
         upcomingTableView.delegate = self
@@ -132,7 +134,7 @@ class PartyPlayerViewController: UIViewController {
                 self.party = party
                 self.setupNavigationBar(title: "\(party.partyHost)'s Party")
                 self.musicPlayer = MusicPlayerFactory.generatePlayer(for: party.streamingProvider)
-                self.musicPlayer?.setDelegate(self)
+                self.musicPlayer?.delegate = self
                 self.musicPlayer?.validateSession(for: self.playerType)
             }
         }
@@ -160,7 +162,7 @@ class PartyPlayerViewController: UIViewController {
     }
     
     @objc private func nextSong() {
-        musicPlayer?.next()
+        self.musicPlayer?.next()
     }
     
     @objc private func didTapQR(){
@@ -179,6 +181,7 @@ class PartyPlayerViewController: UIViewController {
             if self.musicPlayer?.hasValidSession() ?? false {
                 self.musicPlayer?.stop()
             }
+            self.musicPlayer?.unsubscribeFromUpdates()
             self.datastore.unsubscribeFromUpdates()
             SessionManager.shared.clearActiveSession()
             self.dismiss(animated: true, completion: nil)
@@ -296,6 +299,7 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 
 extension PartyPlayerViewController: PlayerDelegate {
     func playerDidStartPlaying(songID: String?) {
+        Logger.log(songID ?? "No song ID", type: .debug)
         guard let party = party else { return }
         if songID == currentSong?.songURL || songID == "" {
             return
@@ -306,9 +310,10 @@ extension PartyPlayerViewController: PlayerDelegate {
         currentSong = songQueue.dequeue()
         if currentSong == nil {
             discView?.updateArtwork(image: nil)
+            // We know it's finished, so notify playerr
             musicPlayer?.clearQueue()
         }
-        
+
         upcomingTableView.reloadData()
     }
     
@@ -334,10 +339,8 @@ extension PartyPlayerViewController: PlayerDelegate {
     
     // When we have a valid session, we can enqueue songs!
     func hasValidSession() {
-        DispatchQueue.main.async {
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
-                self.datastore.subscribeToUpdates(for: self.party!.partyID)
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.datastore.subscribeToUpdates(for: self.party!.partyID, type: self.playerType)
         }
     }
     
@@ -378,16 +381,15 @@ extension PartyPlayerViewController: DatastoreDelegate {
         if currentSong == nil {
             currentSong = song
         } else {
-            songQueue.enqueue(song)
+            self.songQueue.enqueue(song)
         }
-        if playerType == .host {
-            musicPlayer?.enqueue(song: song)
-        }
-        song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
+        self.musicPlayer?.enqueue(song: song)
+        song.downloadImage(on: self.imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
+        self.setTableViewHeight()
     }
     
     func queueDidChange(songs: [Song]) {
-        Logger.log("Did change to \(songs)", type: .debug)
+        print("Queue did change")
         self.songQueue.clear()
         let toPlay = songs.filter({!$0.played})
         

@@ -18,67 +18,53 @@ enum AppleMusicError: Error {
 }
 
 class AppleMusic: MusicProvider {
-    var delegate: MusicProviderDelegate?
     
-    init(delegate: MusicProviderDelegate){
-        self.delegate = delegate
-        self.determineAuthStatus()
+    func getPlaylists(_ callback: @escaping ([Playlist]?, Error?) -> Void) {
+        let playlists = MPMediaQuery.playlists().collections?.map({ (collection) -> AppleMusicPlaylist in
+            let playlistName = collection.value(forProperty: MPMediaPlaylistPropertyName) as? String ?? ""
+            let playlistID = collection.value(forProperty: MPMediaPlaylistPropertyPersistentID) as? NSNumber ?? 0
+            let playlistInfo = PlaylistInfo(name: playlistName, tracks: PlaylistInfo.TrackInfo(href: "\(playlistID)"))
+            return AppleMusicPlaylist(playlistInfo: playlistInfo)
+        })
+        callback(playlists, nil)
     }
     
-    private func determineAuthStatus() {
-        // Determine if the user is already authorised
-        switch SKCloudServiceController.authorizationStatus() {
-        case .authorized:
-            return
-        case .denied:
-            delegate?.queryDidFail(AppleMusicError.permissionDenied)
-        case .notDetermined:
-            requestAuth()
-        case .restricted:
-            delegate?.queryDidFail(AppleMusicError.noSubscription)
-        }
-    }
-    
-    private func requestAuth(){
-        SKCloudServiceController.requestAuthorization { (status:SKCloudServiceAuthorizationStatus) in
-            switch status {
-            case .authorized:
-                break
-            case .denied:
-                self.delegate?.queryDidFail(AppleMusicError.permissionDenied)
-                break
-            case .notDetermined:
-                break;
-            case .restricted:
-                self.delegate?.queryDidFail(AppleMusicError.noSubscription)
-            }
-        }
-    }
-    
-    public func search(for query: String){
+    func search(for query: String, callback: @escaping ([Song]?, Error?) -> Void) {
         let formattedQuery = query.replacingOccurrences(of: " ", with: "+").lowercased()
         let url = URL(string: "https://api.music.apple.com/v1/catalog/gb/search?term=" + formattedQuery + "&limit=20")
         let token = ConfigurationManager.shared.appleMusicToken!
         
-
         NetworkRequest.getRequest(to: url!, bearer: token) { (json, error) in
             guard error == nil else {
                 Logger.log(error!, type: .error)
+                callback(nil, error)
                 return
             }
             guard let json = json else {
+                //TODO: Generate an error
                 return
             }
             
-            self.processSearchJSON(json)
+            let songs = self.processSearchJSON(json)
+            callback(songs, nil)
         }
     }
     
-    //TODO: Refactor this to decodable
-    private func processSearchJSON(_ json: [String: Any]){
+    //TODO: Refactor this to decodable, with custom keys for AM and Spotify and should return an error not []
+    private func processPlaylistJSON(_ json: [String: Any]) -> [PlaylistInfo] {
+        let playlistDetails = json["data"] as! [[String:Any]]
+        return playlistDetails.map { (details) -> PlaylistInfo in
+            let tracksURL = details["href"] as! String
+            let attributes = details["attributes"] as! [String: Any]
+            let name = attributes["name"] as! String
+            return PlaylistInfo(name: name, tracks: PlaylistInfo.TrackInfo(href: tracksURL))
+        }
+    }
+    
+    private func processSearchJSON(_ json: [String: Any]) -> [Song] {
         let results = json["results"] as! [String: Any]
-        guard let songs = results["songs"] as? [String: Any] else { return }
-        guard let songData = songs["data"] as? [Any] else { return }
+        guard let songs = results["songs"] as? [String: Any] else { return [] }
+        guard let songData = songs["data"] as? [Any] else { return [] }
         let username = try? CurrentUser.shared.getShortName()
         
         var songsArray = [Song]()
@@ -97,9 +83,6 @@ class AppleMusic: MusicProvider {
                 songsArray.append(newSong)
             }
         }
-        
-        DispatchQueue.main.async {
-            self.delegate?.queryDidSucceed(songsArray)
-        }
+        return songsArray
     }
 }

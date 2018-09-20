@@ -13,10 +13,13 @@ public enum NetworkError: Error {
 }
 
 public class NetworkRequest {
-    public static func getRequest(to url: URL, bearer: String, callback: @escaping ([String: Any]?, Error?) -> Void) {
+    public static func getRequest(to url: URL, bearer: String, additionalHeaders: [String: String] = [:], callback: @escaping ([String: Any]?, Error?) -> Void) {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("Bearer \(bearer)", forHTTPHeaderField: "Authorization")
+        additionalHeaders.forEach { (k, v) in
+            urlRequest.setValue(v, forHTTPHeaderField: k)
+        }
         
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {

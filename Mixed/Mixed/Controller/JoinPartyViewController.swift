@@ -117,18 +117,9 @@ class JoinPartyViewController: UIViewController, ARSCNViewDelegate {
         self.blurView.effect = UIBlurEffect(style: .dark)
         
         [codeTextField, lineView, title, button, cancel].forEach { v in
-            v.alpha = 1
-            view.addSubview(v)
+            v?.alpha = 1
+            view.addSubview(v!)
         }
-        
-//        UIView.animate(withDuration: 2, animations: {
-//            self.blurView.effect = UIBlurEffect(style: .dark)
-//            self.codeTextField.alpha = 1
-//            title.alpha = 1
-//
-//            lineView.alpha = 1
-//            button.alpha = 1
-//        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

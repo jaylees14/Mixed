@@ -8,12 +8,7 @@
 
 import Foundation
 
-protocol MusicProviderDelegate {
-    func queryDidSucceed(_ songs: [Song])
-    func queryDidFail(_ error: Error)
-}
-
 protocol MusicProvider {
-    var delegate: MusicProviderDelegate? { get set }
-    func search(for query: String)
+    func search(for query: String, callback: @escaping ([Song]?, Error?) -> Void)
+    func getPlaylists(_ callback: @escaping ([Playlist]?, Error?) -> Void)
 }

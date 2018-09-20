@@ -23,7 +23,7 @@ class SoundWave: UIView {
         waveLayer.strokeColor = UIColor.red.cgColor
         waveLayer.lineWidth = 3.0
         waveLayer.strokeEnd = 0.0
-        waveLayer.lineJoin = kCALineJoinRound
+        waveLayer.lineJoin = CAShapeLayerLineJoin.round
         
         
         let gradient = MixedGradient(in: CGRect(origin: .zero, size: CGSize(width: width, height: 175)))
@@ -41,7 +41,7 @@ class SoundWave: UIView {
         animation.duration = duration
         animation.fromValue = 0
         animation.toValue = 1
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         
         waveLayer.strokeEnd = 1.0
         waveLayer.add(animation, forKey: "animateWave")

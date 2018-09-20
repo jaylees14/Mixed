@@ -14,51 +14,68 @@ enum SpotifyError: Error {
 }
 
 class Spotify: MusicProvider {
-    var delegate: MusicProviderDelegate?
-    
-    public init(delegate: MusicProviderDelegate){
-        self.delegate = delegate
-    }
-    
-    func getSearchHints(for query: String) {
-        
-    }
-    
-    public func search(for query: String){
-        let formattedQuery = query.replacingOccurrences(of: " ", with: "+").lowercased()
-        let url = URL(string: "https://api.spotify.com/v1/search?q=" + formattedQuery + "&type=track")
-        var urlRequest = URLRequest(url: url!)
-        urlRequest.httpMethod = "GET"
-        if let session = SPTAuth.defaultInstance().session.accessToken {
-            urlRequest.setValue("Bearer \(session)", forHTTPHeaderField: "Authorization")
+    func getPlaylists(_ callback: @escaping ([Playlist]?, Error?) -> Void) {
+        guard let session = SPTAuth.defaultInstance()?.session else {
+            Logger.log("Could not get current session", type: .error)
+            return
         }
-    
-        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard error == nil else {
-                Logger.log("Error: \(error!)", type: .error)
-                self.delegate?.queryDidFail(error!)
+        getUserID(from: session) { (id) in
+            guard let id = id else {
+                Logger.log("No id found", type: .debug)
                 return
             }
-            guard let data = data else {
-                Logger.log("No data available", type: .error)
-                self.delegate?.queryDidFail(SpotifyError.invalidResponse)
+            let url = URL(string: "https://api.spotify.com/v1/users/\(id)/playlists")!
+            NetworkRequest.getRequest(to: url, bearer: session.accessToken, callback: { (response, error) in
+                let playlists = self.processPlaylistJSON(response ?? [:]).map({ 
+                    // This downloads the tracks for each
+                    SpotifyPlaylist(playlistInfo: $0)
+                })
+                callback(playlists, nil)
+            })
+        }
+    }
+    
+    func search(for query: String, callback: @escaping ([Song]?, Error?) -> Void) {
+        let formattedQuery = query.replacingOccurrences(of: " ", with: "+").lowercased()
+        guard let url = URL(string: "https://api.spotify.com/v1/search?q=" + formattedQuery + "&type=track") else {
+            Logger.log("Could not form URL", type: .error)
+            return
+        }
+        var bearer = ""
+        if let session = SPTAuth.defaultInstance().session.accessToken {
+            bearer = session
+        }
+    
+        NetworkRequest.getRequest(to: url, bearer: bearer) { (json, error) in
+            guard error == nil, let json = json else {
+                Logger.log("Error: \(error!)", type: .error)
+                callback(nil, error!)
+                return
+            }
+            let songs = self.processSearchJSON(json)
+            callback(songs, nil)
+        }
+    }
+    
+    // MARK: - Utilities
+    private func getUserID(from session: SPTSession, callback: @escaping (String?) -> Void){
+        SPTUser.requestCurrentUser(withAccessToken: session.accessToken) { (error, data) in
+            guard error == nil else {
+                callback(nil)
                 return
             }
             
-            guard let response = response as? HTTPURLResponse else { return }
-            if response.statusCode == 200 {
-                let json = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                self.processSearchJSON(json)
+            if let user = data as? SPTUser {
+                callback(String(user.uri.absoluteString.split(separator: ":")[2]))
             } else {
-                self.delegate?.queryDidFail(SpotifyError.unknownError(code: response.statusCode))
+                callback(nil)
             }
         }
-        task.resume()
     }
     
-    private func processSearchJSON(_ json: [String: Any]){
-        guard let tracks = json["tracks"] as? [String:Any] else { return }
-        guard let items = tracks["items"] as? [[String:Any]] else { return }
+    private func processSearchJSON(_ json: [String: Any]) -> [Song] {
+        guard let tracks = json["tracks"] as? [String:Any] else { return [] }
+        guard let items = tracks["items"] as? [[String:Any]] else { return [] }
         let username = try? CurrentUser.shared.getShortName()
         
         var songs = [Song]()
@@ -83,12 +100,18 @@ class Spotify: MusicProvider {
             let song = Song(artist: artist, songName: songName, songURL: url, imageURL: imageURL, imageSize: CGSize(width: imageWidth, height: imageHeight), image: nil, addedBy: username ?? "someone", played: false)
             songs.append(song)
         }
-        
-        DispatchQueue.main.async {
-            self.delegate?.queryDidSucceed(songs)
-        }
-        
+        return songs
     }
     
-    
+    private func processPlaylistJSON(_ json: [String: Any]) -> [PlaylistInfo] {
+        if let items = json["items"] as? [[String: Any]] {
+            do {
+                let data = try JSONSerialization.data(withJSONObject: items)
+                return try JSONDecoder().decode(Array<PlaylistInfo>.self, from: data)
+            } catch let error {
+                Logger.log(error, type: .debug)
+            }
+        }
+        return []
+    }
 }

@@ -31,7 +31,7 @@ class Datastore {
     
     private init() { }
     
-    public func addSong(song: Song, to party: String){
+    public func addSong(song: Song, to party: String, completion: (() -> Void)? = nil){
         let partyQueue = ref.child(databaseName).child(party).child("queue")
         partyQueue.observeSingleEvent(of: .value) { (snapshot) in
             let currentQueueSize: Int = (snapshot.value as? Array<Any>)?.count ?? 0
@@ -41,12 +41,24 @@ class Datastore {
                 if url == song.songURL {
                     // We don't allow the same song to be added directly after each other
                     self.delegate?.duplicateSongAdded(song)
+                    completion?()
                     return
                 }
             }
             
             if let data = song.asDictionary {
                 partyQueue.child("\(currentQueueSize)").setValue(data)
+            }
+            completion?()
+        }
+    }
+    public func addSongs(songs: [Song], to party: String) {
+        // There is a slight issue with the Spotify API that can't deal with the requests coming in
+        // as quickly to enqueue a new song. We mitigate this for now by delaying the song uploads
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            guard !songs.isEmpty else { return }
+            self.addSong(song: songs.first!, to: party) {
+                self.addSongs(songs: Array(songs.dropFirst()), to: party)
             }
         }
     }
@@ -97,11 +109,7 @@ class Datastore {
             }
         }
     }
-    
-    public func remove(song: Song){
-        //TODO
-    }
-    
+
     public func submitFeedback(_ feedback: String, systemConfig: [String: Any]){
         ref.child("feedback").observeSingleEvent(of: .value) { (snapshot) in
             var modifiedConfig = systemConfig
@@ -116,26 +124,28 @@ class Datastore {
         }
     }
     
-    public func subscribeToUpdates(for party: String){
-        // TODO: This should be a single call at initial join. The other observer should be enough.
-        ref.child(databaseName).child(party).child("queue").observe(.childAdded) { (snapshot) in
-            guard let json = snapshot.value as? [String: Any],
-                  let data = try? JSONSerialization.data(withJSONObject: json, options: []),
-                  let song = try? JSONDecoder().decode(Song.self, from:  data) else {
-                   Logger.log("Failed to decode response", type: .error)
-                return
-            }
-            self.delegate?.didAddSong(song)
-        }
+    public func subscribeToUpdates(for party: String, type: PlayerType){
         
-        ref.child(databaseName).child(party).observe(.childChanged) { (snapshot) in
-            guard let json = snapshot.value as? [[String: Any]],
-                let data = try? JSONSerialization.data(withJSONObject: json, options: []),
-                let songs = try? JSONDecoder().decode(Array<Song>.self, from:  data) else {
-                    Logger.log("Failed to decode response", type: .error)
+        if type == .host {
+            ref.child(databaseName).child(party).child("queue").observe(.childAdded) { (snapshot) in
+                guard let json = snapshot.value as? [String: Any],
+                      let data = try? JSONSerialization.data(withJSONObject: json, options: []),
+                      let song = try? JSONDecoder().decode(Song.self, from:  data) else {
+                       Logger.log("Failed to decode response", type: .error)
                     return
+                }
+                self.delegate?.didAddSong(song)
             }
-            self.delegate?.queueDidChange(songs: songs)
+        } else {
+            ref.child(databaseName).child(party).observe(.childChanged) { (snapshot) in
+                guard let json = snapshot.value as? [[String: Any]],
+                    let data = try? JSONSerialization.data(withJSONObject: json, options: []),
+                    let songs = try? JSONDecoder().decode(Array<Song>.self, from:  data) else {
+                        Logger.log("Failed to decode response", type: .error)
+                        return
+                }
+                self.delegate?.queueDidChange(songs: songs)
+            }
         }
     }
     

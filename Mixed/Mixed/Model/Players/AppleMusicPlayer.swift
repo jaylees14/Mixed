@@ -17,7 +17,7 @@ public enum AppleMusicPlayerError: Error {
 public class AppleMusicPlayer: MusicPlayer {
     private let player: MPMusicPlayerController
     private var hasSetInitialQueue = false
-    private var delegate: PlayerDelegate?
+    public var delegate: PlayerDelegate?
     
     public init(){
         player = .systemMusicPlayer
@@ -35,11 +35,6 @@ public class AppleMusicPlayer: MusicPlayer {
                                                name: NSNotification.Name.MPMusicPlayerControllerPlaybackStateDidChange,
                                                object: nil)
     }
-    
-    public func setDelegate(_ delegate: PlayerDelegate) {
-        self.delegate = delegate
-    }
-
     
     // MARK: - Music Player
     public func validateSession(for player: PlayerType) {
@@ -80,7 +75,6 @@ public class AppleMusicPlayer: MusicPlayer {
     
     public func play() {
         guard hasSetInitialQueue else {
-            //TODO: Throw an error
             return
         }
         
@@ -97,12 +91,10 @@ public class AppleMusicPlayer: MusicPlayer {
         player.pause()
     }
     
-    //TODO: If next on last song, remove has set inital queue
     public func next() {
         guard hasSetInitialQueue else {
             return
         }
-        
         player.skipToNextItem()
     }
     
@@ -113,12 +105,13 @@ public class AppleMusicPlayer: MusicPlayer {
     public func clearQueue() {
         self.hasSetInitialQueue = false
     }
-
+    
     public func enqueue(song: Song) {
         if !hasSetInitialQueue {
-            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
-            self.delegate?.playerDidStartPlaying(songID: song.songURL)
             hasSetInitialQueue = true
+            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
+            // If we don't play here then the next songs aren't queued correctly :(
+            self.play()
         } else {
             self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
         }
@@ -128,6 +121,10 @@ public class AppleMusicPlayer: MusicPlayer {
         return player.playbackState == .playing ? PlaybackStatus.playing : PlaybackStatus.paused
     }
     
+    public func unsubscribeFromUpdates() {
+        self.delegate = nil
+        NotificationCenter.default.removeObserver(self)
+    }
     
     // MARK: - Player Notifications
     @objc private func nowPlayingChanged(){
