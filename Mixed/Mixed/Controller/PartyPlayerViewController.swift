@@ -310,6 +310,8 @@ extension PartyPlayerViewController: PlayerDelegate {
         currentSong = songQueue.dequeue()
         if currentSong == nil {
             discView?.updateArtwork(image: nil)
+            // We know it's finished, so notify playerr
+            musicPlayer?.clearQueue()
         }
 
         upcomingTableView.reloadData()

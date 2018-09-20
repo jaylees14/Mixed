@@ -17,6 +17,7 @@ public protocol MusicPlayer {
     func play()
     func pause()
     func stop()
+    func clearQueue()
     func getCurrentStatus() -> PlaybackStatus
     func unsubscribeFromUpdates()
 }

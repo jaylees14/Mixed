@@ -75,7 +75,6 @@ public class AppleMusicPlayer: MusicPlayer {
     
     public func play() {
         guard hasSetInitialQueue else {
-            //TODO: Throw an error
             return
         }
         
@@ -112,7 +111,7 @@ public class AppleMusicPlayer: MusicPlayer {
     public func enqueue(song: Song) {
         if !hasSetInitialQueue {
             self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
-            self.delegate?.playerDidStartPlaying(songID: song.songURL)
+//            self.delegate?.playerDidStartPlaying(songID: song.songURL)
             hasSetInitialQueue = true
         } else {
             self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))

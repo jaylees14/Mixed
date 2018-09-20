@@ -55,9 +55,11 @@ class Datastore {
     public func addSongs(songs: [Song], to party: String) {
         // There is a slight issue with the Spotify API that can't deal with the requests coming in
         // as quickly to enqueue a new song. We mitigate this for now by delaying the song uploads
-        guard !songs.isEmpty else { return }
-        self.addSong(song: songs.first!, to: party) {
-            self.addSongs(songs: Array(songs.dropFirst()), to: party)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            guard !songs.isEmpty else { return }
+            self.addSong(song: songs.first!, to: party) {
+                self.addSongs(songs: Array(songs.dropFirst()), to: party)
+            }
         }
     }
     
