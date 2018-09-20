@@ -91,12 +91,10 @@ public class AppleMusicPlayer: MusicPlayer {
         player.pause()
     }
     
-    //TODO: If next on last song, remove has set inital queue
     public func next() {
         guard hasSetInitialQueue else {
             return
         }
-        
         player.skipToNextItem()
     }
     
@@ -110,11 +108,12 @@ public class AppleMusicPlayer: MusicPlayer {
     
     public func enqueue(song: Song) {
         if !hasSetInitialQueue {
-            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
-//            self.delegate?.playerDidStartPlaying(songID: song.songURL)
             hasSetInitialQueue = true
+            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
         } else {
-            self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
+            }
         }
     }
     
