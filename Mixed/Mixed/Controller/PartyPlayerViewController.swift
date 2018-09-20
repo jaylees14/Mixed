@@ -36,6 +36,7 @@ class PartyPlayerViewController: UIViewController {
     private var tableViewMinHeight: CGFloat = 0.0
     private var discView: DiscView?
     private let imageDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-imagedownload")
+    private let songDispatchQueue = DispatchQueue(label: "com.jaylees.mixed-songenqueue")
     private let datastore = Datastore.instance
     private var safariViewController: SFSafariViewController?
     private var party: Party?
@@ -65,6 +66,7 @@ class PartyPlayerViewController: UIViewController {
         scrollView.bounces = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
+        songsPlayed = 0
         
         upcomingTableView.dataSource = self
         upcomingTableView.delegate = self
@@ -155,14 +157,12 @@ class PartyPlayerViewController: UIViewController {
         if musicPlayer?.getCurrentStatus() == .playing {
             musicPlayer?.pause()
         } else {
-            musicPlayer?.resume()
+            musicPlayer?.play()
         }
     }
     
     @objc private func nextSong() {
-        self.musicPlayer?.stop()
-        self.playerDidFinishPlaying(songID: currentSong?.songURL)
-        self.musicPlayer?.resume()
+        self.musicPlayer?.next()
     }
     
     @objc private func didTapQR(){
@@ -181,6 +181,7 @@ class PartyPlayerViewController: UIViewController {
             if self.musicPlayer?.hasValidSession() ?? false {
                 self.musicPlayer?.stop()
             }
+            self.musicPlayer?.unsubscribeFromUpdates()
             self.datastore.unsubscribeFromUpdates()
             SessionManager.shared.clearActiveSession()
             self.dismiss(animated: true, completion: nil)
@@ -297,21 +298,21 @@ extension PartyPlayerViewController: UIScrollViewDelegate {
 }
 
 extension PartyPlayerViewController: PlayerDelegate {
-    func playerDidFinishPlaying(songID: String?) {
-        guard let songID = songID else { return }
+    func playerDidStartPlaying(songID: String?) {
+        Logger.log(songID, type: .debug)
         guard let party = party else { return }
+        if songID == currentSong?.songURL || songID == "" {
+            return
+        }
+        
         datastore.didFinish(song: songsPlayed, party: party.partyID)
         songsPlayed += 1
         currentSong = songQueue.dequeue()
-       
-        if let song = currentSong {
-            musicPlayer?.play(song: song, autoplay: true)
-        } else {
+        if currentSong == nil {
             discView?.updateArtwork(image: nil)
         }
-        
+
         upcomingTableView.reloadData()
-        Logger.log("Finished playing \(songID)", type: .debug)
     }
     
     func playerDidChange(to state: PlaybackStatus) {
@@ -336,10 +337,8 @@ extension PartyPlayerViewController: PlayerDelegate {
     
     // When we have a valid session, we can enqueue songs!
     func hasValidSession() {
-        DispatchQueue.main.async {
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
-                self.datastore.subscribeToUpdates(for: self.party!.partyID)
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.datastore.subscribeToUpdates(for: self.party!.partyID)
         }
     }
     
@@ -382,14 +381,12 @@ extension PartyPlayerViewController: DatastoreDelegate {
         } else {
             songQueue.enqueue(song)
         }
-        if !(musicPlayer?.hasSong() ?? true) {
-            musicPlayer?.play(song: song, autoplay: false)
-        }
+        self.musicPlayer?.enqueue(song: song)
+        
         song.downloadImage(on: imageDispatchQueue, then: { _ in self.upcomingTableView.reloadData() })
     }
     
     func queueDidChange(songs: [Song]) {
-        Logger.log("Did change to \(songs)", type: .debug)
         self.songQueue.clear()
         let toPlay = songs.filter({!$0.played})
         

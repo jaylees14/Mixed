@@ -31,7 +31,7 @@ class Datastore {
     
     private init() { }
     
-    public func addSong(song: Song, to party: String){
+    public func addSong(song: Song, to party: String, completion: (() -> Void)? = nil){
         let partyQueue = ref.child(databaseName).child(party).child("queue")
         partyQueue.observeSingleEvent(of: .value) { (snapshot) in
             let currentQueueSize: Int = (snapshot.value as? Array<Any>)?.count ?? 0
@@ -41,6 +41,7 @@ class Datastore {
                 if url == song.songURL {
                     // We don't allow the same song to be added directly after each other
                     self.delegate?.duplicateSongAdded(song)
+                    completion?()
                     return
                 }
             }
@@ -48,27 +49,15 @@ class Datastore {
             if let data = song.asDictionary {
                 partyQueue.child("\(currentQueueSize)").setValue(data)
             }
+            completion?()
         }
     }
     public func addSongs(songs: [Song], to party: String) {
-        let partyQueue = ref.child(databaseName).child(party).child("queue")
-        partyQueue.observeSingleEvent(of: .value) { (snapshot) in
-            let currentQueueSize: Int = (snapshot.value as? Array<Any>)?.count ?? 0
-            if currentQueueSize > 0 {
-                let lastSongAdded = (snapshot.value as! Array<[String:Any]>)[currentQueueSize - 1]
-                let url = lastSongAdded["songURL"] as! String
-                if url == songs.first?.songURL {
-                    // We don't allow the same song to be added directly after each other
-                    self.delegate?.duplicateSongAdded(songs.first!)
-                    return
-                }
-            }
-            for i in 0..<songs.count {
-                let song = songs[i]
-                if let data = song.asDictionary {
-                    partyQueue.child("\(currentQueueSize + i)").setValue(data)
-                }
-            }
+        // There is a slight issue with the Spotify API that can't deal with the requests coming in
+        // as quickly to enqueue a new song. We mitigate this for now by delaying the song uploads
+        guard !songs.isEmpty else { return }
+        self.addSong(song: songs.first!, to: party) {
+            self.addSongs(songs: Array(songs.dropFirst()), to: party)
         }
     }
     
@@ -118,11 +107,7 @@ class Datastore {
             }
         }
     }
-    
-    public func remove(song: Song){
-        //TODO
-    }
-    
+
     public func submitFeedback(_ feedback: String, systemConfig: [String: Any]){
         ref.child("feedback").observeSingleEvent(of: .value) { (snapshot) in
             var modifiedConfig = systemConfig

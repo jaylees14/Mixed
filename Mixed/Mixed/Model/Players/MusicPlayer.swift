@@ -12,10 +12,11 @@ public protocol MusicPlayer {
     var delegate: PlayerDelegate? { get set }
     func validateSession(for: PlayerType)
     func hasValidSession() -> Bool
-    func hasSong() -> Bool
-    func play(song: Song, autoplay: Bool)
-    func resume()
+    func enqueue(song: Song)
+    func next()
+    func play()
     func pause()
     func stop()
     func getCurrentStatus() -> PlaybackStatus
+    func unsubscribeFromUpdates()
 }

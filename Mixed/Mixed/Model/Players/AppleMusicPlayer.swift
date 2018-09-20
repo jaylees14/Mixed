@@ -16,8 +16,7 @@ public enum AppleMusicPlayerError: Error {
 
 public class AppleMusicPlayer: MusicPlayer {
     private let player: MPMusicPlayerController
-    private var hasSongQueued = false
-    private var triggeredByButton = false
+    private var hasSetInitialQueue = false
     public var delegate: PlayerDelegate?
     
     public init(){
@@ -27,6 +26,10 @@ public class AppleMusicPlayer: MusicPlayer {
         player.shuffleMode = .off
         
         // Subscribe to updates
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(nowPlayingChanged),
+                                               name: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange,
+                                               object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(nowPlayingStateChanged),
                                                name: NSNotification.Name.MPMusicPlayerControllerPlaybackStateDidChange,
@@ -70,23 +73,12 @@ public class AppleMusicPlayer: MusicPlayer {
         return true
     }
     
-    public func hasSong() -> Bool {
-        return hasSongQueued
-    }
-    
-    public func play(song: Song, autoplay: Bool) {
-        hasSongQueued = true
-        self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
-        if autoplay {
-            self.resume()
-        }
-    }
-    
-    public func resume() {
-        guard hasSongQueued else {
+    public func play() {
+        guard hasSetInitialQueue else {
+            //TODO: Throw an error
             return
         }
-        triggeredByButton = true
+        
         player.prepareToPlay { (error) in
             guard error == nil else {
                 self.delegate?.didReceiveError(error!)
@@ -97,20 +89,50 @@ public class AppleMusicPlayer: MusicPlayer {
     }
     
     public func pause() {
-        guard hasSongQueued else { return }
-        triggeredByButton = true
         player.pause()
+    }
+    
+    //TODO: If next on last song, remove has set inital queue
+    public func next() {
+        guard hasSetInitialQueue else {
+            return
+        }
+        
+        player.skipToNextItem()
     }
     
     public func stop(){
         player.stop()
-        hasSongQueued = false
+    }
+    
+    public func clearQueue() {
+        self.hasSetInitialQueue = false
+    }
+    
+    public func enqueue(song: Song) {
+        if !hasSetInitialQueue {
+            self.player.setQueue(with: MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
+            self.delegate?.playerDidStartPlaying(songID: song.songURL)
+            hasSetInitialQueue = true
+        } else {
+            self.player.append(MPMusicPlayerStoreQueueDescriptor(storeIDs: [song.songURL]))
+        }
     }
     
     public func getCurrentStatus() -> PlaybackStatus {
         return player.playbackState == .playing ? PlaybackStatus.playing : PlaybackStatus.paused
     }
-
+    
+    public func unsubscribeFromUpdates() {
+        self.delegate = nil
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Player Notifications
+    @objc private func nowPlayingChanged(){
+        delegate?.playerDidStartPlaying(songID: player.nowPlayingItem?.playbackStoreID)
+    }
+    
     @objc private func nowPlayingStateChanged(){
         switch player.playbackState {
         case .stopped:
@@ -118,13 +140,9 @@ public class AppleMusicPlayer: MusicPlayer {
         case .playing:
             delegate?.playerDidChange(to: .playing)
         case .paused:
-            if !triggeredByButton {
-                delegate?.playerDidFinishPlaying(songID: player.nowPlayingItem?.playbackStoreID)
-            }
             delegate?.playerDidChange(to: .paused)
         default:
             break
         }
-        triggeredByButton = false
     }
 }
