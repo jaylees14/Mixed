@@ -45,6 +45,8 @@ class AppleMusicPlaylist: Playlist {
     
     // TODO: Can we refactor this into the song class?
     private func processSongJSON(_ json: [String: Any]) -> [Song] {
+        let currentUser = try? CurrentUser.shared.getShortName()
+        
         let data = json["data"] as! [[String: Any]]
         return data.map { song in
             let attributes = song["attributes"] as! [String:Any]
@@ -56,7 +58,7 @@ class AppleMusicPlaylist: Playlist {
             let songURL = attributes["url"] as! String
             let songID = songURL.components(separatedBy: "?i=")[1]
             
-            return Song(artist: artistName, songName: songName, songURL: songID, imageURL: imageURL, imageSize: size, image: nil, addedBy: "someone", played: false)
+            return Song(artist: artistName, songName: songName, songURL: songID, imageURL: imageURL, imageSize: size, image: nil, addedBy: currentUser, played: false)
         }
     }
 }
