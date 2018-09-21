@@ -2,19 +2,17 @@
 # platform :ios, '9.0'
 
 target 'Mixed' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
-
-  # Pods for Mixed
-  
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
-  pod 'FacebookCore'
-  pod 'FacebookLogin'
-  pod 'NVActivityIndicatorView'
-  pod 'MKTween', '~> 2.0'
+  pod 'SystemServices'
+
+  target 'MixedTests' do
+    inherit! :search_paths
+    pod 'Firebase'
+  end
 
 end

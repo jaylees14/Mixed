@@ -8,8 +8,6 @@
 
 import UIKit
 import Firebase
-import FacebookCore
-import FacebookLogin
 
 
 @UIApplicationMain
@@ -22,65 +20,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let kTokenSwapURL = "http://localhost:1234/swap"
     let kTokenRefreshServiceURL = "http://localhost:1234/refresh"
     let kSessionUserDefaultsKey = "SpotifySession"
-    
-    func delay(_ delay:Double, closure:@escaping ()->()) {
-        DispatchQueue.main.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
-    }
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
         FirebaseApp.configure()
         SPTAuth.defaultInstance().clientID = kClientId
         SPTAuth.defaultInstance().redirectURL = URL(string:kCallbackURL)
-        SPTAuth.defaultInstance().requestedScopes = [SPTAuthStreamingScope]
+        SPTAuth.defaultInstance().requestedScopes = [SPTAuthStreamingScope, SPTAuthUserReadPrivateScope]
         SPTAuth.defaultInstance().sessionUserDefaultsKey = kSessionUserDefaultsKey
-        
-        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        print("YAS")
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         if SPTAuth.defaultInstance().canHandle(url) {
             SPTAuth.defaultInstance().handleAuthCallback(withTriggeredAuthURL: url) { error, session in
                 if let error = error {
-                    print("*** Auth error: \(error)")
+                    Logger.log(error, type: .error)
                     return
                 } else {
                     SPTAuth.defaultInstance().session = session
                     NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "spotifySessionUpdated"), object: self)
                 }
             }
-            return true
-        } else {
-        return SDKApplicationDelegate.shared.application(app, open: url, options: options)
-        }
-    }
-    
-    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        if shortcutItem.type == "com.jaylees.mixed.startParty" {
-            guard AccessToken.current != nil else { return }
-            let storyboard = UIStoryboard(name: "Main", bundle:nil)
-            let navigationController = storyboard.instantiateViewController(withIdentifier: "MainNavigationController") as! UINavigationController
-            let startPartyViewController = storyboard.instantiateViewController(withIdentifier: "StartParty")
-            navigationController.pushViewController(startPartyViewController, animated: false)
-            self.window?.rootViewController = navigationController
+        } else if url.scheme == "mixed" {
+            guard CurrentUser.shared.isLoggedIn() else {
+                Logger.log("Tried to open mixed:// url without logging in", type: .debug)
+                return false
+            }
             
+            guard let query = url.query?.components(separatedBy: "&") else { return false }
+            let id = query[0].components(separatedBy: "=")[1]
             
-            completionHandler(true)
-        } else if shortcutItem.type == "com.jaylees.mixed.joinParty"{
-            guard AccessToken.current != nil else { return }
-            let storyboard = UIStoryboard(name: "Main", bundle:nil)
-            let navigationController = storyboard.instantiateViewController(withIdentifier: "MainNavigationController") as! UINavigationController
-            let startPartyViewController = storyboard.instantiateViewController(withIdentifier: "JoinParty")
-            navigationController.pushViewController(startPartyViewController, animated: false)
-            self.window?.rootViewController = navigationController
-            completionHandler(true)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let menu = storyboard.instantiateViewController(withIdentifier: "MainMenuViewController")
+                as! MainMenuViewController
+            menu.didJoinRemoteParty(id: id)
+            
+            self.window?.rootViewController = menu
+            self.window?.makeKeyAndVisible()
+            
         }
-        
-        completionHandler(false)
+        return true
     }
-
 }
 
